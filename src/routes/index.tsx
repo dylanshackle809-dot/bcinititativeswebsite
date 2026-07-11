@@ -424,7 +424,7 @@ function Index() {
       <section className="stats-section" aria-label="Platform stats">
         <div className="stat-grid">
           {[
-            { num: "500+", label: "Opportunities" },
+            { num: "99+", label: "Opportunities" },
             { num: "20+", label: "Categories" },
             { num: "1000+", label: "Students" },
           ].map((s, i) => (
