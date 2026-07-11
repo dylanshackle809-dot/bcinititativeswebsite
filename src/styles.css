@@ -229,7 +229,7 @@ input { font-family: inherit; }
 /* ------------------------------------------------------------------ */
 .hero {
   position: relative;
-  padding: 11rem 2rem 16rem;
+  padding: 11rem 2rem 26rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -250,7 +250,7 @@ input { font-family: inherit; }
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 130%; /* headroom above the hero so downward parallax never exposes a gap */
+  height: 120%; /* small headroom for parallax; lower than before so the peaks aren't clipped at the top */
   object-fit: cover;
   object-position: center bottom;
   image-rendering: pixelated;
@@ -266,7 +266,7 @@ input { font-family: inherit; }
     rgba(248, 250, 252, 0) 55%);
 }
 @media (max-width: 720px) {
-  .hero { padding: 8.5rem 1.25rem 11rem; }
+  .hero { padding: 8.5rem 1.25rem 14rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .parallax-layer { transform: none !important; }
@@ -381,7 +381,7 @@ input { font-family: inherit; }
   position: relative;
   z-index: 3;
   padding: 0 1.5rem 5rem;
-  margin-top: -9rem; /* pull the mockup up so it floats over the mountain band */
+  margin-top: -6rem; /* pull the mockup up so it floats over the mountain band (sits a touch lower than before) */
 }
 .preview-wrap {
   position: relative;
