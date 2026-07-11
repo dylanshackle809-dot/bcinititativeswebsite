@@ -411,11 +411,6 @@ function Index() {
             />
             <button type="submit" className="hero-search-btn">Search</button>
           </form>
-          <div className="hero-trust fade-up d4">
-            <span><span className="dot">●</span> Hand-checked listings</span>
-            <span><span className="dot">●</span> No paywalls</span>
-            <span><span className="dot">●</span> Updated regularly</span>
-          </div>
         </div>
       </header>
 

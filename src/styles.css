@@ -373,19 +373,6 @@ input { font-family: inherit; }
   transform: translateY(-1px);
 }
 
-.hero-trust {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-top: 1.75rem;
-  font-size: 0.8rem;
-  color: var(--text-primary);
-  font-weight: 500;
-  text-shadow: 0 1px 10px rgba(248, 250, 252, 0.85);
-}
-.hero-trust .dot { color: var(--accent); }
 
 /* ------------------------------------------------------------------ */
 /*  Product preview mockup                                             */
