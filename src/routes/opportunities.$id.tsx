@@ -3,12 +3,12 @@ import { GraduationCap, HandHeart, Trophy, Briefcase, Sun, Banknote, ExternalLin
 import { opportunities } from "@/lib/opportunities";
 
 const categoryConfig: Record<string, { bg: string; color: string; Icon: React.ElementType; label: string }> = {
-  scholarships:      { bg: "#DBEAFE", color: "#1D4ED8", Icon: GraduationCap, label: "Scholarship" },
-  volunteering:      { bg: "#DCFCE7", color: "#15803D", Icon: HandHeart, label: "Volunteering" },
-  competitions:      { bg: "#FEF9C3", color: "#A16207", Icon: Trophy, label: "Competition" },
-  internships:       { bg: "#EDE9FE", color: "#6D28D9", Icon: Briefcase, label: "Internship" },
-  "summer-programs": { bg: "#FFEDD5", color: "#C2410C", Icon: Sun, label: "Summer Program" },
-  grants:            { bg: "#FCE7F3", color: "#BE185D", Icon: Banknote, label: "Grant" },
+  scholarships:      { bg: "rgba(29, 78, 216, 0.08)",  color: "#1d4ed8", Icon: GraduationCap, label: "Scholarship" },
+  volunteering:      { bg: "rgba(21, 128, 61, 0.09)",  color: "#15803d", Icon: HandHeart, label: "Volunteering" },
+  competitions:      { bg: "rgba(180, 83, 9, 0.10)",   color: "#b45309", Icon: Trophy, label: "Competition" },
+  internships:       { bg: "rgba(59, 91, 219, 0.09)",  color: "#3451c6", Icon: Briefcase, label: "Internship" },
+  "summer-programs": { bg: "rgba(234, 88, 12, 0.09)",  color: "#c2410c", Icon: Sun, label: "Summer Program" },
+  grants:            { bg: "rgba(190, 24, 93, 0.08)",  color: "#be185d", Icon: Banknote, label: "Grant" },
 };
 
 export const Route = createFileRoute("/opportunities/$id")({
@@ -37,9 +37,9 @@ function OpportunityDetail() {
 
   if (!opp) {
     return (
-      <main className="container" style={{ padding: "4rem 1rem", textAlign: "center" }}>
-        <h1 style={{ fontFamily: "Syne, sans-serif", marginBottom: "1rem" }}>Opportunity not found.</h1>
-        <Link to="/" className="apply-link">← Back to all opportunities</Link>
+      <main className="container" style={{ padding: "8rem 1rem 4rem", textAlign: "center" }}>
+        <h1 style={{ fontFamily: "var(--font-display)", marginBottom: "1rem" }}>Opportunity not found.</h1>
+        <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="apply-link">← Back to all opportunities</Link>
       </main>
     );
   }
@@ -49,21 +49,21 @@ function OpportunityDetail() {
 
   return (
     <>
-      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&display=swap" rel="stylesheet" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" className="logo">BCInitiatives</Link>
-          <div className="nav-links">
-            <Link to="/" className="nav-link">← All opportunities</Link>
-          </div>
+          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="logo">BC<span>Initiatives</span></Link>
+          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="nav-link">← All opportunities</Link>
         </div>
       </nav>
 
       <div style={{
-        background: cfg?.bg ?? "#F5F5F5",
+        background: cfg?.bg ?? "var(--bg-secondary)",
         borderBottom: "1px solid var(--border-color)",
-        padding: "4rem 1.5rem 3rem",
+        padding: "7.5rem 1.5rem 3rem",
       }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }}
@@ -73,33 +73,35 @@ function OpportunityDetail() {
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem", flexWrap: "wrap" }}>
             <span style={{
               display: "inline-flex", alignItems: "center", gap: "0.35rem",
-              background: cfg?.color ?? "#999", color: "#fff",
-              borderRadius: 2, padding: "3px 10px",
+              background: cfg?.bg ?? "var(--bg-card)", color: cfg?.color ?? "var(--text-secondary)",
+              border: `1px solid ${cfg?.color ?? "#666"}44`,
+              borderRadius: 999, padding: "3px 12px",
               fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em"
             }}>
               <Icon size={11} strokeWidth={2} />
               {cfg?.label ?? opp.category}
             </span>
             {opp.stem && (
-              <span style={{ background: "#0369A1", color: "#fff", borderRadius: 2, padding: "3px 10px", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>STEM</span>
+              <span style={{ background: "rgba(3, 105, 161, 0.09)", color: "#0369a1", borderRadius: 999, padding: "3px 12px", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>STEM</span>
             )}
             {opp.international && (
-              <span style={{ background: "#6D28D9", color: "#fff", borderRadius: 2, padding: "3px 10px", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "inline-flex", alignItems: "center", gap: "0.3rem" }}>
+              <span style={{ background: "var(--accent-soft)", color: "#3451c6", borderRadius: 999, padding: "3px 12px", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "inline-flex", alignItems: "center", gap: "0.3rem" }}>
                 <Globe size={10} strokeWidth={2} />International
               </span>
             )}
             <span style={{
-              background: opp.deadlineStatus === "open" ? "#15803D" : "#92400E",
-              color: "#fff", borderRadius: 2, padding: "3px 10px",
+              background: opp.deadlineStatus === "open" ? "rgba(21, 128, 61, 0.10)" : "rgba(180, 83, 9, 0.10)",
+              color: opp.deadlineStatus === "open" ? "#15803d" : "#b45309",
+              borderRadius: 999, padding: "3px 12px",
               fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em"
             }}>
               {opp.deadlineStatus === "open" ? "Open now" : opp.deadlineStatus === "est" ? "Est. deadline" : "Closed"}
             </span>
           </div>
-          <h1 style={{ fontSize: "2.5rem", fontWeight: 700, color: "#0D0D0D", margin: "0 0 1rem", lineHeight: 1.15, letterSpacing: "-0.02em", maxWidth: 700 }}>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "2.5rem", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 1rem", lineHeight: 1.15, letterSpacing: "-0.02em", maxWidth: 700 }}>
             {opp.name}
           </h1>
-          <p style={{ fontSize: "1.05rem", color: "#555555", lineHeight: 1.75, margin: "0 0 2rem", maxWidth: 620 }}>
+          <p style={{ fontSize: "1.05rem", color: "var(--text-secondary)", lineHeight: 1.75, margin: "0 0 2rem", maxWidth: 620 }}>
             {opp.description}
           </p>
           <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
@@ -109,20 +111,20 @@ function OpportunityDetail() {
               { label: "Commitment", value: opp.timeCommitment },
             ].map(({ label, value }) => (
               <div key={label}>
-                <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: cfg?.color ?? "#999", marginBottom: "0.2rem" }}>{label}</div>
-                <div style={{ fontSize: "0.95rem", fontWeight: 600, color: "#0D0D0D" }}>{value}</div>
+                <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: cfg?.color ?? "var(--text-muted)", marginBottom: "0.2rem" }}>{label}</div>
+                <div style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-primary)" }}>{value}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div style={{ maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.5rem", display: "grid", gridTemplateColumns: "1fr 300px", gap: "2.5rem", alignItems: "start" }}>
+      <main className="detail-body">
         {/* Left column */}
         <div>
           {/* Who can apply */}
           <div style={{ marginBottom: "2rem" }}>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", marginBottom: "0.75rem" }}>Who can apply</div>
+            <h2 style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", margin: "0 0 0.75rem" }}>Who can apply</h2>
             <p style={{ fontSize: "0.95rem", color: "var(--text-primary)", lineHeight: 1.75, margin: 0, padding: "1.25rem", background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 4, borderLeft: `3px solid ${cfg?.color ?? "var(--accent-blue)"}` }}>
               {opp.eligibility}
             </p>
@@ -130,18 +132,18 @@ function OpportunityDetail() {
 
           {/* Grade levels */}
           <div style={{ marginBottom: "2rem" }}>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", marginBottom: "0.75rem" }}>Grade levels</div>
+            <h2 style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", margin: "0 0 0.75rem" }}>Grade levels</h2>
             <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
               {opp.gradeLevels.map((g) => (
-                <span key={g} style={{ border: "1px solid var(--border-color)", background: "var(--bg-card)", color: "var(--text-secondary)", borderRadius: 2, fontSize: "0.85rem", padding: "0.4rem 0.9rem", fontWeight: 500 }}>{g}</span>
+                <span key={g} style={{ border: "1px solid var(--border-color)", background: "var(--bg-card)", color: "var(--text-secondary)", borderRadius: 999, fontSize: "0.85rem", padding: "0.4rem 1rem", fontWeight: 500 }}>{g}</span>
               ))}
             </div>
           </div>
 
           {/* Stats grid */}
           <div style={{ marginBottom: "2rem" }}>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", marginBottom: "0.75rem" }}>Details</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+            <h2 style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", margin: "0 0 0.75rem" }}>Details</h2>
+            <div className="detail-inner-grid">
               {[
                 { label: "Deadline", value: opp.deadline, Icon: Calendar },
                 { label: "Award / Value", value: opp.amount, Icon: DollarSign },
@@ -161,32 +163,32 @@ function OpportunityDetail() {
         </div>
 
         {/* Right column */}
-        <div style={{ position: "sticky", top: "5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 4, padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-primary)" }}>Ready to apply?</div>
+        <div className="detail-aside">
+          <div style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <h2 style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text-primary)", margin: 0 }}>Ready to apply?</h2>
             <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)", lineHeight: 1.6 }}>
               This opportunity is hosted externally. Clicking below will take you to the official application page.
             </div>
             <a href={opp.link} target="_blank" rel="noreferrer"
-              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", background: "var(--accent-blue)", color: "#FFFFFF", borderRadius: 2, fontFamily: "Syne, sans-serif", fontWeight: 700, fontSize: "0.95rem", padding: "0.85rem 1.5rem", textDecoration: "none", transition: "box-shadow 150ms" }}
-              onMouseEnter={e => (e.currentTarget.style.boxShadow = "3px 3px 0 #0D0D0D")}
-              onMouseLeave={e => (e.currentTarget.style.boxShadow = "none")}
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", background: "var(--accent)", color: "#FFFFFF", borderRadius: 10, fontWeight: 600, fontSize: "0.95rem", padding: "0.85rem 1.5rem", textDecoration: "none", boxShadow: "var(--shadow-sm)", transition: "box-shadow 200ms, background 150ms" }}
+              onMouseEnter={e => (e.currentTarget.style.boxShadow = "var(--shadow-md)")}
+              onMouseLeave={e => (e.currentTarget.style.boxShadow = "var(--shadow-sm)")}
             >
               Apply now <ExternalLink size={14} strokeWidth={2} />
             </a>
             <Link to="/" search={{ category: opp.category, difficulty: "all", grade: "all", q: "" }}
-              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem", background: "transparent", border: "1.5px solid var(--border-color)", color: "var(--text-primary)", borderRadius: 2, fontFamily: "Syne, sans-serif", fontWeight: 600, fontSize: "0.85rem", padding: "0.75rem 1.5rem", textDecoration: "none" }}>
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem", background: "transparent", border: "1px solid var(--border-strong)", color: "var(--text-primary)", borderRadius: 10, fontWeight: 600, fontSize: "0.85rem", padding: "0.75rem 1.5rem", textDecoration: "none" }}>
               <ArrowLeft size={14} /> More {cfg?.label ?? "opportunity"}s
             </Link>
           </div>
 
           {/* Quick facts card */}
-          <div style={{ background: cfg?.bg ?? "var(--bg-secondary)", border: `1px solid ${cfg?.color ?? "var(--border-color)"}33`, borderRadius: 4, padding: "1.25rem" }}>
-            <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: cfg?.color ?? "var(--text-muted)", marginBottom: "0.75rem" }}>Quick facts</div>
+          <div style={{ background: cfg?.bg ?? "var(--bg-secondary)", border: `1px solid ${cfg?.color ?? "var(--border-color)"}33`, borderRadius: 12, padding: "1.25rem" }}>
+            <h2 style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: cfg?.color ?? "var(--text-muted)", margin: "0 0 0.75rem" }}>Quick facts</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem" }}>
                 <span style={{ color: "var(--text-secondary)" }}>Compensated</span>
-                <span style={{ fontWeight: 600, color: opp.compensated ? "#15803D" : "var(--text-secondary)" }}>{opp.compensated ? "Yes" : "No"}</span>
+                <span style={{ fontWeight: 600, color: opp.compensated ? "#15803d" : "var(--text-secondary)" }}>{opp.compensated ? "Yes" : "No"}</span>
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem" }}>
                 <span style={{ color: "var(--text-secondary)" }}>International</span>
@@ -194,18 +196,18 @@ function OpportunityDetail() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem" }}>
                 <span style={{ color: "var(--text-secondary)" }}>Difficulty</span>
-                <span style={{ fontWeight: 600, color: opp.difficulty === "Competitive" ? "#DC2626" : opp.difficulty === "Moderate" ? "#D97706" : "#15803D" }}>{opp.difficulty}</span>
+                <span style={{ fontWeight: 600, color: opp.difficulty === "Competitive" ? "#b91c1c" : opp.difficulty === "Moderate" ? "#b45309" : "#15803d" }}>{opp.difficulty}</span>
               </div>
               {opp.stem && (
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem" }}>
                   <span style={{ color: "var(--text-secondary)" }}>STEM focus</span>
-                  <span style={{ fontWeight: 600, color: "#0369A1" }}>Yes</span>
+                  <span style={{ fontWeight: 600, color: "#0369a1" }}>Yes</span>
                 </div>
               )}
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       {(() => {
         const related = opportunities
@@ -215,20 +217,20 @@ function OpportunityDetail() {
         return (
           <div style={{ borderTop: "1px solid var(--border-color)", padding: "3rem 1.5rem" }}>
             <div style={{ maxWidth: 860, margin: "0 auto" }}>
-              <div style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", marginBottom: "1.5rem" }}>
-                <span style={{ color: "var(--accent-blue)", marginRight: "0.5rem" }}>→</span>More {cfg?.label ?? "opportunity"}s
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem" }}>
+              <h2 style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)", margin: "0 0 1.5rem" }}>
+                <span style={{ color: "var(--accent-bright)", marginRight: "0.5rem" }}>→</span>More {cfg?.label ?? "opportunity"}s
+              </h2>
+              <div className="related-grid">
                 {related.map((r) => (
                   <Link key={r.id} to="/opportunities/$id" params={{ id: String(r.id) }}
-                    style={{ background: "#FFFFFF", border: "1px solid #E0E0E0", borderRadius: 4, padding: "1.25rem", textDecoration: "none", display: "block", transition: "box-shadow 150ms, transform 150ms" }}
-                    onMouseEnter={e => { e.currentTarget.style.boxShadow = "4px 4px 0 var(--accent-blue)"; e.currentTarget.style.transform = "translate(-2px,-2px)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
+                    style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "1.25rem", textDecoration: "none", display: "block", transition: "box-shadow 250ms, transform 250ms, border-color 250ms" }}
+                    onMouseEnter={e => { e.currentTarget.style.boxShadow = "var(--shadow-md)"; e.currentTarget.style.borderColor = "var(--border-strong)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
+                    onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = "var(--border-color)"; e.currentTarget.style.transform = "none"; }}
                   >
-                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "#999", marginBottom: "0.5rem" }}>{cfg?.label}</div>
-                    <div style={{ fontSize: "0.95rem", fontWeight: 700, color: "#0D0D0D", lineHeight: 1.3, marginBottom: "0.5rem" }}>{r.name}</div>
-                    <div style={{ fontSize: "0.8rem", color: "#666", marginBottom: "0.75rem" }}>{r.amount}</div>
-                    <div style={{ fontSize: "0.8rem", color: "var(--accent-blue)", fontWeight: 700 }}>View details →</div>
+                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: cfg?.color ?? "var(--text-muted)", marginBottom: "0.5rem" }}>{cfg?.label}</div>
+                    <div style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-primary)", lineHeight: 1.3, marginBottom: "0.5rem" }}>{r.name}</div>
+                    <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.75rem" }}>{r.amount}</div>
+                    <div style={{ fontSize: "0.8rem", color: "var(--accent-bright)", fontWeight: 600 }}>View details →</div>
                   </Link>
                 ))}
               </div>

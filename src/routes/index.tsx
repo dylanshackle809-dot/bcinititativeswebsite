@@ -1,15 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { GraduationCap, HandHeart, Trophy, Briefcase, Sun, Banknote } from "lucide-react";
+import {
+  GraduationCap, HandHeart, Trophy, Briefcase, Sun, Banknote,
+  Search, SlidersHorizontal, Heart, Bell, CalendarDays,
+  Instagram, Linkedin, Mail,
+} from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
 
-const categoryConfig: Record<string, { bg: string; color: string; Icon: React.ElementType }> = {
-  scholarships:     { bg: "#DBEAFE", color: "#1D4ED8", Icon: GraduationCap },
-  volunteering:     { bg: "#DCFCE7", color: "#15803D", Icon: HandHeart },
-  competitions:     { bg: "#FEF9C3", color: "#A16207", Icon: Trophy },
-  internships:      { bg: "#EDE9FE", color: "#6D28D9", Icon: Briefcase },
-  "summer-programs":{ bg: "#FFEDD5", color: "#C2410C", Icon: Sun },
-  grants:           { bg: "#FCE7F3", color: "#BE185D", Icon: Banknote },
+const categoryConfig: Record<string, { color: string; soft: string; Icon: React.ElementType }> = {
+  scholarships:      { color: "#1d4ed8", soft: "rgba(29, 78, 216, 0.08)",  Icon: GraduationCap },
+  volunteering:      { color: "#15803d", soft: "rgba(21, 128, 61, 0.09)",  Icon: HandHeart },
+  competitions:      { color: "#b45309", soft: "rgba(180, 83, 9, 0.1)",    Icon: Trophy },
+  internships:       { color: "#3451c6", soft: "rgba(59, 91, 219, 0.09)",  Icon: Briefcase },
+  "summer-programs": { color: "#c2410c", soft: "rgba(234, 88, 12, 0.09)",  Icon: Sun },
+  grants:            { color: "#be185d", soft: "rgba(190, 24, 93, 0.08)",  Icon: Banknote },
 };
 
 export const Route = createFileRoute("/")({
@@ -38,12 +42,15 @@ export const Route = createFileRoute("/")({
 type DiffFilter = "all" | "Easy" | "Moderate" | "Competitive";
 type GradeFilter = "all" | "Grades 9–10" | "Grades 11–12" | "CEGEP" | "University";
 
-function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Mark JS as present so the CSS only hides un-revealed content once the
+    // observer that reveals it is actually attached (SSR paint stays visible).
+    document.documentElement.classList.add("js");
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => e.isIntersecting && setVisible(true)),
       { threshold: 0.08 }
@@ -52,51 +59,64 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
     return () => io.disconnect();
   }, []);
   return (
-    <div ref={ref} className={`reveal ${visible ? "visible" : ""} ${className}`}>
+    <div ref={ref} className={`reveal ${visible ? "visible" : ""} ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined}>
       {children}
     </div>
   );
 }
 
-function SunIcon() {
+/* Layered pixel-art mountain backdrop with gentle scroll parallax.
+   Back layers carry a higher speed factor so they track the scroll more
+   closely (net on-screen movement = scrollY * (1 - speed)) — sky drifts
+   slowest, trees fastest. */
+function ParallaxLayers() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const layers = Array.from(el.querySelectorAll<HTMLElement>("[data-speed]"));
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const y = window.scrollY;
+        if (y > el.offsetHeight * 1.2) return;
+        for (const l of layers) {
+          l.style.transform = `translate3d(0, ${(y * Number(l.dataset.speed)).toFixed(1)}px, 0)`;
+        }
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-  );
-}
-function MoonIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-    </svg>
+    <div className="hero-parallax" ref={ref} aria-hidden="true">
+      <img src="/sky.png" alt="" className="parallax-layer" data-speed="0.45" draggable={false} />
+      <img src="/mountain.png" alt="" className="parallax-layer" data-speed="0.3" draggable={false} />
+      <img src="/mist.png" alt="" className="parallax-layer" data-speed="0.18" draggable={false} />
+      <img src="/trees.png" alt="" className="parallax-layer" data-speed="0.06" draggable={false} />
+      <div className="hero-fade" />
+    </div>
   );
 }
 
 function OppCard({ o }: { o: Opportunity }) {
+  const cfg = categoryConfig[o.category];
   return (
     <article className="opp-card">
-      {(() => {
-        const cfg = categoryConfig[o.category];
-        if (!cfg) return null;
-        const { bg, color, Icon } = cfg;
-        return (
-          <div style={{
-            height: 140,
-            borderRadius: 8,
-            marginBottom: "1rem",
-            background: bg,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}>
-            <Icon size={36} strokeWidth={1.5} color={color} />
-          </div>
-        );
-      })()}
-      <div className="opp-top">
-        <span className="cat-badge">{o.category.replace("-", " ")}</span>
-        <span className="deadline-badge">{o.deadlineStatus === "open" ? "Open" : o.deadlineStatus === "est" ? "Est." : "Closed"}</span>
+      <div className="opp-labelbar" style={cfg ? { background: cfg.soft } : undefined}>
+        <span className="opp-type" style={cfg ? { color: cfg.color } : undefined}>
+          {cfg && <cfg.Icon size={13} strokeWidth={2.2} />}
+          {o.category.replace("-", " ")}
+        </span>
+        <span className={`deadline-badge deadline-${o.deadlineStatus === "open" ? "open" : o.deadlineStatus === "est" ? "est" : "closed"}`}>
+          {o.deadlineStatus === "open" ? "Open" : o.deadlineStatus === "est" ? "Est." : "Closed"}
+        </span>
       </div>
       <h3 className="opp-title">
         <Link
@@ -153,8 +173,90 @@ function CatIcon({ id }: { id: string }) {
   }
 }
 
+/* Static product-preview mockup shown under the hero */
+function ProductPreview() {
+  const mockCards = [
+    { title: "National Science Olympiad", badge: "Competition", badgeClass: "badge-competition", deadline: "Mar 15, 2027", elig: "Grades 9–12 · Team-based · National finals" },
+    { title: "Youth Climate Action Grant", badge: "Grant", badgeClass: "badge-grant", deadline: "Rolling deadline", elig: "Ages 15–30 · Project-based · Up to $5,000" },
+    { title: "Local Hospital Volunteering", badge: "Volunteering", badgeClass: "badge-volunteer", deadline: "Ongoing intake", elig: "Grade 10+ · 4 hrs/week · Reference letter" },
+    { title: "University Research Internship", badge: "Internship", badgeClass: "badge-internship", deadline: "Feb 1, 2027", elig: "Grades 11–12 · Paid summer placement" },
+  ];
+  return (
+    <div className="preview-section" aria-hidden="true">
+      <Reveal>
+        <div className="preview-wrap">
+          <div className="preview-card" aria-hidden="true">
+            <div className="preview-chrome">
+              <div className="chrome-dots">
+                <span className="chrome-dot" /><span className="chrome-dot" /><span className="chrome-dot" />
+              </div>
+              <div className="chrome-url">bcinitiatives.ca/opportunities</div>
+              <div style={{ width: 54 }} />
+            </div>
+            <div className="preview-body">
+              <aside className="preview-sidebar">
+                <div className="sidebar-title">Filters</div>
+                <div className="filter-group">
+                  <div className="filter-title">Type</div>
+                  <div className="filter-opt"><span className="f-box checked" />Scholarships</div>
+                  <div className="filter-opt"><span className="f-box checked" />Competitions</div>
+                  <div className="filter-opt"><span className="f-box" />Volunteering</div>
+                  <div className="filter-opt"><span className="f-box" />Grants</div>
+                </div>
+                <div className="filter-group">
+                  <div className="filter-title">Subject</div>
+                  <div className="filter-opt"><span className="f-box checked" />STEM</div>
+                  <div className="filter-opt"><span className="f-box" />Business</div>
+                  <div className="filter-opt"><span className="f-box" />Community</div>
+                </div>
+                <div className="filter-group">
+                  <div className="filter-title">Grade level</div>
+                  <div className="filter-opt"><span className="f-box" />Grades 9–10</div>
+                  <div className="filter-opt"><span className="f-box checked" />Grades 11–12</div>
+                  <div className="filter-opt"><span className="f-box" />CEGEP</div>
+                </div>
+                <div className="filter-group">
+                  <div className="filter-title">Deadline</div>
+                  <div className="filter-opt"><span className="f-box f-radio" />Next 30 days</div>
+                  <div className="filter-opt"><span className="f-box f-radio checked" />This semester</div>
+                  <div className="filter-opt"><span className="f-box f-radio" />Any time</div>
+                </div>
+              </aside>
+              <div className="preview-main">
+                <div className="preview-main-head">
+                  <div className="preview-count">Showing <strong>128</strong> opportunities</div>
+                  <div className="preview-sort">Sort: Deadline ↑</div>
+                </div>
+                <div className="mock-grid">
+                  {mockCards.map((c) => (
+                    <div className="mock-card" key={c.title}>
+                      <div className="mock-top">
+                        <span className={`mock-badge ${c.badgeClass}`}>{c.badge}</span>
+                        <Heart size={14} strokeWidth={1.8} color="var(--text-muted)" />
+                      </div>
+                      <div className="mock-title">{c.title}</div>
+                      <div className="mock-deadline"><CalendarDays size={13} strokeWidth={1.8} />{c.deadline}</div>
+                      <div className="mock-elig">{c.elig}</div>
+                    </div>
+                  ))}
+                  {[0, 1].map((i) => (
+                    <div className="mock-card mock-skeleton" key={`sk-${i}`}>
+                      <div className="mock-top"><span className="sk-badge" /></div>
+                      <div className="sk-bar sk-title" />
+                      <div className="sk-bar sk-line" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    </div>
+  );
+}
+
 function Index() {
-  const [dark, setDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = Route.useNavigate();
   const { category, difficulty, grade, q: search } = Route.useSearch();
@@ -165,26 +267,21 @@ function Index() {
   const setSearch = (v: string) => navigate({ search: (s: any) => ({ ...s, q: v }), replace: true, resetScroll: false });
 
   const [showAll, setShowAll] = useState(false);
+  const [heroQ, setHeroQ] = useState(search);
 
   useEffect(() => {
     setShowAll(false);
   }, [search, category, difficulty, grade]);
 
-  useEffect(() => {
-    const saved = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
-    if (saved === "dark") {
-      setDark(true);
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
+  const scrollToOpportunities = () => {
+    const reduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById("opportunities")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  };
 
-  const toggleTheme = () => {
-    setDark((d) => {
-      const next = !d;
-      document.documentElement.classList.toggle("dark", next);
-      localStorage.setItem("theme", next ? "dark" : "light");
-      return next;
-    });
+  const submitHeroSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearch(heroQ);
+    scrollToOpportunities();
   };
 
   const filtered = useMemo(() => {
@@ -203,13 +300,6 @@ function Index() {
     return r.sort((a, b) => new Date(a.deadlineSort).getTime() - new Date(b.deadlineSort).getTime());
   }, [search, category, difficulty, grade]);
 
-  const stats = useMemo(() => {
-    const total = opportunities.length;
-    const scholarships = opportunities.filter((o) => o.category === "scholarships").length;
-    const competitions = opportunities.filter((o) => o.category === "competitions").length;
-    return { total, scholarships, competitions, cats: categories.length };
-  }, []);
-
   const closingSoon = useMemo(() => {
     const now = new Date();
     return opportunities
@@ -224,70 +314,94 @@ function Index() {
       .slice(0, 3);
   }, []);
 
-  const pad = (n: number) => n.toString().padStart(2, "0");
-
   return (
     <>
-      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&display=swap" rel="stylesheet" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
       <nav className="nav">
         <div className="nav-inner">
-          <a href="#top" className="logo">BCInitiatives</a>
+          <a href="#top" className="logo">BC<span>Initiatives</span></a>
           <div className="nav-links">
             <a className="nav-link" href="#opportunities">Opportunities</a>
             <a className="nav-link" href="#categories">Categories</a>
+            <a className="nav-link" href="#features">Features</a>
             <a className="nav-link" href="#about">About</a>
-            <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
-              {dark ? <SunIcon /> : <MoonIcon />}
-            </button>
+            <a className="nav-cta" href="#opportunities">Start Exploring</a>
           </div>
           <button
             className={`hamburger ${menuOpen ? "open" : ""}`}
             onClick={() => setMenuOpen((o) => !o)}
             aria-label="Toggle menu"
+            aria-expanded={menuOpen}
           >
             <span /><span /><span />
           </button>
           <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
             <a className="nav-link" href="#opportunities" onClick={() => setMenuOpen(false)}>Opportunities</a>
             <a className="nav-link" href="#categories" onClick={() => setMenuOpen(false)}>Categories</a>
+            <a className="nav-link" href="#features" onClick={() => setMenuOpen(false)}>Features</a>
             <a className="nav-link" href="#about" onClick={() => setMenuOpen(false)}>About</a>
-            <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
-              {dark ? <SunIcon /> : <MoonIcon />}
-            </button>
+            <a className="nav-cta" href="#opportunities" onClick={() => setMenuOpen(false)}>Start Exploring</a>
           </div>
         </div>
       </nav>
 
       <header className="hero" id="top">
-        <div className="parallax-layer layer-sky" />
-        <div className="parallax-layer layer-mountain" />
-        <div className="parallax-layer layer-mist" />
-        <div className="parallax-layer layer-trees" />
-        <div className="hero-card">
-          <div className="hero-label">Canadian Student Opportunities · Est. 2026</div>
-          <h1 className="hero-h1">
-            <span className="line1">Every Opportunity.</span>
-            <span className="line2">One Place.</span>
+        <ParallaxLayers />
+        <div className="hero-inner">
+          <div className="hero-eyebrow fade-up">Canadian Student Opportunities · Est. 2026</div>
+          <h1 className="hero-h1 fade-up d1">
+            Discover Your Next<br />
+            <span className="accent-word">Opportunity</span>
           </h1>
-          <p className="hero-sub">
+          <p className="hero-sub fade-up d2">
             Curated Canadian scholarships, volunteering, competitions, internships, summer programs, and grants for high school and CEGEP students.
           </p>
-          <div className="hero-stats">
-            {pad(stats.total)} Opportunities · {pad(stats.scholarships)} Scholarships · {pad(stats.competitions)} Competitions · {pad(stats.cats)} Categories
-          </div>
-          <div className="hero-ctas">
-            <a className="btn btn-primary" href="#opportunities">Browse opportunities</a>
-            <a className="btn btn-outline" href="#categories">View categories</a>
+          <form className="hero-search fade-up d3" onSubmit={submitHeroSearch} role="search">
+            <span className="hero-search-icon"><Search size={18} strokeWidth={1.8} /></span>
+            <input
+              className="hero-search-input"
+              placeholder="Search scholarships, competitions, internships…"
+              value={heroQ}
+              onChange={(e) => setHeroQ(e.target.value)}
+              aria-label="Search opportunities"
+            />
+            <button type="submit" className="hero-search-btn">Search</button>
+          </form>
+          <div className="hero-trust fade-up d4">
+            <span><span className="dot">●</span> Hand-checked listings</span>
+            <span><span className="dot">●</span> No paywalls</span>
+            <span><span className="dot">●</span> Updated regularly</span>
           </div>
         </div>
-        <div className="hero-edge" />
       </header>
+
+      <ProductPreview />
+
+      <section className="stats-section" aria-label="Platform stats">
+        <div className="stat-grid">
+          {[
+            { num: "500+", label: "Opportunities" },
+            { num: "50+", label: "Categories" },
+            { num: "10k+", label: "Students" },
+          ].map((s, i) => (
+            <Reveal key={s.label} delay={i * 120}>
+              <div className="stat-card">
+                <div className="stat-num">{s.num}</div>
+                <div className="stat-label">{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       <main className="container">
         <section className="section" id="categories">
           <Reveal>
-            <div className="section-title"><span className="num">01</span>Browse by category</div>
+            <span className="section-label"><span className="num">01</span>Categories</span>
+            <h2 className="section-h2">Browse by category</h2>
             <div className="cat-grid">
               {categories.map((c) => {
                 const count = opportunities.filter((o) => o.category === c.id).length;
@@ -297,7 +411,7 @@ function Index() {
                     className="cat-card"
                     onClick={() => {
                       setCategory(c.id);
-                      document.getElementById("opportunities")?.scrollIntoView({ behavior: "smooth" });
+                      scrollToOpportunities();
                     }}
                   >
                     <div className="cat-icon"><CatIcon id={c.id} /></div>
@@ -315,32 +429,24 @@ function Index() {
         {closingSoon.length > 0 && (
           <section className="section">
             <Reveal>
-              <div className="section-title"><span className="num">02</span>Closing soon</div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.25rem" }}>
+              <span className="section-label"><span className="num">02</span>Deadlines</span>
+              <h2 className="section-h2">Closing soon</h2>
+              <div className="closing-grid">
                 {closingSoon.map((o) => {
                   const deadline = new Date(o.deadlineSort);
                   const daysUntil = Math.ceil((deadline.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
                   const cfg = categoryConfig[o.category];
                   return (
-                    <Link
-                      key={o.id}
-                      to="/opportunities/$id"
-                      params={{ id: String(o.id) }}
-                      style={{ background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 4, padding: "1.25rem", textDecoration: "none", display: "block", transition: "box-shadow 150ms, transform 150ms" }}
-                      onMouseEnter={e => { e.currentTarget.style.boxShadow = "4px 4px 0 var(--accent-orange)"; e.currentTarget.style.transform = "translate(-2px,-2px)"; }}
-                      onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
-                    >
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
-                        <span style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: cfg?.color ?? "var(--text-muted)" }}>
+                    <Link key={o.id} to="/opportunities/$id" params={{ id: String(o.id) }} className="closing-card">
+                      <div className="closing-top">
+                        <span className="closing-cat" style={{ color: cfg?.color ?? "var(--text-muted)" }}>
                           {o.category.replace("-", " ")}
                         </span>
-                        <span style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "#DC2626", background: "#FEE2E2", padding: "2px 8px", borderRadius: 2 }}>
-                          {daysUntil === 0 ? "Today" : `${daysUntil}d left`}
-                        </span>
+                        <span className="closing-days">{daysUntil === 0 ? "Today" : `${daysUntil}d left`}</span>
                       </div>
-                      <div style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1.3, marginBottom: "0.5rem" }}>{o.name}</div>
-                      <div style={{ fontSize: "0.8rem", color: "var(--text-secondary)", marginBottom: "0.75rem" }}>{o.amount}</div>
-                      <div style={{ fontSize: "0.8rem", color: "var(--accent-blue)", fontWeight: 700 }}>View details →</div>
+                      <div className="closing-name">{o.name}</div>
+                      <div className="closing-amount">{o.amount}</div>
+                      <div className="closing-link">View details →</div>
                     </Link>
                   );
                 })}
@@ -351,13 +457,14 @@ function Index() {
 
         <section className="section" id="opportunities">
           <Reveal>
-            <div className="section-title"><span className="num">03</span>All opportunities</div>
-
+            <span className="section-label"><span className="num">03</span>Explore</span>
+            <h2 className="section-h2">All opportunities</h2>
 
             <div className="search-row">
               <input
                 className="search-input"
                 placeholder="Search by name, eligibility, or keyword…"
+                aria-label="Search opportunities"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -400,8 +507,6 @@ function Index() {
               </button>
             )}
 
-
-
             {filtered.length === 0 ? (
               <div className="empty">No opportunities match your filters.</div>
             ) : (
@@ -427,9 +532,44 @@ function Index() {
           </Reveal>
         </section>
 
-        <section className="section" id="about" style={{ paddingTop: 0, marginTop: "-1.5rem" }}>
+        <section className="section" id="features">
           <Reveal>
-            <div className="section-title"><span className="num">04</span>About</div>
+            <span className="section-label"><span className="num">04</span>Features</span>
+            <h2 className="section-h2">Everything you need to get ahead</h2>
+            <div className="features-grid">
+              {[
+                {
+                  Icon: SlidersHorizontal,
+                  title: "Search & Filter",
+                  desc: "Cut through the noise with instant search and filters for category, difficulty, and grade level — find your fit in seconds.",
+                },
+                {
+                  Icon: Heart,
+                  title: "Save Favorites",
+                  desc: "Bookmark the opportunities you care about and build your own shortlist to come back to anytime.",
+                },
+                {
+                  Icon: Bell,
+                  title: "Get Reminders",
+                  desc: "Never miss a deadline. Get nudged before applications close for the opportunities you're tracking.",
+                },
+              ].map((f, i) => (
+                <Reveal key={f.title} delay={i * 120}>
+                  <div className="feature-card">
+                    <div className="feature-icon"><f.Icon size={22} strokeWidth={1.7} /></div>
+                    <h3 className="feature-title">{f.title}</h3>
+                    <p className="feature-desc">{f.desc}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+
+        <section className="section" id="about">
+          <Reveal>
+            <span className="section-label"><span className="num">05</span>About</span>
+            <h2 className="section-h2">Built by students, for students</h2>
             <div className="about-grid" style={{ margin: "0 auto" }}>
               <div>
                 <p className="about-lead">
@@ -458,19 +598,66 @@ function Index() {
         </section>
       </main>
 
-      <section className="footer-band">
-        <div className="parallax-layer layer-sky" />
-        <div className="parallax-layer layer-mountain" />
-        <div className="parallax-layer layer-mist" />
-        <div className="parallax-layer layer-trees" />
-        <div className="footer-cta-card" style={{ position: "relative", zIndex: 2 }}>
-          <h3>Don't miss an opportunity.</h3>
-          <a className="btn btn-primary" href="#opportunities">Browse all opportunities</a>
-        </div>
+      <section className="cta-band">
+        <Reveal>
+          <div className="cta-card">
+            <h3>Don't miss an opportunity.</h3>
+            <p>New scholarships, competitions, and programs are added all the time. Start exploring and find the one that changes your trajectory.</p>
+            <a className="btn btn-primary" href="#opportunities">Browse all opportunities</a>
+          </div>
+        </Reveal>
       </section>
 
-      <footer className="foot">
-        © 2026 BCInitiatives. Curated for Canadian students.
+      <footer className="site-footer">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <a href="#top" className="logo">BC<span>Initiatives</span></a>
+            <p className="footer-tag">
+              Every Canadian student opportunity, one place. Hand-curated for high school and CEGEP students.
+            </p>
+            <div className="footer-social">
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16} strokeWidth={1.8} /></a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={16} strokeWidth={1.8} /></a>
+              <a href="mailto:hello@bcinitiatives.ca" aria-label="Email"><Mail size={16} strokeWidth={1.8} /></a>
+            </div>
+          </div>
+          <div>
+            <div className="footer-head">Explore</div>
+            <div className="footer-links">
+              <a href="#opportunities">All opportunities</a>
+              <a href="#categories">Categories</a>
+              <a href="#features">Features</a>
+              <a href="#about">About</a>
+            </div>
+          </div>
+          <div>
+            <div className="footer-head">Categories</div>
+            <div className="footer-links">
+              {categories.slice(0, 4).map((c) => (
+                <Link
+                  key={c.id}
+                  to="/"
+                  search={{ category: c.id, difficulty: "all", grade: "all", q: "" }}
+                  hash="opportunities"
+                >
+                  {c.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="footer-head">Get in touch</div>
+            <div className="footer-links">
+              <a href="mailto:hello@bcinitiatives.ca">Suggest an opportunity</a>
+              <a href="mailto:hello@bcinitiatives.ca">Report an issue</a>
+              <a href="mailto:hello@bcinitiatives.ca">Partner with us</a>
+            </div>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 BCInitiatives. Curated for Canadian students.</span>
+          <span>Made in Richmond, BC 🇨🇦</span>
+        </div>
       </footer>
     </>
   );
