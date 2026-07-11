@@ -384,8 +384,8 @@ function Index() {
         <div className="stat-grid">
           {[
             { num: "500+", label: "Opportunities" },
-            { num: "50+", label: "Categories" },
-            { num: "10k+", label: "Students" },
+            { num: "20+", label: "Categories" },
+            { num: "1000+", label: "Students" },
           ].map((s, i) => (
             <Reveal key={s.label} delay={i * 120}>
               <div className="stat-card">
