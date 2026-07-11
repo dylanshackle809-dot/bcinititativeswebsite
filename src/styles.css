@@ -178,6 +178,27 @@ input { font-family: inherit; }
   transform: translateY(-1px);
 }
 
+/* Ghost nav button — secondary action beside the filled CTA */
+.nav-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: border-color 150ms, color 150ms, transform 200ms;
+}
+.nav-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent-bright);
+  transform: translateY(-1px);
+}
+
 /* Mobile nav */
 .hamburger {
   display: none;
@@ -215,7 +236,8 @@ input { font-family: inherit; }
   border-bottom: 1px solid var(--border-color);
 }
 .mobile-menu .nav-link:last-of-type { border-bottom: none; }
-.mobile-menu .nav-cta { margin-top: 0.75rem; justify-content: center; }
+.mobile-menu .nav-cta,
+.mobile-menu .nav-ghost { margin-top: 0.75rem; justify-content: center; }
 
 @media (max-width: 720px) {
   .hamburger { display: flex; }
@@ -1085,6 +1107,11 @@ input { font-family: inherit; }
 /* ------------------------------------------------------------------ */
 /*  Partners                                                           */
 /* ------------------------------------------------------------------ */
+/* Standalone /partners page: clear the fixed nav, generous whitespace */
+.partners-page { padding: 8.5rem 0 4.5rem; }
+@media (max-width: 720px) {
+  .partners-page { padding-top: 7rem; }
+}
 .partners-intro {
   font-size: 0.95rem;
   color: var(--text-secondary);

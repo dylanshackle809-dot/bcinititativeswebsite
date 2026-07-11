@@ -6,6 +6,7 @@ import {
   Instagram, Linkedin, Mail,
 } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
+import { Reveal } from "@/components/Reveal";
 
 const categoryConfig: Record<string, { color: string; soft: string; Icon: React.ElementType }> = {
   scholarships:      { color: "#1d4ed8", soft: "rgba(29, 78, 216, 0.08)",  Icon: GraduationCap },
@@ -15,45 +16,6 @@ const categoryConfig: Record<string, { color: string; soft: string; Icon: React.
   "summer-programs": { color: "#c2410c", soft: "rgba(234, 88, 12, 0.09)",  Icon: Sun },
   grants:            { color: "#be185d", soft: "rgba(190, 24, 93, 0.08)",  Icon: Banknote },
 };
-
-const partners: { name: string; topic: string; mission: string; website?: string; instagram?: string }[] = [
-  {
-    name: "BC Youth Council",
-    topic: "Political Science / Advocacy",
-    website: "https://bcyouthcouncil.org/",
-    instagram: "BCYouthCouncil",
-    mission: "British Columbia Youth Council is a youth-serving and youth-led organization dedicated to amplifying and representing youth, and connecting youth-led and youth-serving organizations. They provide connections and opportunities to engage with Members of the Legislative Assembly of British Columbia, British Columbian Members of Parliament, and elected public-serving officials at all levels of governance through policy publications, regional youth councils, dialogue sessions, and youth activism.",
-  },
-  {
-    name: "imYEScpr",
-    topic: "Healthcare / CPR",
-    instagram: "imyescpr",
-    mission: "“To serve communities with the ability to help one another in emergency situations; high-quality CPR and life-saving skills should be essential skills in every community's toolbox.”",
-  },
-  {
-    name: "Global Future Leaders",
-    topic: "Global Studies / Political Science",
-    instagram: "globalfutureleaders_",
-    mission: "“We inspire and equip young people to become tomorrow's leaders through active community engagement, a deep understanding of global issues, and meaningful contributions to diverse causes.”",
-  },
-  {
-    name: "Project SugarWise",
-    topic: "Healthcare / Diabetes Awareness",
-    instagram: "sugarwise._",
-    mission: "SugarWise is a nonprofit, student-led initiative focused on making diabetes education more accessible to the public and engaging with diabetic people in a passionate, dedicated, and supportive way — helping them navigate the challenges of the condition, including its impact on mental health.",
-  },
-  {
-    name: "BC Junior Math Association",
-    topic: "Tutoring / Mathematics Support",
-    mission: "A non-profit organization in BC dedicated to making math fun and accessible for elementary learners through high school mentorship.",
-  },
-  {
-    name: "Stempathy Youth Organization",
-    topic: "STEM Accessibility",
-    instagram: "stempathy.id",
-    mission: "“STEM for every mind, every future.” Stempathy provides engaging STEM educational content, creates opportunities for student collaboration and learning, and builds a platform where students grow through projects and teamwork — encouraging creativity, curiosity, and critical thinking.",
-  },
-];
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -80,29 +42,6 @@ export const Route = createFileRoute("/")({
 
 type DiffFilter = "all" | "Easy" | "Moderate" | "Competitive";
 type GradeFilter = "all" | "Grades 9–10" | "Grades 11–12" | "CEGEP" | "University";
-
-function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    // Mark JS as present so the CSS only hides un-revealed content once the
-    // observer that reveals it is actually attached (SSR paint stays visible).
-    document.documentElement.classList.add("js");
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setVisible(true)),
-      { threshold: 0.08 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-  return (
-    <div ref={ref} className={`reveal ${visible ? "visible" : ""} ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined}>
-      {children}
-    </div>
-  );
-}
 
 /* Layered pixel-art mountain backdrop with gentle scroll parallax.
    Back layers carry a higher speed factor so they track the scroll more
@@ -367,8 +306,8 @@ function Index() {
             <a className="nav-link" href="#categories">Categories</a>
             <a className="nav-link" href="#features">Features</a>
             <a className="nav-link" href="#about">About</a>
-            <a className="nav-link" href="#partners">Our Partners</a>
-            <a className="nav-cta" href="#opportunities">Start Exploring</a>
+            <a className="nav-ghost" href="#opportunities">Start Exploring</a>
+            <Link className="nav-cta" to="/partners">Our Partners</Link>
           </div>
           <button
             className={`hamburger ${menuOpen ? "open" : ""}`}
@@ -383,8 +322,8 @@ function Index() {
             <a className="nav-link" href="#categories" onClick={() => setMenuOpen(false)}>Categories</a>
             <a className="nav-link" href="#features" onClick={() => setMenuOpen(false)}>Features</a>
             <a className="nav-link" href="#about" onClick={() => setMenuOpen(false)}>About</a>
-            <a className="nav-link" href="#partners" onClick={() => setMenuOpen(false)}>Our Partners</a>
-            <a className="nav-cta" href="#opportunities" onClick={() => setMenuOpen(false)}>Start Exploring</a>
+            <a className="nav-ghost" href="#opportunities" onClick={() => setMenuOpen(false)}>Start Exploring</a>
+            <Link className="nav-cta" to="/partners" onClick={() => setMenuOpen(false)}>Our Partners</Link>
           </div>
         </div>
       </nav>
@@ -633,34 +572,6 @@ function Index() {
           </Reveal>
         </section>
 
-        <section className="section" id="partners">
-          <Reveal>
-            <span className="section-label"><span className="num">06</span>Our Partners</span>
-            <h2 className="section-h2">The organizations we work with</h2>
-            <p className="partners-intro">BCInitiatives partners with student-led and youth-serving organizations across BC to expand what's possible for students.</p>
-            <div className="partners-grid">
-              {partners.map((p, i) => (
-                <Reveal key={p.name} delay={(i % 3) * 120}>
-                  <article className="partner-card">
-                    <span className="partner-topic">{p.topic}</span>
-                    <h3 className="partner-name">{p.name}</h3>
-                    <p className="partner-mission">{p.mission}</p>
-                    <div className="partner-links">
-                      {p.website && (
-                        <a className="apply-link" href={p.website} target="_blank" rel="noreferrer">Visit website →</a>
-                      )}
-                      {p.instagram && (
-                        <a className="partner-ig" href={`https://instagram.com/${p.instagram}`} target="_blank" rel="noreferrer" aria-label={`${p.name} on Instagram`}>
-                          <Instagram size={14} strokeWidth={1.8} /> @{p.instagram}
-                        </a>
-                      )}
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </Reveal>
-        </section>
       </main>
 
       <section className="cta-band">
