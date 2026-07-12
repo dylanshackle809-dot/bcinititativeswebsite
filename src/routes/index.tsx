@@ -7,6 +7,8 @@ import {
 } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
 import { Reveal } from "@/components/Reveal";
+import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
+import { Toaster, toast } from "sonner";
 
 const categoryConfig: Record<string, { color: string; soft: string; Icon: React.ElementType }> = {
   scholarships:      { color: "#1d4ed8", soft: "rgba(29, 78, 216, 0.08)",  Icon: GraduationCap },
@@ -85,6 +87,18 @@ function ParallaxLayers() {
 
 function OppCard({ o }: { o: Opportunity }) {
   const cfg = categoryConfig[o.category];
+  const { isSaved, toggle } = useSavedOpportunities();
+  const saved = isSaved(o.id);
+
+  const onToggleSave = () => {
+    const nowSaved = toggle(o.id);
+    toast(nowSaved ? "Saved" : "Removed", {
+      description: nowSaved
+        ? `${o.name} added to your saved list.`
+        : `${o.name} removed from your saved list.`,
+    });
+  };
+
   return (
     <article className="opp-card">
       <div className="opp-labelbar" style={cfg ? { background: cfg.soft } : undefined}>
@@ -92,9 +106,21 @@ function OppCard({ o }: { o: Opportunity }) {
           {cfg && <cfg.Icon size={13} strokeWidth={2.2} />}
           {o.category.replace("-", " ")}
         </span>
-        <span className={`deadline-badge deadline-${o.deadlineStatus === "open" ? "open" : o.deadlineStatus === "est" ? "est" : "closed"}`}>
-          {o.deadlineStatus === "open" ? "Open" : o.deadlineStatus === "est" ? "Est." : "Closed"}
-        </span>
+        <div className="opp-labelbar-right">
+          <span className={`deadline-badge deadline-${o.deadlineStatus === "open" ? "open" : o.deadlineStatus === "est" ? "est" : "closed"}`}>
+            {o.deadlineStatus === "open" ? "Open" : o.deadlineStatus === "est" ? "Est." : "Closed"}
+          </span>
+          <button
+            type="button"
+            className={`save-btn ${saved ? "saved" : ""}`}
+            onClick={onToggleSave}
+            aria-pressed={saved}
+            aria-label={saved ? `Remove ${o.name} from saved` : `Save ${o.name}`}
+            title={saved ? "Remove from saved" : "Save"}
+          >
+            <Heart size={16} strokeWidth={2} fill={saved ? "currentColor" : "none"} />
+          </button>
+        </div>
       </div>
       <h3 className="opp-title">
         <Link
@@ -246,10 +272,12 @@ function Index() {
 
   const [showAll, setShowAll] = useState(false);
   const [heroQ, setHeroQ] = useState(search);
+  const [savedOnly, setSavedOnly] = useState(false);
+  const { savedSet, count: savedCount } = useSavedOpportunities();
 
   useEffect(() => {
     setShowAll(false);
-  }, [search, category, difficulty, grade]);
+  }, [search, category, difficulty, grade, savedOnly]);
 
   const scrollToOpportunities = () => {
     const reduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -265,6 +293,7 @@ function Index() {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     const r = opportunities
+      .filter((o) => (savedOnly ? savedSet.has(o.id) : true))
       .filter((o) => (category === "all" ? true : o.category === category))
       .filter((o) => (difficulty === "all" ? true : o.difficulty === difficulty))
       .filter((o) => (grade === "all" ? true : o.gradeLevels.includes(grade)))
@@ -276,7 +305,7 @@ function Index() {
               .includes(q)
       );
     return r.sort((a, b) => new Date(a.deadlineSort).getTime() - new Date(b.deadlineSort).getTime());
-  }, [search, category, difficulty, grade]);
+  }, [search, category, difficulty, grade, savedOnly, savedSet]);
 
   const closingSoon = useMemo(() => {
     const now = new Date();
@@ -294,6 +323,7 @@ function Index() {
 
   return (
     <>
+      <Toaster position="bottom-center" theme="light" toastOptions={{ className: "bci-toast" }} />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -473,17 +503,46 @@ function Index() {
               ))}
             </div>
 
-            {(category !== "all" || difficulty !== "all" || grade !== "all" || search !== "") && (
+            <div className="chip-group">
+              <span className="chip-label">Saved</span>
+              <button
+                type="button"
+                className={`chip chip-saved ${savedOnly ? "active" : ""}`}
+                onClick={() => setSavedOnly((s) => !s)}
+                aria-pressed={savedOnly}
+                aria-label={savedOnly ? "Show all opportunities" : "Show only saved opportunities"}
+              >
+                <Heart size={13} strokeWidth={2} fill={savedOnly ? "currentColor" : "none"} />
+                Saved
+                <span className="chip-count">{savedCount}</span>
+              </button>
+            </div>
+
+            {(category !== "all" || difficulty !== "all" || grade !== "all" || search !== "" || savedOnly) && (
               <button
                 className="clear-filters-btn"
-                onClick={() => navigate({ search: { category: "all", difficulty: "all", grade: "all", q: "" }, replace: true, resetScroll: false })}
+                onClick={() => {
+                  setSavedOnly(false);
+                  navigate({ search: { category: "all", difficulty: "all", grade: "all", q: "" }, replace: true, resetScroll: false });
+                }}
               >
                 ✕ Clear all filters
               </button>
             )}
 
             {filtered.length === 0 ? (
-              <div className="empty">No opportunities match your filters.</div>
+              savedOnly && savedCount === 0 ? (
+                <div className="empty saved-empty">
+                  <Heart size={28} strokeWidth={1.6} />
+                  <p>
+                    No saved opportunities yet — tap the{" "}
+                    <Heart className="inline-heart" size={14} strokeWidth={2} /> on any
+                    opportunity to save it here.
+                  </p>
+                </div>
+              ) : (
+                <div className="empty">No opportunities match your filters.</div>
+              )
             ) : (
               <>
                 <div className="opp-grid-header">

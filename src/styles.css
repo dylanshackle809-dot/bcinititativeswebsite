@@ -1396,6 +1396,98 @@ footer.foot {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Save (bookmark) feature                                            */
+/* ------------------------------------------------------------------ */
+.opp-labelbar-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: color 150ms, background 150ms, transform 120ms;
+}
+.save-btn:hover {
+  color: var(--accent);
+  background: rgba(15, 23, 42, 0.06);
+}
+.save-btn:active {
+  transform: scale(0.88);
+}
+.save-btn.saved {
+  color: var(--accent);
+}
+.save-btn.saved svg {
+  animation: heart-pop 320ms ease;
+}
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.35); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* Saved filter pill + live count badge */
+.chip-saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.chip-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  background: var(--accent-soft);
+  color: var(--accent-bright);
+}
+.chip-saved.active .chip-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* Friendly saved-empty state */
+.saved-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--text-muted);
+}
+.saved-empty svg { color: var(--border-strong); }
+.saved-empty p {
+  max-width: 360px;
+  margin: 0;
+  line-height: 1.65;
+  font-size: 0.9rem;
+}
+.saved-empty .inline-heart {
+  display: inline;
+  vertical-align: -2px;
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-btn.saved svg { animation: none; }
+}
+
+/* ------------------------------------------------------------------ */
 /*  Tailwind theme mapping for shadcn classes used in __root.tsx       */
 /* ------------------------------------------------------------------ */
 @theme inline {
