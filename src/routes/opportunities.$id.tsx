@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GraduationCap, HandHeart, Trophy, Briefcase, Sun, Banknote, ExternalLink, Calendar, DollarSign, Clock, BarChart2, ArrowLeft, Globe } from "lucide-react";
 import { opportunities } from "@/lib/opportunities";
+import { ShareButton } from "@/components/ShareButton";
+import { LogoMark } from "@/components/LogoMark";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const categoryConfig: Record<string, { bg: string; color: string; Icon: React.ElementType; label: string }> = {
   scholarships:      { bg: "rgba(29, 78, 216, 0.08)",  color: "#1d4ed8", Icon: GraduationCap, label: "Scholarship" },
@@ -55,7 +58,7 @@ function OpportunityDetail() {
 
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="logo">BC<span>Initiatives</span></Link>
+          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="logo"><LogoMark size={22} />BC<span>Initiatives</span></Link>
           <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="nav-link">← All opportunities</Link>
         </div>
       </nav>
@@ -180,6 +183,7 @@ function OpportunityDetail() {
               style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem", background: "transparent", border: "1px solid var(--border-strong)", color: "var(--text-primary)", borderRadius: 10, fontWeight: 600, fontSize: "0.85rem", padding: "0.75rem 1.5rem", textDecoration: "none" }}>
               <ArrowLeft size={14} /> More {cfg?.label ?? "opportunity"}s
             </Link>
+            <ShareButton path={`/opportunities/${opp.id}`} title={opp.name} text={opp.description} variant="labeled" />
           </div>
 
           {/* Quick facts card */}
@@ -239,8 +243,7 @@ function OpportunityDetail() {
         );
       })()}
 
-      <footer className="foot">© 2026 BCInitiatives. Curated for Canadian students.</footer>
-
+      <SiteFooter />
     </>
   );
 }

@@ -3,12 +3,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   GraduationCap, HandHeart, Trophy, Briefcase, Sun, Banknote,
   Search, SlidersHorizontal, Heart, Bell, CalendarDays,
-  Instagram, Linkedin, Mail,
 } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
 import { Reveal } from "@/components/Reveal";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
+import { ShareButton } from "@/components/ShareButton";
+import { LogoMark } from "@/components/LogoMark";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const categoryConfig: Record<string, { color: string; soft: string; Icon: React.ElementType }> = {
   scholarships:      { color: "#1d4ed8", soft: "rgba(29, 78, 216, 0.08)",  Icon: GraduationCap },
@@ -110,6 +113,7 @@ function OppCard({ o }: { o: Opportunity }) {
           <span className={`deadline-badge deadline-${o.deadlineStatus === "open" ? "open" : o.deadlineStatus === "est" ? "est" : "closed"}`}>
             {o.deadlineStatus === "open" ? "Open" : o.deadlineStatus === "est" ? "Est." : "Closed"}
           </span>
+          <ShareButton path={`/opportunities/${o.id}`} title={o.name} text={o.description} />
           <button
             type="button"
             className={`save-btn ${saved ? "saved" : ""}`}
@@ -323,14 +327,13 @@ function Index() {
 
   return (
     <>
-      <Toaster position="bottom-center" theme="light" toastOptions={{ className: "bci-toast" }} />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
       <nav className="nav">
         <div className="nav-inner">
-          <a href="#top" className="logo">BC<span>Initiatives</span></a>
+          <a href="#top" className="logo"><LogoMark size={22} />BC<span>Initiatives</span></a>
           <div className="nav-links">
             <a className="nav-link" href="#opportunities">Opportunities</a>
             <a className="nav-link" href="#categories">Categories</a>
@@ -643,57 +646,9 @@ function Index() {
         </Reveal>
       </section>
 
-      <footer className="site-footer">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <a href="#top" className="logo">BC<span>Initiatives</span></a>
-            <p className="footer-tag">
-              Every Canadian student opportunity, one place. Hand-curated for high school and CEGEP students.
-            </p>
-            <div className="footer-social">
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16} strokeWidth={1.8} /></a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={16} strokeWidth={1.8} /></a>
-              <a href="mailto:hello@bcinitiatives.ca" aria-label="Email"><Mail size={16} strokeWidth={1.8} /></a>
-            </div>
-          </div>
-          <div>
-            <div className="footer-head">Explore</div>
-            <div className="footer-links">
-              <a href="#opportunities">All opportunities</a>
-              <a href="#categories">Categories</a>
-              <a href="#features">Features</a>
-              <a href="#about">About</a>
-            </div>
-          </div>
-          <div>
-            <div className="footer-head">Categories</div>
-            <div className="footer-links">
-              {categories.slice(0, 4).map((c) => (
-                <Link
-                  key={c.id}
-                  to="/"
-                  search={{ category: c.id, difficulty: "all", grade: "all", q: "" }}
-                  hash="opportunities"
-                >
-                  {c.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div>
-            <div className="footer-head">Get in touch</div>
-            <div className="footer-links">
-              <a href="mailto:hello@bcinitiatives.ca">Suggest an opportunity</a>
-              <a href="mailto:hello@bcinitiatives.ca">Report an issue</a>
-              <a href="mailto:hello@bcinitiatives.ca">Partner with us</a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>© 2026 BCInitiatives. Curated for Canadian students.</span>
-          <span>Made in Richmond, BC 🇨🇦</span>
-        </div>
-      </footer>
+      <NewsletterSignup />
+
+      <SiteFooter />
     </>
   );
 }

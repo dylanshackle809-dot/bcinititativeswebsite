@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Instagram, Linkedin, Mail } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
-import { categories } from "@/lib/opportunities";
+import { LogoMark } from "@/components/LogoMark";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const homeSearch = { category: "all", difficulty: "all", grade: "all", q: "" };
 
@@ -74,7 +75,7 @@ function PartnersPage() {
 
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" search={homeSearch} className="logo">BC<span>Initiatives</span></Link>
+          <Link to="/" search={homeSearch} className="logo"><LogoMark size={22} />BC<span>Initiatives</span></Link>
           <div className="nav-links">
             <Link className="nav-link" to="/" search={homeSearch} hash="opportunities">Opportunities</Link>
             <Link className="nav-link" to="/" search={homeSearch} hash="categories">Categories</Link>
@@ -133,57 +134,7 @@ function PartnersPage() {
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className="footer-grid">
-          <div className="footer-brand">
-            <Link to="/" search={homeSearch} className="logo">BC<span>Initiatives</span></Link>
-            <p className="footer-tag">
-              Every Canadian student opportunity, one place. Hand-curated for high school and CEGEP students.
-            </p>
-            <div className="footer-social">
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16} strokeWidth={1.8} /></a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={16} strokeWidth={1.8} /></a>
-              <a href="mailto:hello@bcinitiatives.ca" aria-label="Email"><Mail size={16} strokeWidth={1.8} /></a>
-            </div>
-          </div>
-          <div>
-            <div className="footer-head">Explore</div>
-            <div className="footer-links">
-              <Link to="/" search={homeSearch} hash="opportunities">All opportunities</Link>
-              <Link to="/" search={homeSearch} hash="categories">Categories</Link>
-              <Link to="/" search={homeSearch} hash="features">Features</Link>
-              <Link to="/" search={homeSearch} hash="about">About</Link>
-            </div>
-          </div>
-          <div>
-            <div className="footer-head">Categories</div>
-            <div className="footer-links">
-              {categories.slice(0, 4).map((c) => (
-                <Link
-                  key={c.id}
-                  to="/"
-                  search={{ category: c.id, difficulty: "all", grade: "all", q: "" }}
-                  hash="opportunities"
-                >
-                  {c.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div>
-            <div className="footer-head">Get in touch</div>
-            <div className="footer-links">
-              <a href="mailto:hello@bcinitiatives.ca">Suggest an opportunity</a>
-              <a href="mailto:hello@bcinitiatives.ca">Report an issue</a>
-              <a href="mailto:hello@bcinitiatives.ca">Partner with us</a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <span>© 2026 BCInitiatives. Curated for Canadian students.</span>
-          <span>Made in Richmond, BC 🇨🇦</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

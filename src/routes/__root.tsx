@@ -8,6 +8,8 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -123,6 +125,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* Toasts (save/share feedback) available on every route */}
+      <Toaster position="bottom-center" theme="light" toastOptions={{ className: "bci-toast" }} />
+      {/* Vercel page/traffic analytics — no config needed, activates on Vercel */}
+      <Analytics />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>

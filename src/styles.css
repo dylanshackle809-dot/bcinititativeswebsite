@@ -136,6 +136,8 @@ input { font-family: inherit; }
   gap: 1.5rem;
 }
 .logo {
+  display: inline-flex;
+  align-items: center;
   color: var(--text-primary);
   font-family: var(--font-display);
   font-weight: 700;
@@ -144,6 +146,7 @@ input { font-family: inherit; }
   text-decoration: none;
 }
 .logo span { color: var(--accent); }
+.logo .logo-mark { margin-right: 0.45rem; flex-shrink: 0; }
 .nav-links {
   display: flex;
   gap: 1.75rem;
@@ -1486,6 +1489,192 @@ footer.foot {
 @media (prefers-reduced-motion: reduce) {
   .save-btn.saved svg { animation: none; }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Share buttons                                                      */
+/* ------------------------------------------------------------------ */
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: color 150ms, background 150ms, transform 120ms;
+}
+.share-btn:hover {
+  color: var(--accent);
+  background: rgba(15, 23, 42, 0.06);
+}
+.share-btn:active { transform: scale(0.9); }
+
+.share-btn-labeled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: color 150ms, border-color 150ms, background 150ms;
+}
+.share-btn-labeled:hover {
+  color: var(--accent-bright);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Newsletter signup band                                             */
+/* ------------------------------------------------------------------ */
+.newsletter-band {
+  padding: 0 1.5rem 4rem;
+  background: var(--bg-primary);
+}
+.newsletter-card {
+  max-width: 880px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 2.5rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.newsletter-copy { flex: 1 1 320px; }
+.newsletter-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin: 0 0 0.4rem;
+}
+.newsletter-sub {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+.newsletter-form {
+  flex: 1 1 300px;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.newsletter-field {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  padding: 0 0.5rem 0 0.85rem;
+  transition: border-color 200ms, box-shadow 200ms;
+}
+.newsletter-field:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.newsletter-icon { color: var(--text-muted); display: flex; }
+.newsletter-input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  padding: 0.75rem 0.25rem;
+}
+.newsletter-input::placeholder { color: var(--text-muted); }
+.newsletter-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.75rem 1.4rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 150ms, box-shadow 200ms;
+}
+.newsletter-btn:hover { background: var(--accent-deep); box-shadow: var(--shadow-md); }
+.newsletter-btn:disabled { opacity: 0.7; cursor: default; }
+.newsletter-error {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.8rem;
+  color: #b91c1c;
+}
+.newsletter-success {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.35rem;
+  color: var(--text-secondary);
+}
+.newsletter-success svg { color: #15803d; margin-bottom: 0.25rem; }
+.newsletter-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+.newsletter-success p { margin: 0; font-size: 0.88rem; }
+@media (max-width: 640px) {
+  .newsletter-card { padding: 1.75rem 1.5rem; }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Footer additions                                                   */
+/* ------------------------------------------------------------------ */
+.footer-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 150ms;
+}
+.footer-email:hover { color: var(--accent-bright); }
+.footer-legal {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+}
+.footer-legal a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 150ms;
+}
+.footer-legal a:hover { color: var(--accent-bright); }
 
 /* ------------------------------------------------------------------ */
 /*  Tailwind theme mapping for shadcn classes used in __root.tsx       */
