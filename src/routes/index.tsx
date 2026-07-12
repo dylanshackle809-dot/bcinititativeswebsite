@@ -232,7 +232,7 @@ function ProductPreview() {
               </aside>
               <div className="preview-main">
                 <div className="preview-main-head">
-                  <div className="preview-count">Showing <strong>128</strong> opportunities</div>
+                  <div className="preview-count">Showing <strong>{opportunities.length}</strong> opportunities</div>
                   <div className="preview-sort">Sort: Deadline ↑</div>
                 </div>
                 <div className="mock-grid">
@@ -391,8 +391,8 @@ function Index() {
       <section className="stats-section" aria-label="Platform stats">
         <div className="stat-grid">
           {[
-            { num: "149+", label: "Opportunities" },
-            { num: "20+", label: "Categories" },
+            { num: `${opportunities.length}+`, label: "Opportunities" },
+            { num: `${categories.length}`, label: "Categories" },
             { num: "1000+", label: "Students" },
           ].map((s, i) => (
             <Reveal key={s.label} delay={i * 120}>
