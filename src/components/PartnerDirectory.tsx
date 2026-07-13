@@ -94,7 +94,8 @@ function PartnerCard({ p }: { p: Partner }) {
   );
 }
 
-export function PartnersSection() {
+/** Region filter + responsive grid of partner cards. Page-agnostic (no header). */
+export function PartnerDirectory() {
   const [region, setRegion] = useState<RegionFilter>("all");
 
   // Always feature BC/Canada first; then apply the region filter.
@@ -115,35 +116,29 @@ export function PartnersSection() {
   const filters: RegionFilter[] = ["all", "BC/Canada", "International"];
 
   return (
-    <section className="section" id="partners">
-      <Reveal>
-        <span className="section-label"><span className="num">06</span>Partners</span>
-        <h2 className="section-h2">Our Partner Organizations</h2>
-        <p className="partners-intro">Student-led organizations we work with to bring you more opportunities.</p>
+    <>
+      <div className="chip-group" role="group" aria-label="Filter partners by region">
+        {filters.map((f) => (
+          <button
+            key={f}
+            type="button"
+            className={`chip ${region === f ? "active" : ""}`}
+            onClick={() => setRegion(f)}
+            aria-pressed={region === f}
+          >
+            {f === "all" ? "All" : f}
+            <span className="chip-count">{counts[f]}</span>
+          </button>
+        ))}
+      </div>
 
-        <div className="chip-group" role="group" aria-label="Filter partners by region">
-          {filters.map((f) => (
-            <button
-              key={f}
-              type="button"
-              className={`chip ${region === f ? "active" : ""}`}
-              onClick={() => setRegion(f)}
-              aria-pressed={region === f}
-            >
-              {f === "all" ? "All" : f}
-              <span className="chip-count">{counts[f]}</span>
-            </button>
-          ))}
-        </div>
-
-        <div className="hp-grid">
-          {shown.map((p, i) => (
-            <Reveal key={p.name} delay={(i % 3) * 100}>
-              <PartnerCard p={p} />
-            </Reveal>
-          ))}
-        </div>
-      </Reveal>
-    </section>
+      <div className="hp-grid">
+        {shown.map((p, i) => (
+          <Reveal key={p.name} delay={(i % 3) * 100}>
+            <PartnerCard p={p} />
+          </Reveal>
+        ))}
+      </div>
+    </>
   );
 }

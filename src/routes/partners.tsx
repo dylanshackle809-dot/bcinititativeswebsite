@@ -1,64 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Instagram } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
+import { PartnerDirectory } from "@/components/PartnerDirectory";
 
 const homeSearch = { category: "all", difficulty: "all", grade: "all", q: "" };
-
-const partners: { name: string; topic: string; mission: string; website?: string; linkLabel?: string; instagram?: string }[] = [
-  {
-    name: "BC Youth Council",
-    topic: "Political Science / Advocacy",
-    website: "https://bcyouthcouncil.org/",
-    instagram: "BCYouthCouncil",
-    mission: "British Columbia Youth Council is a youth-serving and youth-led organization dedicated to amplifying and representing youth, and connecting youth-led and youth-serving organizations. They provide connections and opportunities to engage with Members of the Legislative Assembly of British Columbia, British Columbian Members of Parliament, and elected public-serving officials at all levels of governance through policy publications, regional youth councils, dialogue sessions, and youth activism.",
-  },
-  {
-    name: "imYEScpr",
-    topic: "Healthcare / CPR",
-    instagram: "imyescpr",
-    mission: "“To serve communities with the ability to help one another in emergency situations; high-quality CPR and life-saving skills should be essential skills in every community's toolbox.”",
-  },
-  {
-    name: "Global Future Leaders",
-    topic: "Global Studies / Political Science",
-    instagram: "globalfutureleaders_",
-    mission: "“We inspire and equip young people to become tomorrow's leaders through active community engagement, a deep understanding of global issues, and meaningful contributions to diverse causes.”",
-  },
-  {
-    name: "Project SugarWise",
-    topic: "Healthcare / Diabetes Awareness",
-    instagram: "sugarwise._",
-    mission: "SugarWise is a nonprofit, student-led initiative focused on making diabetes education more accessible to the public and engaging with diabetic people in a passionate, dedicated, and supportive way — helping them navigate the challenges of the condition, including its impact on mental health.",
-  },
-  {
-    name: "BC Junior Math Association",
-    topic: "Tutoring / Mathematics Support",
-    website: "https://docs.google.com/forms/d/e/1FAIpQLSfJHzeL21VG0A33hucHBw9hTuqoZ2gu1y3shnb5QTz29dzA8A/viewform",
-    linkLabel: "Tutor sign-up →",
-    mission: "A non-profit organization in BC dedicated to making math fun and accessible for elementary learners through high school mentorship.",
-  },
-  {
-    name: "Stempathy Youth Organization",
-    topic: "STEM Accessibility",
-    instagram: "stempathy.id",
-    mission: "“STEM for every mind, every future.” Stempathy provides engaging STEM educational content, creates opportunities for student collaboration and learning, and builds a platform where students grow through projects and teamwork — encouraging creativity, curiosity, and critical thinking.",
-  },
-];
 
 export const Route = createFileRoute("/partners")({
   head: () => ({
     meta: [
       { title: "Our Partners — BCInitiatives" },
-      { name: "description", content: "BCInitiatives partners with student-led and youth-serving organizations across BC — including BC Youth Council, imYEScpr, Global Future Leaders, Project SugarWise, BC Junior Math Association, and Stempathy — to expand what's possible for students." },
+      { name: "description", content: "BCInitiatives partners with student-led and youth-serving organizations across BC, Canada, and around the world — expanding the opportunities available to students. Meet all of our partner organizations." },
       { property: "og:title", content: "Our Partners — BCInitiatives" },
-      { property: "og:description", content: "The student-led and youth-serving organizations BCInitiatives works with across BC." },
+      { property: "og:description", content: "The student-led and youth-serving organizations BCInitiatives works with across BC, Canada, and internationally." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Our Partners — BCInitiatives" },
-      { name: "twitter:description", content: "The student-led and youth-serving organizations BCInitiatives works with across BC." },
+      { name: "twitter:description", content: "The student-led and youth-serving organizations BCInitiatives works with across BC, Canada, and internationally." },
     ],
   }),
   component: PartnersPage,
@@ -104,32 +63,14 @@ function PartnersPage() {
       </nav>
 
       <main className="container">
-        <section className="section partners-page">
+        <section className="section partners-page" id="partners">
           <Reveal>
             <span className="section-label">Our Partners</span>
             <h2 className="section-h2">The organizations we work with</h2>
-            <p className="partners-intro">BCInitiatives partners with student-led and youth-serving organizations across BC to expand what's possible for students.</p>
-            <div className="partners-grid">
-              {partners.map((p, i) => (
-                <Reveal key={p.name} delay={(i % 3) * 120}>
-                  <article className="partner-card">
-                    <span className="partner-topic">{p.topic}</span>
-                    <h3 className="partner-name">{p.name}</h3>
-                    <p className="partner-mission">{p.mission}</p>
-                    <div className="partner-links">
-                      {p.website && (
-                        <a className="apply-link" href={p.website} target="_blank" rel="noreferrer">{p.linkLabel ?? "Visit website →"}</a>
-                      )}
-                      {p.instagram && (
-                        <a className="partner-ig" href={`https://instagram.com/${p.instagram}`} target="_blank" rel="noreferrer" aria-label={`${p.name} on Instagram`}>
-                          <Instagram size={14} strokeWidth={1.8} /> @{p.instagram}
-                        </a>
-                      )}
-                    </div>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
+            <p className="partners-intro">Student-led organizations we partner with to bring you more opportunities — across BC, Canada, and around the world.</p>
+          </Reveal>
+          <Reveal>
+            <PartnerDirectory />
           </Reveal>
         </section>
       </main>

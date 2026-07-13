@@ -12,7 +12,6 @@ import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { SiteFooter } from "@/components/SiteFooter";
-import { PartnersSection } from "@/components/PartnersSection";
 
 const categoryConfig: Record<string, { color: string; soft: string; Icon: React.ElementType }> = {
   scholarships:      { color: "#1d4ed8", soft: "rgba(29, 78, 216, 0.08)",  Icon: GraduationCap },
@@ -339,7 +338,6 @@ function Index() {
             <a className="nav-link" href="#opportunities">Opportunities</a>
             <a className="nav-link" href="#categories">Categories</a>
             <a className="nav-link" href="#features">Features</a>
-            <a className="nav-link" href="#partners">Partners</a>
             <a className="nav-link" href="#about">About</a>
             <a className="nav-ghost" href="#opportunities">Start Exploring</a>
             <Link className="nav-cta" to="/partners">Our Partners</Link>
@@ -356,7 +354,6 @@ function Index() {
             <a className="nav-link" href="#opportunities" onClick={() => setMenuOpen(false)}>Opportunities</a>
             <a className="nav-link" href="#categories" onClick={() => setMenuOpen(false)}>Categories</a>
             <a className="nav-link" href="#features" onClick={() => setMenuOpen(false)}>Features</a>
-            <a className="nav-link" href="#partners" onClick={() => setMenuOpen(false)}>Partners</a>
             <a className="nav-link" href="#about" onClick={() => setMenuOpen(false)}>About</a>
             <a className="nav-ghost" href="#opportunities" onClick={() => setMenuOpen(false)}>Start Exploring</a>
             <Link className="nav-cta" to="/partners" onClick={() => setMenuOpen(false)}>Our Partners</Link>
@@ -636,8 +633,6 @@ function Index() {
             </div>
           </Reveal>
         </section>
-
-        <PartnersSection />
 
       </main>
 
