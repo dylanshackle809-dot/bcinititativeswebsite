@@ -1,5 +1,5 @@
 /**
- * BCInitiatives logo mark — a minimalist twin-peak mountain with a snowcap,
+ * Summit Seeker logo mark — a minimalist twin-peak mountain with a snowcap,
  * tying into the pixel-art mountain hero. Inline SVG, accent-colored,
  * no external assets.
  */

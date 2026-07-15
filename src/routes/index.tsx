@@ -31,13 +31,13 @@ export const Route = createFileRoute("/")({
   }),
   head: () => ({
     meta: [
-      { title: "BCInitiatives — Every Canadian Student Opportunity, One Place" },
+      { title: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
       { name: "description", content: "Discover curated Canadian scholarships, volunteering opportunities, competitions, internships, summer programs, and grants for high school and CEGEP students. Hand-checked and updated regularly." },
-      { property: "og:title", content: "BCInitiatives — Every Canadian Student Opportunity, One Place" },
+      { property: "og:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
       { property: "og:description", content: "Hand-curated Canadian student opportunities for high school and CEGEP students. Scholarships, competitions, internships, summer programs, grants and more." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "BCInitiatives — Every Canadian Student Opportunity, One Place" },
+      { name: "twitter:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
       { name: "twitter:description", content: "Hand-curated Canadian student opportunities. Scholarships, competitions, internships, summer programs, grants and more." },
       { name: "keywords", content: "Canadian student opportunities, scholarships Canada, high school scholarships, CEGEP scholarships, student competitions Canada, summer programs Canada, student grants Canada, BC student opportunities" },
     ],
@@ -198,7 +198,7 @@ function ProductPreview() {
               <div className="chrome-dots">
                 <span className="chrome-dot" /><span className="chrome-dot" /><span className="chrome-dot" />
               </div>
-              <div className="chrome-url">bcinitiatives.ca/opportunities</div>
+              <div className="chrome-url">summitseeker.ca/opportunities</div>
               <div style={{ width: 54 }} />
             </div>
             <div className="preview-body">
@@ -333,7 +333,10 @@ function Index() {
 
       <nav className="nav">
         <div className="nav-inner">
-          <a href="#top" className="logo"><LogoMark size={22} />BC<span>Initiatives</span></a>
+          <span className="logo-lockup">
+            <a href="#top" className="logo"><LogoMark size={22} />Summit<span>Seeker</span></a>
+            <span className="logo-tag">by BC Initiatives</span>
+          </span>
           <div className="nav-links">
             <a className="nav-link" href="#opportunities">Opportunities</a>
             <a className="nav-link" href="#categories">Categories</a>
@@ -610,7 +613,7 @@ function Index() {
             <div className="about-grid" style={{ margin: "0 auto" }}>
               <div>
                 <p className="about-lead">
-                  BCInitiatives curates Canadian student opportunities so you spend less time searching and more time applying.
+                  Summit Seeker curates Canadian student opportunities so you spend less time searching and more time applying.
                 </p>
                 <p className="about-body">
                   Every listing is hand-checked for accuracy and updated regularly. We focus on opportunities that are actually worth your time — no spam, no paywalls, no marketing fluff.
@@ -623,7 +626,7 @@ function Index() {
                 </div>
                 <div className="faq-item">
                   <div className="faq-q">Who runs this?</div>
-                  <div className="faq-a">BCInitiatives is a student-led project based in Richmond, BC, built to make opportunity discovery more equitable for Canadian students.</div>
+                  <div className="faq-a">Summit Seeker is a student-led project based in Richmond, BC, built to make opportunity discovery more equitable for Canadian students.</div>
                 </div>
                 <div className="faq-item">
                   <div className="faq-q">Can I suggest an opportunity?</div>

@@ -13,7 +13,7 @@ export function SiteFooter() {
         <div className="footer-brand">
           <Link to="/" search={homeSearch} className="logo">
             <LogoMark size={22} />
-            BC<span>Initiatives</span>
+            Summit<span>Seeker</span>
           </Link>
           <p className="footer-tag">
             Every Canadian student opportunity, one place. A student-led project
@@ -63,7 +63,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 BCInitiatives. Curated for Canadian students.</span>
+        <span>© 2026 Summit Seeker. Curated for Canadian students.</span>
         <span className="footer-legal">
           {/* Placeholder pages — point these at real routes when they exist */}
           <a href="#" aria-disabled="true" onClick={(e) => e.preventDefault()}>Privacy</a>

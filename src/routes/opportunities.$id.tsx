@@ -19,13 +19,13 @@ export const Route = createFileRoute("/opportunities/$id")({
     const opp = opportunities.find((o) => o.id === Number(params.id));
     return {
       meta: [
-        { title: opp ? `${opp.name} — BCInitiatives` : "Opportunity — BCInitiatives" },
-        { name: "description", content: opp ? `${opp.description} Deadline: ${opp.deadline}. Award: ${opp.amount}. Open to: ${opp.eligibility}` : "Canadian student opportunity on BCInitiatives." },
-        { property: "og:title", content: opp ? `${opp.name} — BCInitiatives` : "Opportunity — BCInitiatives" },
+        { title: opp ? `${opp.name} — Summit Seeker` : "Opportunity — Summit Seeker" },
+        { name: "description", content: opp ? `${opp.description} Deadline: ${opp.deadline}. Award: ${opp.amount}. Open to: ${opp.eligibility}` : "Canadian student opportunity on Summit Seeker." },
+        { property: "og:title", content: opp ? `${opp.name} — Summit Seeker` : "Opportunity — Summit Seeker" },
         { property: "og:description", content: opp ? `${opp.description} Award: ${opp.amount}. Deadline: ${opp.deadline}.` : "Canadian student opportunity." },
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary" },
-        { name: "twitter:title", content: opp ? `${opp.name} — BCInitiatives` : "Opportunity — BCInitiatives" },
+        { name: "twitter:title", content: opp ? `${opp.name} — Summit Seeker` : "Opportunity — Summit Seeker" },
         { name: "twitter:description", content: opp ? `${opp.amount} · ${opp.deadline} · ${opp.difficulty}` : "Canadian student opportunity." },
         { name: "keywords", content: opp ? `${opp.name}, ${opp.category} Canada, Canadian student ${opp.category}, ${opp.gradeLevels.join(", ")}` : "Canadian student opportunity" },
       ],
@@ -58,7 +58,10 @@ function OpportunityDetail() {
 
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="logo"><LogoMark size={22} />BC<span>Initiatives</span></Link>
+          <span className="logo-lockup">
+            <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="logo"><LogoMark size={22} />Summit<span>Seeker</span></Link>
+            <span className="logo-tag">by BC Initiatives</span>
+          </span>
           <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="nav-link">← All opportunities</Link>
         </div>
       </nav>

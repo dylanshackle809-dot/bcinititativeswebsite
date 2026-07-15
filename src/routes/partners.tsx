@@ -10,14 +10,14 @@ const homeSearch = { category: "all", difficulty: "all", grade: "all", q: "" };
 export const Route = createFileRoute("/partners")({
   head: () => ({
     meta: [
-      { title: "Our Partners — BCInitiatives" },
-      { name: "description", content: "BCInitiatives partners with student-led and youth-serving organizations across BC, Canada, and around the world — expanding the opportunities available to students. Meet all of our partner organizations." },
-      { property: "og:title", content: "Our Partners — BCInitiatives" },
-      { property: "og:description", content: "The student-led and youth-serving organizations BCInitiatives works with across BC, Canada, and internationally." },
+      { title: "Our Partners — Summit Seeker" },
+      { name: "description", content: "Summit Seeker partners with student-led and youth-serving organizations across BC, Canada, and around the world — expanding the opportunities available to students. Meet all of our partner organizations." },
+      { property: "og:title", content: "Our Partners — Summit Seeker" },
+      { property: "og:description", content: "The student-led and youth-serving organizations Summit Seeker works with across BC, Canada, and internationally." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "Our Partners — BCInitiatives" },
-      { name: "twitter:description", content: "The student-led and youth-serving organizations BCInitiatives works with across BC, Canada, and internationally." },
+      { name: "twitter:title", content: "Our Partners — Summit Seeker" },
+      { name: "twitter:description", content: "The student-led and youth-serving organizations Summit Seeker works with across BC, Canada, and internationally." },
     ],
   }),
   component: PartnersPage,
@@ -34,7 +34,10 @@ function PartnersPage() {
 
       <nav className="nav">
         <div className="nav-inner">
-          <Link to="/" search={homeSearch} className="logo"><LogoMark size={22} />BC<span>Initiatives</span></Link>
+          <span className="logo-lockup">
+            <Link to="/" search={homeSearch} className="logo"><LogoMark size={22} />Summit<span>Seeker</span></Link>
+            <span className="logo-tag">by BC Initiatives</span>
+          </span>
           <div className="nav-links">
             <Link className="nav-link" to="/" search={homeSearch} hash="opportunities">Opportunities</Link>
             <Link className="nav-link" to="/" search={homeSearch} hash="categories">Categories</Link>
