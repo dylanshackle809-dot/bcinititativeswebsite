@@ -19,13 +19,13 @@ export function SiteFooter() {
             Every Canadian student opportunity, one place. A student-led project
             based in Richmond, BC — hand-curated for high school and CEGEP students.
           </p>
-          <a className="footer-email" href="mailto:hello@bcinitiatives.ca">
-            <Mail size={14} strokeWidth={1.8} /> hello@bcinitiatives.ca
+          <a className="footer-email" href="mailto:bcinitiativessociety@gmail.com">
+            <Mail size={14} strokeWidth={1.8} /> bcinitiativessociety@gmail.com
           </a>
           <div className="footer-social">
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={16} strokeWidth={1.8} /></a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={16} strokeWidth={1.8} /></a>
-            <a href="mailto:hello@bcinitiatives.ca" aria-label="Email"><Mail size={16} strokeWidth={1.8} /></a>
+            <a href="https://www.instagram.com/bcinitiativessociety/" target="_blank" rel="noopener noreferrer" aria-label="BC Initiatives on Instagram"><Instagram size={16} strokeWidth={1.8} /></a>
+            <a href="https://www.linkedin.com/company/bc-initiatives" target="_blank" rel="noopener noreferrer" aria-label="BC Initiatives on LinkedIn"><Linkedin size={16} strokeWidth={1.8} /></a>
+            <a href="mailto:bcinitiativessociety@gmail.com" aria-label="Email BC Initiatives"><Mail size={16} strokeWidth={1.8} /></a>
           </div>
         </div>
         <div>
@@ -56,9 +56,9 @@ export function SiteFooter() {
           <div className="footer-head">Stay in the loop</div>
           <div className="footer-links">
             <Link to="/" search={homeSearch} hash="newsletter">Newsletter</Link>
-            <a href="mailto:hello@bcinitiatives.ca">Suggest an opportunity</a>
-            <a href="mailto:hello@bcinitiatives.ca">Report an issue</a>
-            <a href="mailto:hello@bcinitiatives.ca">Partner with us</a>
+            <a href="mailto:bcinitiativessociety@gmail.com">Suggest an opportunity</a>
+            <a href="mailto:bcinitiativessociety@gmail.com">Report an issue</a>
+            <a href="mailto:bcinitiativessociety@gmail.com">Partner with us</a>
           </div>
         </div>
       </div>
