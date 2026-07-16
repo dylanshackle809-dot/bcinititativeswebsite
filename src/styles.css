@@ -1085,7 +1085,9 @@ input { font-family: inherit; }
   gap: 1.25rem;
 }
 @media (max-width: 960px) { .features-grid { grid-template-columns: 1fr; } }
+.features-grid .reveal { height: 100%; }
 .feature-card {
+  height: 100%;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
