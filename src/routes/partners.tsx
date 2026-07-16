@@ -15,7 +15,7 @@ export const Route = createFileRoute("/partners")({
       { property: "og:title", content: "Our Partners — Summit Seeker" },
       { property: "og:description", content: "The student-led and youth-serving organizations Summit Seeker works with across BC, Canada, and internationally." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Our Partners — Summit Seeker" },
       { name: "twitter:description", content: "The student-led and youth-serving organizations Summit Seeker works with across BC, Canada, and internationally." },
     ],

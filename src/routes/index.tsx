@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
       { property: "og:description", content: "Hand-curated Canadian student opportunities for high school and CEGEP students. Scholarships, competitions, internships, summer programs, grants and more." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
       { name: "twitter:description", content: "Hand-curated Canadian student opportunities. Scholarships, competitions, internships, summer programs, grants and more." },
       { name: "keywords", content: "Canadian student opportunities, scholarships Canada, high school scholarships, CEGEP scholarships, student competitions Canada, summer programs Canada, student grants Canada, BC student opportunities" },

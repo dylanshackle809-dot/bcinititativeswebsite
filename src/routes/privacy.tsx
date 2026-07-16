@@ -14,7 +14,7 @@ export const Route = createFileRoute("/privacy")({
       { property: "og:title", content: "Privacy — Summit Seeker" },
       { property: "og:description", content: "What Summit Seeker collects, how it's stored, and what we don't do with your data." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Privacy — Summit Seeker" },
       { name: "twitter:description", content: "What Summit Seeker collects, how it's stored, and what we don't do with your data." },
     ],

@@ -24,7 +24,7 @@ export const Route = createFileRoute("/opportunities/$id")({
         { property: "og:title", content: opp ? `${opp.name} — Summit Seeker` : "Opportunity — Summit Seeker" },
         { property: "og:description", content: opp ? `${opp.description} Award: ${opp.amount}. Deadline: ${opp.deadline}.` : "Canadian student opportunity." },
         { property: "og:type", content: "article" },
-        { name: "twitter:card", content: "summary" },
+        { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: opp ? `${opp.name} — Summit Seeker` : "Opportunity — Summit Seeker" },
         { name: "twitter:description", content: opp ? `${opp.amount} · ${opp.deadline} · ${opp.difficulty}` : "Canadian student opportunity." },
         { name: "keywords", content: opp ? `${opp.name}, ${opp.category} Canada, Canadian student ${opp.category}, ${opp.gradeLevels.join(", ")}` : "Canadian student opportunity" },
