@@ -269,7 +269,7 @@ input { font-family: inherit; }
 /* ------------------------------------------------------------------ */
 .hero {
   position: relative;
-  padding: 12.25rem 2rem 26rem;
+  padding: 13.25rem 2rem 26rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -306,7 +306,7 @@ input { font-family: inherit; }
     rgba(248, 250, 252, 0) 55%);
 }
 @media (max-width: 720px) {
-  .hero { padding: 9.5rem 1.25rem 14rem; }
+  .hero { padding: 10.25rem 1.25rem 14rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .parallax-layer { transform: none !important; }
