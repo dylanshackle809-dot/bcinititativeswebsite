@@ -89,11 +89,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
       { name: "twitter:description", content: "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly." },
-      { property: "og:image", content: "https://summitseeker.ca/og-image.png" },
+      { property: "og:image", content: "https://summitseeker.app/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:image:alt", content: "Summit Seeker — find opportunities today" },
-      { name: "twitter:image", content: "https://summitseeker.ca/og-image.png" },
+      { name: "twitter:image", content: "https://summitseeker.app/og-image.png" },
     ],
     links: [
       {
