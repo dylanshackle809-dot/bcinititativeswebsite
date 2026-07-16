@@ -26,7 +26,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            search={{ category: "all", difficulty: "all", grade: "all", q: "" }}
+            search={{ category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Go home
@@ -80,16 +80,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "A Canadian student opportunities directory with a modern, flat design and dark mode." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "A Canadian student opportunities directory with a modern, flat design and dark mode." },
+      { title: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
+      { name: "description", content: "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly." },
+      { name: "author", content: "BC Initiatives" },
+      { property: "og:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
+      { property: "og:description", content: "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "A Canadian student opportunities directory with a modern, flat design and dark mode." },
+      { name: "twitter:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
+      { name: "twitter:description", content: "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/67a1cdf0-98e0-4397-90aa-c733c269329f/id-preview-f9ab0653--615088e7-c3fe-4601-bf0d-117e6c2d50ab.lovable.app-1782069732537.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/67a1cdf0-98e0-4397-90aa-c733c269329f/id-preview-f9ab0653--615088e7-c3fe-4601-bf0d-117e6c2d50ab.lovable.app-1782069732537.png" },
     ],

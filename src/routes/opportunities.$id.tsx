@@ -42,7 +42,7 @@ function OpportunityDetail() {
     return (
       <main className="container" style={{ padding: "8rem 1rem 4rem", textAlign: "center" }}>
         <h1 style={{ fontFamily: "var(--font-display)", marginBottom: "1rem" }}>Opportunity not found.</h1>
-        <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="apply-link">← Back to all opportunities</Link>
+        <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" }} className="apply-link">← Back to all opportunities</Link>
       </main>
     );
   }
@@ -59,10 +59,10 @@ function OpportunityDetail() {
       <nav className="nav">
         <div className="nav-inner">
           <span className="logo-lockup">
-            <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="logo"><LogoMark size={22} />Summit<span>Seeker</span></Link>
+            <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" }} className="logo"><LogoMark size={22} />Summit<span>Seeker</span></Link>
             <span className="logo-tag">by BC Initiatives</span>
           </span>
-          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }} className="nav-link">← All opportunities</Link>
+          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" }} className="nav-link">← All opportunities</Link>
         </div>
       </nav>
 
@@ -72,7 +72,7 @@ function OpportunityDetail() {
         padding: "7.5rem 1.5rem 3rem",
       }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", q: "" }}
+          <Link to="/" search={{ category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" }}
             style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", color: cfg?.color ?? "#555", fontSize: "0.8rem", fontWeight: 600, textDecoration: "none", marginBottom: "1.5rem", opacity: 0.8 }}>
             <ArrowLeft size={13} /> Back to all opportunities
           </Link>
@@ -103,6 +103,9 @@ function OpportunityDetail() {
             }}>
               {opp.deadlineStatus === "open" ? "Open now" : opp.deadlineStatus === "est" ? "Est. deadline" : "Closed"}
             </span>
+            {opp.isNew && (
+              <span style={{ background: "var(--accent-soft)", color: "#3451c6", borderRadius: 999, padding: "3px 12px", fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>New</span>
+            )}
           </div>
           <h1 style={{ fontFamily: "var(--font-display)", fontSize: "2.5rem", fontWeight: 700, color: "var(--text-primary)", margin: "0 0 1rem", lineHeight: 1.15, letterSpacing: "-0.02em", maxWidth: 700 }}>
             {opp.name}
@@ -182,7 +185,7 @@ function OpportunityDetail() {
             >
               Apply now <ExternalLink size={14} strokeWidth={2} />
             </a>
-            <Link to="/" search={{ category: opp.category, difficulty: "all", grade: "all", q: "" }}
+            <Link to="/" search={{ category: opp.category, difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" }}
               style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem", background: "transparent", border: "1px solid var(--border-strong)", color: "var(--text-primary)", borderRadius: 10, fontWeight: 600, fontSize: "0.85rem", padding: "0.75rem 1.5rem", textDecoration: "none" }}>
               <ArrowLeft size={14} /> More {cfg?.label ?? "opportunity"}s
             </Link>

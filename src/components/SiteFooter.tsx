@@ -3,7 +3,7 @@ import { Instagram, Linkedin, Mail } from "lucide-react";
 import { categories } from "@/lib/opportunities";
 import { LogoMark } from "@/components/LogoMark";
 
-const homeSearch = { category: "all", difficulty: "all", grade: "all", q: "" };
+const homeSearch = { category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" };
 
 /** Shared site footer used on the home, detail, and partners pages. */
 export function SiteFooter() {
@@ -44,7 +44,7 @@ export function SiteFooter() {
               <Link
                 key={c.id}
                 to="/"
-                search={{ category: c.id, difficulty: "all", grade: "all", q: "" }}
+                search={{ category: c.id, difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" }}
                 hash="opportunities"
               >
                 {c.name}
@@ -65,8 +65,7 @@ export function SiteFooter() {
       <div className="footer-bottom">
         <span>© 2026 Summit Seeker. Curated for Canadian students.</span>
         <span className="footer-legal">
-          {/* Placeholder pages — point these at real routes when they exist */}
-          <a href="#" aria-disabled="true" onClick={(e) => e.preventDefault()}>Privacy</a>
+          <Link to="/privacy">Privacy</Link>
           <Link to="/" search={homeSearch} hash="about">About</Link>
           <span>Made in Richmond, BC</span>
         </span>

@@ -27,7 +27,9 @@ export const Route = createFileRoute("/")({
     category: (search.category as string) || "all",
     difficulty: (search.difficulty as string) || "all",
     grade: (search.grade as string) || "all",
+    international: (search.international as string) || "all",
     q: (search.q as string) || "",
+    sort: (search.sort as string) || "deadline",
   }),
   head: () => ({
     meta: [
@@ -47,6 +49,31 @@ export const Route = createFileRoute("/")({
 
 type DiffFilter = "all" | "Easy" | "Moderate" | "Competitive";
 type GradeFilter = "all" | "Grades 9–10" | "Grades 11–12" | "CEGEP" | "University";
+
+// ponytail: `amount` is free-form text ("$100,000 over 4 years", "Volunteer",
+// "Up to $5,000"), so award sort is a best-effort parse of the first dollar
+// figure — anything without a $ number sorts last. Fine for a sort option.
+function parseAmount(s: string): number {
+  const m = s.replace(/,/g, "").match(/\$\s*([\d.]+)/);
+  return m ? Number(m[1]) : -Infinity;
+}
+
+const difficultyRank: Record<string, number> = { Easy: 0, Moderate: 1, Competitive: 2 };
+
+function sortOpportunities(list: Opportunity[], sort: string): Opportunity[] {
+  const r = [...list];
+  switch (sort) {
+    case "newest": // higher ids are the newer batch (the isNew entries)
+      return r.sort((a, b) => b.id - a.id);
+    case "amount":
+      return r.sort((a, b) => parseAmount(b.amount) - parseAmount(a.amount));
+    case "difficulty": // easiest first
+      return r.sort((a, b) => (difficultyRank[a.difficulty] ?? 99) - (difficultyRank[b.difficulty] ?? 99));
+    case "deadline":
+    default:
+      return r.sort((a, b) => new Date(a.deadlineSort).getTime() - new Date(b.deadlineSort).getTime());
+  }
+}
 
 /* Layered pixel-art mountain backdrop with gentle scroll parallax.
    Back layers carry a higher speed factor so they track the scroll more
@@ -110,6 +137,13 @@ function OppCard({ o }: { o: Opportunity }) {
           {o.category.replace("-", " ")}
         </span>
         <div className="opp-labelbar-right">
+          {o.isNew && (
+            <span
+              style={{ background: "var(--accent-soft)", color: "#3451c6", borderRadius: 999, padding: "2px 8px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}
+            >
+              New
+            </span>
+          )}
           <span className={`deadline-badge deadline-${o.deadlineStatus === "open" ? "open" : o.deadlineStatus === "est" ? "est" : "closed"}`}>
             {o.deadlineStatus === "open" ? "Open" : o.deadlineStatus === "est" ? "Est." : "Closed"}
           </span>
@@ -267,12 +301,14 @@ function ProductPreview() {
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = Route.useNavigate();
-  const { category, difficulty, grade, q: search } = Route.useSearch();
+  const { category, difficulty, grade, international, q: search, sort } = Route.useSearch();
 
   const setCategory = (v: string) => navigate({ search: (s: any) => ({ ...s, category: v }), replace: true, resetScroll: false });
   const setDifficulty = (v: string) => navigate({ search: (s: any) => ({ ...s, difficulty: v }), replace: true, resetScroll: false });
   const setGrade = (v: string) => navigate({ search: (s: any) => ({ ...s, grade: v }), replace: true, resetScroll: false });
+  const setInternational = (v: string) => navigate({ search: (s: any) => ({ ...s, international: v }), replace: true, resetScroll: false });
   const setSearch = (v: string) => navigate({ search: (s: any) => ({ ...s, q: v }), replace: true, resetScroll: false });
+  const setSort = (v: string) => navigate({ search: (s: any) => ({ ...s, sort: v }), replace: true, resetScroll: false });
 
   const [showAll, setShowAll] = useState(false);
   const [heroQ, setHeroQ] = useState(search);
@@ -281,7 +317,7 @@ function Index() {
 
   useEffect(() => {
     setShowAll(false);
-  }, [search, category, difficulty, grade, savedOnly]);
+  }, [search, category, difficulty, grade, international, savedOnly]);
 
   const scrollToOpportunities = () => {
     const reduce = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -302,14 +338,17 @@ function Index() {
       .filter((o) => (difficulty === "all" ? true : o.difficulty === difficulty))
       .filter((o) => (grade === "all" ? true : o.gradeLevels.includes(grade)))
       .filter((o) =>
+        international === "all" ? true : international === "international" ? o.international : !o.international
+      )
+      .filter((o) =>
         !q
           ? true
           : (o.name + " " + o.description + " " + o.eligibility + " " + o.category)
               .toLowerCase()
               .includes(q)
       );
-    return r.sort((a, b) => new Date(a.deadlineSort).getTime() - new Date(b.deadlineSort).getTime());
-  }, [search, category, difficulty, grade, savedOnly, savedSet]);
+    return sortOpportunities(r, sort);
+  }, [search, category, difficulty, grade, international, savedOnly, savedSet, sort]);
 
   const closingSoon = useMemo(() => {
     const now = new Date();
@@ -510,6 +549,19 @@ function Index() {
             </div>
 
             <div className="chip-group">
+              <span className="chip-label">Location</span>
+              {([
+                ["all", "All"],
+                ["canada", "Canada only"],
+                ["international", "International"],
+              ] as [string, string][]).map(([v, label]) => (
+                <button key={v} className={`chip ${international === v ? "active" : ""}`} onClick={() => setInternational(v)}>
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            <div className="chip-group">
               <span className="chip-label">Saved</span>
               <button
                 type="button"
@@ -524,12 +576,12 @@ function Index() {
               </button>
             </div>
 
-            {(category !== "all" || difficulty !== "all" || grade !== "all" || search !== "" || savedOnly) && (
+            {(category !== "all" || difficulty !== "all" || grade !== "all" || international !== "all" || search !== "" || savedOnly) && (
               <button
                 className="clear-filters-btn"
                 onClick={() => {
                   setSavedOnly(false);
-                  navigate({ search: { category: "all", difficulty: "all", grade: "all", q: "" }, replace: true, resetScroll: false });
+                  navigate({ search: { category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort }, replace: true, resetScroll: false });
                 }}
               >
                 ✕ Clear all filters
@@ -553,14 +605,30 @@ function Index() {
               <>
                 <div className="opp-grid-header">
                   <span className="opp-count">{filtered.length} results</span>
-                  {filtered.length > 6 && (
-                    <button
-                      className="show-all-btn"
-                      onClick={() => setShowAll((s) => !s)}
-                    >
-                      {showAll ? "Show less ↑" : `Show all ${filtered.length} →`}
-                    </button>
-                  )}
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+                    <label style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+                      Sort
+                      <select
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value)}
+                        aria-label="Sort opportunities"
+                        style={{ padding: "0.35rem 0.55rem", borderRadius: 8, border: "1px solid var(--border, #d9d9d9)", background: "var(--bg-card, #fff)", color: "inherit", font: "inherit", cursor: "pointer" }}
+                      >
+                        <option value="deadline">Deadline (soonest)</option>
+                        <option value="newest">Newest added</option>
+                        <option value="amount">Award amount</option>
+                        <option value="difficulty">Difficulty (easiest)</option>
+                      </select>
+                    </label>
+                    {filtered.length > 6 && (
+                      <button
+                        className="show-all-btn"
+                        onClick={() => setShowAll((s) => !s)}
+                      >
+                        {showAll ? "Show less ↑" : `Show all ${filtered.length} →`}
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="grid" style={{ marginTop: "1rem" }}>
                   {(showAll ? filtered : filtered.slice(0, 6)).map((o) => (

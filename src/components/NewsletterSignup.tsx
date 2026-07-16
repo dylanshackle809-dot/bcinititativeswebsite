@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Mail, CheckCircle2 } from "lucide-react";
 import { subscribeToNewsletter } from "@/lib/newsletter";
+import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 
 const schema = z.object({
   email: z
@@ -16,12 +17,13 @@ type FormValues = z.infer<typeof schema>;
 
 /**
  * Newsletter email-capture band shown above the footer.
- * Validation via zod + react-hook-form; submission goes through the
- * placeholder handler in src/lib/newsletter.ts (see the TODO there for
- * connecting Resend / Mailchimp / Formspree).
+ * Validation via zod + react-hook-form; submission goes through
+ * subscribeToNewsletter in src/lib/newsletter.ts, which adds the email as a
+ * Resend contact (server-side). Success only shows after that call resolves.
  */
 export function NewsletterSignup() {
   const [subscribed, setSubscribed] = useState(false);
+  const { savedIds } = useSavedOpportunities();
   const {
     register,
     handleSubmit,
@@ -31,7 +33,9 @@ export function NewsletterSignup() {
 
   const onSubmit = async ({ email }: FormValues) => {
     try {
-      await subscribeToNewsletter(email);
+      // Include the opportunities the user is tracking so reminder emails can
+      // reference them ("the opportunities you're tracking").
+      await subscribeToNewsletter(email, [...savedIds]);
       setSubscribed(true);
     } catch {
       setError("email", { message: "Something went wrong — please try again." });

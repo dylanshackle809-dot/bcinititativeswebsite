@@ -5,7 +5,7 @@ import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
 import { PartnerDirectory } from "@/components/PartnerDirectory";
 
-const homeSearch = { category: "all", difficulty: "all", grade: "all", q: "" };
+const homeSearch = { category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" };
 
 export const Route = createFileRoute("/partners")({
   head: () => ({
