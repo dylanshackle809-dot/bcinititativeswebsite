@@ -68,7 +68,7 @@ export function SiteFooter() {
           {/* Placeholder pages — point these at real routes when they exist */}
           <a href="#" aria-disabled="true" onClick={(e) => e.preventDefault()}>Privacy</a>
           <Link to="/" search={homeSearch} hash="about">About</Link>
-          <span>Made in Richmond, BC 🇨🇦</span>
+          <span>Made in Richmond, BC</span>
         </span>
       </div>
     </footer>
