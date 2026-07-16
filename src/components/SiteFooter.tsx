@@ -55,7 +55,6 @@ export function SiteFooter() {
         <div>
           <div className="footer-head">Stay in the loop</div>
           <div className="footer-links">
-            <Link to="/" search={homeSearch} hash="newsletter">Newsletter</Link>
             <a href="mailto:bcinitiativessociety@gmail.com">Suggest an opportunity</a>
             <a href="mailto:bcinitiativessociety@gmail.com">Report an issue</a>
             <a href="mailto:bcinitiativessociety@gmail.com">Partner with us</a>

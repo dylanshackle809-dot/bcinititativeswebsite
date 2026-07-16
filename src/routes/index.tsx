@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   GraduationCap, HandHeart, Trophy, Briefcase, Sun, Banknote,
-  Search, SlidersHorizontal, Heart, Bell, CalendarDays,
+  Search, SlidersHorizontal, Heart, CalendarDays,
 } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
 import { Reveal } from "@/components/Reveal";
@@ -10,7 +10,6 @@ import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { toast } from "sonner";
 import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
-import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { SiteFooter } from "@/components/SiteFooter";
 
 const categoryConfig: Record<string, { color: string; soft: string; Icon: React.ElementType }> = {
@@ -656,11 +655,6 @@ function Index() {
                   title: "Save Favorites",
                   desc: "Bookmark the opportunities you care about and build your own shortlist to come back to anytime.",
                 },
-                {
-                  Icon: Bell,
-                  title: "Get Reminders",
-                  desc: "Never miss a deadline. Get nudged before applications close for the opportunities you're tracking.",
-                },
               ].map((f, i) => (
                 <Reveal key={f.title} delay={i * 120}>
                   <div className="feature-card">
@@ -716,8 +710,6 @@ function Index() {
           </div>
         </Reveal>
       </section>
-
-      <NewsletterSignup />
 
       <SiteFooter />
     </>
