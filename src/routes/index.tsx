@@ -2,9 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   GraduationCap, HandHeart, Trophy, Briefcase, Sun, Banknote,
-  Search, SlidersHorizontal, Heart, CalendarDays,
+  Search, SlidersHorizontal, Heart, CalendarDays, Handshake,
 } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
+import { partners } from "@/lib/partners";
 import { Reveal } from "@/components/Reveal";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { toast } from "sonner";
@@ -655,15 +656,32 @@ function Index() {
                   title: "Save Favorites",
                   desc: "Bookmark the opportunities you care about and build your own shortlist to come back to anytime.",
                 },
-              ].map((f, i) => (
-                <Reveal key={f.title} delay={i * 120}>
-                  <div className="feature-card">
+                {
+                  Icon: Handshake,
+                  title: "Featured Partners",
+                  desc: `Discover ${partners.length} youth-led and student-run organizations featured on the site — each one an extra door to opportunities, mentorship, and community.`,
+                  link: true,
+                },
+              ].map((f, i) => {
+                const inner = (
+                  <>
                     <div className="feature-icon"><f.Icon size={22} strokeWidth={1.7} /></div>
                     <h3 className="feature-title">{f.title}</h3>
                     <p className="feature-desc">{f.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
+                  </>
+                );
+                return (
+                  <Reveal key={f.title} delay={i * 120}>
+                    {"link" in f && f.link ? (
+                      <Link to="/partners" className="feature-card" style={{ display: "block", textDecoration: "none", color: "inherit" }}>
+                        {inner}
+                      </Link>
+                    ) : (
+                      <div className="feature-card">{inner}</div>
+                    )}
+                  </Reveal>
+                );
+              })}
             </div>
           </Reveal>
         </section>
