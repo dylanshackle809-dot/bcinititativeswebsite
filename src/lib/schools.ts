@@ -18,7 +18,7 @@ export const schools: School[] = [
     id: "sfu",
     name: "Simon Fraser University",
     short: "SFU",
-    logo: "/schools/sfu.webp",
+    logo: "/schools/sfu.png",
     country: "CA",
   },
   {

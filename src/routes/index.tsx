@@ -155,7 +155,13 @@ function ParallaxLayers() {
   }, []);
   return (
     <div className="hero-parallax" ref={ref} aria-hidden="true">
-      <img src="/sky.png" alt="" className="parallax-layer" data-speed="0.45" draggable={false} />
+      <img
+        src="/sky.png"
+        alt=""
+        className="parallax-layer parallax-layer--sky"
+        data-speed="0.45"
+        draggable={false}
+      />
       <img
         src="/mountain.png"
         alt=""
@@ -163,7 +169,13 @@ function ParallaxLayers() {
         data-speed="0.3"
         draggable={false}
       />
-      <img src="/mist.png" alt="" className="parallax-layer" data-speed="0.18" draggable={false} />
+      <img
+        src="/mist.png"
+        alt=""
+        className="parallax-layer parallax-layer--mist"
+        data-speed="0.18"
+        draggable={false}
+      />
       <img src="/trees.png" alt="" className="parallax-layer" data-speed="0.06" draggable={false} />
       <div className="hero-fade" />
     </div>

@@ -386,6 +386,40 @@ input {
   image-rendering: pixelated;
   will-change: transform;
 }
+/* Ambient drift — animates the standalone `translate` property so it composes
+   with the JS parallax, which owns `transform`. Sway (not one-way pan) because
+   the art isn't horizontally tileable; 4% overscan hides the moving edges. */
+.parallax-layer--sky,
+.parallax-layer--mist {
+  width: 104%;
+  left: -2%;
+}
+.parallax-layer--sky {
+  animation: heroDriftSky 75s ease-in-out infinite;
+}
+.parallax-layer--mist {
+  animation: heroDriftMist 55s ease-in-out infinite;
+}
+@keyframes heroDriftSky {
+  0%,
+  100% {
+    translate: -14px 0;
+  }
+  50% {
+    translate: 14px 0;
+  }
+}
+@keyframes heroDriftMist {
+  0%,
+  100% {
+    translate: 12px 0;
+    opacity: 1;
+  }
+  50% {
+    translate: -12px 0;
+    opacity: 0.82;
+  }
+}
 /* Readability overlay: page color at top fading into the sky */
 .hero-fade {
   position: absolute;
@@ -405,6 +439,9 @@ input {
 @media (prefers-reduced-motion: reduce) {
   .parallax-layer {
     transform: none !important;
+    translate: none !important;
+    animation: none !important;
+    opacity: 1 !important;
   }
 }
 
