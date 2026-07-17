@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { Sparkles } from "lucide-react";
 import { LogoMark } from "@/components/LogoMark";
-import { schoolById, crestSrc } from "@/lib/schools";
+import { schoolById } from "@/lib/schools";
 import { themeLabels, type ThemeId } from "@/lib/profiles";
 
 const homeSearch = {
@@ -50,6 +51,11 @@ export function ProfilesTopBar({ view = "profiles" }: { view?: string }) {
           <Link className="pf-ghost" to="/" search={homeSearch} hash="opportunities">
             Opportunities
           </Link>
+          {view !== "match" && (
+            <Link className="pf-matchbtn" to="/profiles/match">
+              <Sparkles size={14} strokeWidth={2.2} /> Find your match
+            </Link>
+          )}
           <a
             className="pf-cta"
             href={`mailto:bcinitiativessociety@gmail.com?subject=${encodeURIComponent("Share my story on Summit Seeker")}`}
@@ -63,19 +69,21 @@ export function ProfilesTopBar({ view = "profiles" }: { view?: string }) {
 }
 
 /**
- * Circular school badge. Renders the school's short label, upgrading to
- * /schools/<id>.png only once the image is probed client-side — no crest
- * images exist yet, so the label is currently what renders everywhere.
- * Dropping PNGs into public/schools/ makes them appear with no code change.
+ * Circular school badge. Renders the school's short label, upgrading to its
+ * `logo` image only once the file is probed client-side — a school without a
+ * logo (or whose file isn't in public/schools/ yet) keeps the label fallback.
  */
 export function SchoolCrest({ id, large = false }: { id: string; large?: boolean }) {
   const school = schoolById[id];
   const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
+    setSrc(null);
+    const logo = schoolById[id]?.logo;
+    if (!logo) return;
     const img = new Image();
-    img.onload = () => setSrc(img.src);
-    img.src = crestSrc(id);
+    img.onload = () => setSrc(logo);
+    img.src = logo;
   }, [id]);
 
   if (!school) return null;

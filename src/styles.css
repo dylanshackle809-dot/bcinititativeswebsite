@@ -2528,7 +2528,10 @@ a.pf-chip--blue:hover {
 .pf-crest img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #fff;
+  padding: 2px;
+  box-sizing: border-box;
 }
 .pf-crest--lg {
   width: 38px;
@@ -2905,5 +2908,397 @@ a.pf-chip--blue:hover {
     flex-direction: column;
     align-items: flex-start;
     padding: 1.4rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Find-your-match quiz (pf-q-) — Profiles Phase 2                    */
+/* ------------------------------------------------------------------ */
+.pf-scope,
+.pf-sheet {
+  /* mirrors legacy --accent-orange; pf block stays self-contained */
+  --pf-orange: #b45309;
+}
+
+/* topbar + list-header entry points */
+.pf-matchbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--pf-navy-soft);
+  color: var(--pf-blue);
+  font-size: 0.83rem;
+  font-weight: 600;
+  padding: 0.5rem 1.05rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.pf-matchbtn:hover {
+  background: #dde7fb;
+  transform: translateY(-1px);
+}
+.pf-matchcta {
+  margin-top: 1rem;
+}
+
+/* page frame */
+.pf-q-page {
+  width: 100%;
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4.5rem;
+  flex: 1;
+}
+
+/* progress header */
+.pf-q-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+.pf-q-back {
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--pf-navy);
+  opacity: 0.7;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pf-q-back:hover {
+  opacity: 1;
+}
+.pf-q-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.pf-q-count strong.n {
+  color: var(--pf-green);
+}
+.pf-q-count strong.m {
+  color: var(--pf-orange);
+}
+.pf-q-bar {
+  height: 4px;
+  background: var(--pf-border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 2.2rem;
+}
+.pf-q-bar span {
+  display: block;
+  height: 100%;
+  background: var(--pf-navy);
+  border-radius: 999px;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* one centered question per screen */
+.pf-q-step {
+  text-align: center;
+  animation: pf-q-step-in 0.3s ease both;
+}
+@keyframes pf-q-step-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pf-q-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.pf-q-h {
+  display: block;
+  width: 100%;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  letter-spacing: -0.02em;
+  color: var(--pf-navy);
+  margin-bottom: 0.4rem;
+}
+.pf-q-h:focus {
+  outline: none;
+}
+.pf-q-sub {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.7rem;
+}
+
+/* option grids */
+.pf-q-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7rem;
+  text-align: left;
+}
+@media (max-width: 400px) {
+  .pf-q-grid:not(.pf-q-grid--rows) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* option card */
+.pf-q-opt {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  background: var(--pf-card);
+  border: 1.5px solid var(--pf-border);
+  border-radius: 14px;
+  box-shadow: var(--pf-shadow);
+  padding: 0.9rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--pf-navy);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.pf-q-opt:hover {
+  transform: translateY(-1px);
+}
+.pf-q-opt input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.pf-q-opt:focus-within {
+  outline: 2px solid var(--pf-navy);
+  outline-offset: 2px;
+}
+.pf-q-opt--on {
+  border-color: var(--pf-blue);
+  background: var(--pf-navy-soft);
+}
+.pf-q-opt--green.pf-q-opt--on {
+  border-color: var(--pf-green);
+  background: var(--pf-green-soft);
+}
+.pf-q-opt--row {
+  flex-direction: row;
+  align-items: center;
+}
+.pf-q-opt-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--pf-navy-soft);
+  color: var(--pf-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.pf-q-opt--green .pf-q-opt-icon {
+  background: var(--pf-green-soft);
+  color: var(--pf-green);
+}
+.pf-q-opt--on .pf-q-opt-icon {
+  background: var(--pf-card);
+}
+.pf-q-opt-check {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--pf-blue);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+.pf-q-opt--green .pf-q-opt-check {
+  background: var(--pf-green);
+}
+.pf-q-opt--on .pf-q-opt-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* actions */
+.pf-q-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  margin-top: 1.7rem;
+}
+.pf-q-skip {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--pf-blue);
+  cursor: pointer;
+}
+.pf-q-skip:hover {
+  text-decoration: underline;
+}
+.pf-q-reveal-btn {
+  background: var(--pf-navy);
+  color: #fff;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.7rem 1.7rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.pf-q-reveal-btn:hover {
+  background: #16203a;
+  transform: translateY(-1px);
+}
+
+/* step 3 — reading your answers */
+.pf-q-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.pf-q-pill {
+  font-size: 0.85rem;
+  padding: 0.4rem 0.85rem;
+  animation: pf-q-pop 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i) * 90ms);
+}
+@keyframes pf-q-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.7) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* step 4 — reveal */
+.pf-q-reveal {
+  background: var(--pf-card);
+  border: 1px solid var(--pf-border);
+  border-radius: var(--pf-radius);
+  box-shadow: var(--pf-shadow);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  animation: pf-q-step-in 0.3s ease both;
+}
+.pf-q-pct {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--pf-green-soft);
+  border: 1px solid var(--pf-green-border);
+  color: var(--pf-green);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.28rem 0.8rem;
+  border-radius: 999px;
+}
+.pf-q-line {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  max-width: 40ch;
+}
+.pf-q-reveal .pf-crests {
+  margin-left: 0;
+  padding-left: 5px;
+}
+.pf-q-proj {
+  width: 100%;
+  text-align: left;
+  background: var(--pf-green-soft);
+  border: 1px solid var(--pf-green-border);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  margin-top: 0.9rem;
+}
+.pf-q-proj-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pf-green);
+  margin-bottom: 0.35rem;
+}
+.pf-q-proj-name {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--pf-navy);
+  text-decoration: none;
+}
+.pf-q-proj-name:hover {
+  text-decoration: underline;
+}
+.pf-q-proj-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 640px) {
+  .pf-topbar .pf-matchbtn {
+    display: none; /* list-header CTA is the mobile entry point */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-q-step,
+  .pf-q-pill,
+  .pf-q-reveal {
+    animation: none;
+  }
+  .pf-q-bar span,
+  .pf-q-opt,
+  .pf-q-opt-check {
+    transition: none;
+  }
+  .pf-q-opt:hover,
+  .pf-q-reveal-btn:hover,
+  .pf-matchbtn:hover {
+    transform: none;
   }
 }

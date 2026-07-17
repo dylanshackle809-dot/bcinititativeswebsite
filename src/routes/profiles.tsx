@@ -339,6 +339,9 @@ function ProfilesPage() {
                 What admitted students actually did — real extracurriculars, awards, and
                 acceptances, and where they got in.
               </p>
+              <Link className="pf-cta pf-matchcta" to="/profiles/match">
+                <Sparkles size={14} strokeWidth={2.2} /> Find your match
+              </Link>
             </div>
 
             <div className="pf-layout">

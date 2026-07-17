@@ -13,6 +13,7 @@ import { Route as ProfilesRouteImport } from './routes/profiles'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfilesMatchRouteImport } from './routes/profiles_.match'
 import { Route as ProfilesIdRouteImport } from './routes/profiles_.$id'
 import { Route as OpportunitiesIdRouteImport } from './routes/opportunities.$id'
 
@@ -36,6 +37,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfilesMatchRoute = ProfilesMatchRouteImport.update({
+  id: '/profiles_/match',
+  path: '/profiles/match',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfilesIdRoute = ProfilesIdRouteImport.update({
   id: '/profiles_/$id',
   path: '/profiles/$id',
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/profiles': typeof ProfilesRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
   '/profiles/$id': typeof ProfilesIdRoute
+  '/profiles/match': typeof ProfilesMatchRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/profiles': typeof ProfilesRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
   '/profiles/$id': typeof ProfilesIdRoute
+  '/profiles/match': typeof ProfilesMatchRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/profiles': typeof ProfilesRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
   '/profiles_/$id': typeof ProfilesIdRoute
+  '/profiles_/match': typeof ProfilesMatchRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/profiles'
     | '/opportunities/$id'
     | '/profiles/$id'
+    | '/profiles/match'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/profiles'
     | '/opportunities/$id'
     | '/profiles/$id'
+    | '/profiles/match'
   id:
     | '__root__'
     | '/'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/profiles'
     | '/opportunities/$id'
     | '/profiles_/$id'
+    | '/profiles_/match'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   ProfilesRoute: typeof ProfilesRoute
   OpportunitiesIdRoute: typeof OpportunitiesIdRoute
   ProfilesIdRoute: typeof ProfilesIdRoute
+  ProfilesMatchRoute: typeof ProfilesMatchRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profiles_/match': {
+      id: '/profiles_/match'
+      path: '/profiles/match'
+      fullPath: '/profiles/match'
+      preLoaderRoute: typeof ProfilesMatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profiles_/$id': {
       id: '/profiles_/$id'
       path: '/profiles/$id'
@@ -162,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfilesRoute: ProfilesRoute,
   OpportunitiesIdRoute: OpportunitiesIdRoute,
   ProfilesIdRoute: ProfilesIdRoute,
+  ProfilesMatchRoute: ProfilesMatchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
