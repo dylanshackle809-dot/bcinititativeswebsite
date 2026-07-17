@@ -23,8 +23,8 @@ export function SiteFooter() {
             Summit<span>Seeker</span>
           </Link>
           <p className="footer-tag">
-            Every Canadian student opportunity, one place. A student-led project based in Richmond,
-            BC — hand-curated for high school and CEGEP students.
+            Every student opportunity, one place. A student-led project based in Richmond, BC —
+            hand-curated for high school and CEGEP students.
           </p>
           <a className="footer-email" href="mailto:bcinitiativessociety@gmail.com">
             <Mail size={14} strokeWidth={1.8} /> bcinitiativessociety@gmail.com

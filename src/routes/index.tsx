@@ -56,31 +56,31 @@ export const Route = createFileRoute("/")({
   }),
   head: () => ({
     meta: [
-      { title: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
+      { title: "Summit Seeker — Every Student Opportunity, One Place" },
       {
         name: "description",
         content:
-          "Discover curated Canadian scholarships, volunteering opportunities, competitions, internships, summer programs, and grants for high school and CEGEP students. Hand-checked and updated regularly.",
+          "Discover curated Canadian and international scholarships, volunteering, competitions, internships, summer programs, and grants for high school students — plus real profiles of admitted students to learn from. Hand-checked and updated regularly.",
       },
       {
         property: "og:title",
-        content: "Summit Seeker — Every Canadian Student Opportunity, One Place",
+        content: "Summit Seeker — Every Student Opportunity, One Place",
       },
       {
         property: "og:description",
         content:
-          "Hand-curated Canadian student opportunities for high school and CEGEP students. Scholarships, competitions, internships, summer programs, grants and more.",
+          "Hand-curated Canadian and international student opportunities for high school students, plus real admitted-student profiles. Scholarships, competitions, internships, summer programs, grants and more.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "twitter:title",
-        content: "Summit Seeker — Every Canadian Student Opportunity, One Place",
+        content: "Summit Seeker — Every Student Opportunity, One Place",
       },
       {
         name: "twitter:description",
         content:
-          "Hand-curated Canadian student opportunities. Scholarships, competitions, internships, summer programs, grants and more.",
+          "Hand-curated Canadian and international student opportunities, plus real admitted-student profiles. Scholarships, competitions, internships, summer programs, grants and more.",
       },
       {
         name: "keywords",
@@ -621,15 +621,18 @@ function Index() {
       <header className="hero" id="top">
         <ParallaxLayers />
         <div className="hero-inner">
-          <div className="hero-eyebrow fade-up">Canadian Student Opportunities · Est. 2026</div>
+          <div className="hero-eyebrow fade-up">
+            Canadian &amp; International Student Opportunities · Est. 2026
+          </div>
           <h1 className="hero-h1 fade-up d1">
             Discover Your Next
             <br />
             <span className="accent-word">Opportunity</span>
           </h1>
           <p className="hero-sub fade-up d2">
-            Curated Canadian scholarships, volunteering, competitions, internships, summer programs,
-            and grants for high school and CEGEP students.
+            Curated Canadian and international scholarships, volunteering, competitions,
+            internships, summer programs, and grants for high school students — and real profiles of
+            admitted students to learn from.
           </p>
           <form className="hero-search fade-up d3" onSubmit={submitHeroSearch} role="search">
             <span className="hero-search-icon">
