@@ -445,64 +445,6 @@ input {
   }
 }
 
-/* Pixel rabbit hopping through the grass band. One element, two animations:
-   steps(4) walks the 4-frame sprite sheet (percentage positions so resizing
-   the rabbit never breaks the stepping), while the slow journey slides it
-   across the hero and flips it (scaleX) while it's parked off-screen. */
-.hero-rabbit {
-  position: absolute;
-  left: 0;
-  bottom: 6.5rem;
-  z-index: 1;
-  width: 60px;
-  height: 48px; /* sheet frames are 500x400 (1.25:1) */
-  background: url("/rabbit_hop_spritesheet.png") 0 0 / 400% 100% no-repeat;
-  image-rendering: pixelated;
-  pointer-events: none;
-  animation:
-    rabbitSprite 0.55s steps(4, end) infinite,
-    rabbitJourney 38s linear infinite;
-}
-@keyframes rabbitSprite {
-  from {
-    background-position-x: 0%;
-  }
-  to {
-    background-position-x: 133.333%; /* 4 frames at 0/33.3/66.7/100%; end never shown */
-  }
-}
-@keyframes rabbitJourney {
-  0% {
-    transform: translateX(-14vw) scaleX(1);
-  }
-  46% {
-    transform: translateX(112vw) scaleX(1);
-  }
-  50% {
-    transform: translateX(112vw) scaleX(-1); /* flip while off-screen */
-  }
-  96% {
-    transform: translateX(-14vw) scaleX(-1);
-  }
-  100% {
-    transform: translateX(-14vw) scaleX(1);
-  }
-}
-@media (max-width: 720px) {
-  .hero-rabbit {
-    width: 40px;
-    height: 32px;
-    bottom: 4.5rem;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-rabbit {
-    /* no motion: a single static frame resting in the grass */
-    animation: none;
-    transform: translateX(14vw);
-  }
-}
-
 .hero-inner {
   position: relative;
   z-index: 2;

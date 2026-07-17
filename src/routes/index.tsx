@@ -619,7 +619,6 @@ function Index() {
       </nav>
 
       <header className="hero" id="top">
-        <div className="hero-rabbit" aria-hidden="true" />
         <ParallaxLayers />
         <div className="hero-inner">
           <div className="hero-eyebrow fade-up">Canadian Student Opportunities · Est. 2026</div>
