@@ -2417,7 +2417,7 @@ footer.foot {
   border-color: var(--pf-green-border);
 }
 .pf-match-label {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.3rem;
   font-size: 0.68rem;
@@ -3355,4 +3355,104 @@ a.pf-chip--blue:hover {
 .ss-sort-item [data-radix-select-item-indicator] svg,
 .ss-sort-item svg {
   color: var(--sort-green);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Schools filter — grouped logo-tile grid (pf-school-)               */
+/* ------------------------------------------------------------------ */
+.pf-school-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin: 0.85rem 0 0.5rem;
+}
+.pf-school-group-h {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--pf-green);
+  margin: 0.9rem 0 0.5rem;
+}
+.pf-school-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+.pf-school-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--pf-card);
+  border: 1.5px solid var(--pf-border);
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem 0.65rem;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.pf-school-tile:hover {
+  transform: translateY(-1px);
+  border-color: var(--pf-border-strong);
+}
+.pf-school-tile input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.pf-school-tile:focus-within {
+  outline: 2px solid var(--pf-navy);
+  outline-offset: 2px;
+}
+.pf-school-tile--on {
+  border-color: var(--pf-blue);
+  background: var(--pf-navy-soft);
+}
+.pf-school-tile-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.25;
+}
+.pf-school-tile-check {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--pf-green);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+.pf-school-tile--on .pf-school-tile-check {
+  opacity: 1;
+  transform: scale(1);
+}
+.pf-school-tile .pf-crest {
+  margin-left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-school-tile,
+  .pf-school-tile-check {
+    transition: none;
+  }
+  .pf-school-tile:hover {
+    transform: none;
+  }
 }

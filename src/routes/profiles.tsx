@@ -5,7 +5,7 @@ import {
   type SearchSchemaInput,
 } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, SlidersHorizontal, Sparkles } from "lucide-react";
+import { Check, Search, SlidersHorizontal, Sparkles } from "lucide-react";
 import {
   profiles,
   majorOptions,
@@ -198,14 +198,22 @@ function ProfilesPending() {
   );
 }
 
+const SCHOOL_GROUPS = [
+  { label: "Canadian Universities", country: "CA" as const },
+  { label: "US Universities", country: "US" as const },
+];
+
 /** Tabbed checkbox filters — rendered in the desktop sidebar AND the mobile sheet. */
 function FilterPanel({
   search,
   onToggle,
+  onClearSchools,
 }: {
   search: ProfilesSearch;
   onToggle: (facet: "schools" | "major" | "theme", value: string) => void;
+  onClearSchools: () => void;
 }) {
+  const selectedSchools = csv(search.schools);
   return (
     <Tabs defaultValue="schools">
       <TabsList className="pf-tabs">
@@ -220,19 +228,45 @@ function FilterPanel({
         </TabsTrigger>
       </TabsList>
       <TabsContent value="schools">
-        <div className="pf-options">
-          {schools.map((s) => (
-            <label key={s.id} className="pf-option">
-              <input
-                type="checkbox"
-                checked={csv(search.schools).includes(s.id)}
-                onChange={() => onToggle("schools", s.id)}
-              />
-              <SchoolCrest id={s.id} />
-              {s.name}
-            </label>
-          ))}
+        <div className="pf-school-bar">
+          <span>{selectedSchools.length} active</span>
+          {selectedSchools.length > 0 && (
+            <button type="button" className="pf-reset" onClick={onClearSchools}>
+              Clear
+            </button>
+          )}
         </div>
+        {SCHOOL_GROUPS.map((group) => {
+          const items = schools.filter((s) => s.country === group.country);
+          if (items.length === 0) return null;
+          return (
+            <div key={group.country}>
+              <h3 className="pf-school-group-h">{group.label}</h3>
+              <div className="pf-school-grid">
+                {items.map((s) => {
+                  const on = selectedSchools.includes(s.id);
+                  return (
+                    <label
+                      key={s.id}
+                      className={`pf-school-tile ${on ? "pf-school-tile--on" : ""}`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={on}
+                        onChange={() => onToggle("schools", s.id)}
+                      />
+                      <SchoolCrest id={s.id} large />
+                      <span className="pf-school-tile-name">{s.name}</span>
+                      <span className="pf-school-tile-check" aria-hidden="true">
+                        <Check size={11} strokeWidth={3} />
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </TabsContent>
       <TabsContent value="major">
         <div className="pf-options">
@@ -367,7 +401,11 @@ function ProfilesPage() {
                     </button>
                   )}
                 </div>
-                <FilterPanel search={search} onToggle={onToggle} />
+                <FilterPanel
+                  search={search}
+                  onToggle={onToggle}
+                  onClearSchools={() => set({ schools: "" })}
+                />
               </aside>
 
               <section aria-label="Profiles">
@@ -441,7 +479,11 @@ function ProfilesPage() {
                   Narrow profiles by school, major, or theme.
                 </SheetDescription>
                 <div className="pf-sheet-panel">
-                  <FilterPanel search={search} onToggle={onToggle} />
+                  <FilterPanel
+                    search={search}
+                    onToggle={onToggle}
+                    onClearSchools={() => set({ schools: "" })}
+                  />
                 </div>
                 <div className="pf-sheet-actions">
                   {anyFilter && (
