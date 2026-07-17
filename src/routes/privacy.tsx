@@ -75,8 +75,8 @@ function PrivacyPage() {
             <Link className="nav-link" to="/" search={homeSearch} hash="about">
               About
             </Link>
-            <Link className="nav-ghost" to="/" search={homeSearch} hash="opportunities">
-              Start Exploring
+            <Link className="nav-cta nav-cta--outline" to="/profiles">
+              Student Profiles
             </Link>
             <Link className="nav-cta" to="/partners">
               Our Partners
@@ -130,13 +130,11 @@ function PrivacyPage() {
               About
             </Link>
             <Link
-              className="nav-ghost"
-              to="/"
-              search={homeSearch}
-              hash="opportunities"
+              className="nav-cta nav-cta--outline"
+              to="/profiles"
               onClick={() => setMenuOpen(false)}
             >
-              Start Exploring
+              Student Profiles
             </Link>
             <Link className="nav-cta" to="/partners" onClick={() => setMenuOpen(false)}>
               Our Partners

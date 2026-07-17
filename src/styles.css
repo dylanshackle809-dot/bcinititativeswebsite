@@ -273,6 +273,19 @@ input {
   transform: translateY(-1px);
 }
 
+/* Blue-outline variant of .nav-cta — accented peer of the filled CTA */
+.nav-cta--outline {
+  background: #fff;
+  border: 1px solid var(--accent);
+  color: var(--accent-bright);
+  padding: calc(0.55rem - 1px) calc(1.1rem - 1px);
+}
+.nav-cta--outline:hover {
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  box-shadow: var(--shadow-md);
+}
+
 /* Mobile nav */
 .hamburger {
   display: none;

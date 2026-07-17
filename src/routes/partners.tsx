@@ -76,8 +76,8 @@ function PartnersPage() {
             <Link className="nav-link" to="/" search={homeSearch} hash="about">
               About
             </Link>
-            <Link className="nav-ghost" to="/" search={homeSearch} hash="opportunities">
-              Start Exploring
+            <Link className="nav-cta nav-cta--outline" to="/profiles">
+              Student Profiles
             </Link>
             <Link className="nav-cta" to="/partners" aria-current="page">
               Our Partners
@@ -131,13 +131,11 @@ function PartnersPage() {
               About
             </Link>
             <Link
-              className="nav-ghost"
-              to="/"
-              search={homeSearch}
-              hash="opportunities"
+              className="nav-cta nav-cta--outline"
+              to="/profiles"
               onClick={() => setMenuOpen(false)}
             >
-              Start Exploring
+              Student Profiles
             </Link>
             <Link
               className="nav-cta"

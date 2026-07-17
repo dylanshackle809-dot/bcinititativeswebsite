@@ -548,9 +548,9 @@ function Index() {
             <a className="nav-link" href="#about">
               About
             </a>
-            <a className="nav-ghost" href="#opportunities">
-              Start Exploring
-            </a>
+            <Link className="nav-cta nav-cta--outline" to="/profiles">
+              Student Profiles
+            </Link>
             <Link className="nav-cta" to="/partners">
               Our Partners
             </Link>
@@ -578,9 +578,13 @@ function Index() {
             <a className="nav-link" href="#about" onClick={() => setMenuOpen(false)}>
               About
             </a>
-            <a className="nav-ghost" href="#opportunities" onClick={() => setMenuOpen(false)}>
-              Start Exploring
-            </a>
+            <Link
+              className="nav-cta nav-cta--outline"
+              to="/profiles"
+              onClick={() => setMenuOpen(false)}
+            >
+              Student Profiles
+            </Link>
             <Link className="nav-cta" to="/partners" onClick={() => setMenuOpen(false)}>
               Our Partners
             </Link>
