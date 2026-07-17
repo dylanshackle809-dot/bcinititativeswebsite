@@ -49,7 +49,12 @@ export function ShareButton({
 
   if (variant === "labeled") {
     return (
-      <button type="button" className="share-btn-labeled" onClick={onShare} aria-label={`Share ${title}`}>
+      <button
+        type="button"
+        className="share-btn-labeled"
+        onClick={onShare}
+        aria-label={`Share ${title}`}
+      >
         <Share2 size={14} strokeWidth={2} /> Share
       </button>
     );

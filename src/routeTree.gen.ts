@@ -9,11 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfilesRouteImport } from './routes/profiles'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfilesIdRouteImport } from './routes/profiles_.$id'
 import { Route as OpportunitiesIdRouteImport } from './routes/opportunities.$id'
 
+const ProfilesRoute = ProfilesRouteImport.update({
+  id: '/profiles',
+  path: '/profiles',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -29,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfilesIdRoute = ProfilesIdRouteImport.update({
+  id: '/profiles_/$id',
+  path: '/profiles/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpportunitiesIdRoute = OpportunitiesIdRouteImport.update({
   id: '/opportunities/$id',
   path: '/opportunities/$id',
@@ -39,38 +51,72 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
+  '/profiles': typeof ProfilesRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/profiles/$id': typeof ProfilesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
+  '/profiles': typeof ProfilesRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/profiles/$id': typeof ProfilesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
+  '/profiles': typeof ProfilesRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/profiles_/$id': typeof ProfilesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/partners' | '/privacy' | '/opportunities/$id'
+  fullPaths:
+    | '/'
+    | '/partners'
+    | '/privacy'
+    | '/profiles'
+    | '/opportunities/$id'
+    | '/profiles/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/partners' | '/privacy' | '/opportunities/$id'
-  id: '__root__' | '/' | '/partners' | '/privacy' | '/opportunities/$id'
+  to:
+    | '/'
+    | '/partners'
+    | '/privacy'
+    | '/profiles'
+    | '/opportunities/$id'
+    | '/profiles/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/partners'
+    | '/privacy'
+    | '/profiles'
+    | '/opportunities/$id'
+    | '/profiles_/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PartnersRoute: typeof PartnersRoute
   PrivacyRoute: typeof PrivacyRoute
+  ProfilesRoute: typeof ProfilesRoute
   OpportunitiesIdRoute: typeof OpportunitiesIdRoute
+  ProfilesIdRoute: typeof ProfilesIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/profiles': {
+      id: '/profiles'
+      path: '/profiles'
+      fullPath: '/profiles'
+      preLoaderRoute: typeof ProfilesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -92,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profiles_/$id': {
+      id: '/profiles_/$id'
+      path: '/profiles/$id'
+      fullPath: '/profiles/$id'
+      preLoaderRoute: typeof ProfilesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/opportunities/$id': {
       id: '/opportunities/$id'
       path: '/opportunities/$id'
@@ -106,7 +159,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PartnersRoute: PartnersRoute,
   PrivacyRoute: PrivacyRoute,
+  ProfilesRoute: ProfilesRoute,
   OpportunitiesIdRoute: OpportunitiesIdRoute,
+  ProfilesIdRoute: ProfilesIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

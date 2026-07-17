@@ -26,7 +26,14 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            search={{ category: "all", difficulty: "all", grade: "all", international: "all", q: "", sort: "deadline" }}
+            search={{
+              category: "all",
+              difficulty: "all",
+              grade: "all",
+              international: "all",
+              q: "",
+              sort: "deadline",
+            }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Go home
@@ -81,14 +88,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
-      { name: "description", content: "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly." },
+      {
+        name: "description",
+        content:
+          "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly.",
+      },
       { name: "author", content: "BC Initiatives" },
-      { property: "og:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
-      { property: "og:description", content: "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly." },
+      {
+        property: "og:title",
+        content: "Summit Seeker — Every Canadian Student Opportunity, One Place",
+      },
+      {
+        property: "og:description",
+        content:
+          "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Summit Seeker — Every Canadian Student Opportunity, One Place" },
-      { name: "twitter:description", content: "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly." },
+      {
+        name: "twitter:title",
+        content: "Summit Seeker — Every Canadian Student Opportunity, One Place",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Discover curated Canadian scholarships, volunteering, competitions, internships, summer programs and grants for high school and CEGEP students. Hand-checked and updated regularly.",
+      },
       { property: "og:image", content: "https://summitseeker.app/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
