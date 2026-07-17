@@ -884,8 +884,8 @@ function Index() {
                         onChange={(e) => setSort(e.target.value)}
                         aria-label="Sort opportunities"
                         style={{
-                          padding: "0.35rem 0.55rem",
-                          borderRadius: 8,
+                          padding: "0.35rem 0.8rem",
+                          borderRadius: 999,
                           border: "1px solid var(--border, #d9d9d9)",
                           background: "var(--bg-card, #fff)",
                           color: "inherit",
