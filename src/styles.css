@@ -3302,3 +3302,57 @@ a.pf-chip--blue:hover {
     transform: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Site-styled sort Select (shadcn/Radix) — shared by the homepage    */
+/*  and /profiles. The menu portals to <body>, so it only leans on     */
+/*  :root tokens (plus its own green, mirroring --pf-green).           */
+/* ------------------------------------------------------------------ */
+.ss-sort-trigger {
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--bg-card);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  box-shadow: none;
+  cursor: pointer;
+}
+.ss-sort-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.ss-sort-menu {
+  --sort-green: #2f6b4f;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-body);
+}
+.ss-sort-item {
+  border-radius: 10px;
+  padding: 0.5rem 2.1rem 0.5rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.ss-sort-item[data-highlighted] {
+  background: var(--accent-soft);
+  color: var(--accent-bright);
+  outline: none;
+}
+.ss-sort-item[data-state="checked"] {
+  font-weight: 600;
+}
+.ss-sort-item [data-radix-select-item-indicator] svg,
+.ss-sort-item svg {
+  color: var(--sort-green);
+}

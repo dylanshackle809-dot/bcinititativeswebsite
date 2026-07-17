@@ -27,6 +27,13 @@ import {
   SheetDescription,
   SheetClose,
 } from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type ProfilesSearch = {
   schools: string; // csv of School.id, e.g. "ubc,waterloo"
@@ -96,6 +103,12 @@ export const Route = createFileRoute("/profiles")({
   // Do not "fix" this with artificial delays.
   pendingComponent: ProfilesPending,
 });
+
+const PROFILE_SORT_LABELS: Record<string, string> = {
+  featured: "Featured",
+  name: "Name A–Z",
+  gradYear: "Newest grads",
+};
 
 /* csv helpers for multi-select params — ids are slugs, no comma risk */
 const csv = (s: string) => s.split(",").filter(Boolean);
@@ -369,16 +382,22 @@ function ProfilesPage() {
                       aria-label="Search profiles"
                     />
                   </div>
-                  <select
-                    className="pf-sort"
-                    value={sort}
-                    onChange={(e) => set({ sort: e.target.value })}
-                    aria-label="Sort profiles"
-                  >
-                    <option value="featured">Featured</option>
-                    <option value="name">Name A–Z</option>
-                    <option value="gradYear">Newest grads</option>
-                  </select>
+                  <Select value={sort} onValueChange={(v) => set({ sort: v })}>
+                    <SelectTrigger className="ss-sort-trigger" aria-label="Sort profiles">
+                      <SelectValue>{PROFILE_SORT_LABELS[sort] ?? "Featured"}</SelectValue>
+                    </SelectTrigger>
+                    <SelectContent className="ss-sort-menu" align="end">
+                      <SelectItem className="ss-sort-item" value="featured">
+                        Featured
+                      </SelectItem>
+                      <SelectItem className="ss-sort-item" value="name">
+                        Name A–Z
+                      </SelectItem>
+                      <SelectItem className="ss-sort-item" value="gradYear">
+                        Newest grads
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                   <button
                     type="button"
                     className="pf-filter-btn"

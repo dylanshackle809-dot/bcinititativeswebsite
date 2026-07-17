@@ -21,6 +21,20 @@ import { toast } from "sonner";
 import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const OPP_SORT_LABELS: Record<string, string> = {
+  deadline: "Deadline (soonest)",
+  newest: "Newest added",
+  amount: "Award amount",
+  difficulty: "Difficulty (easiest)",
+};
 
 const categoryConfig: Record<string, { color: string; soft: string; Icon: React.ElementType }> = {
   scholarships: { color: "#1d4ed8", soft: "rgba(29, 78, 216, 0.08)", Icon: GraduationCap },
@@ -869,7 +883,7 @@ function Index() {
                       flexWrap: "wrap",
                     }}
                   >
-                    <label
+                    <span
                       style={{
                         display: "inline-flex",
                         alignItems: "center",
@@ -879,26 +893,26 @@ function Index() {
                       }}
                     >
                       Sort
-                      <select
-                        value={sort}
-                        onChange={(e) => setSort(e.target.value)}
-                        aria-label="Sort opportunities"
-                        style={{
-                          padding: "0.35rem 0.8rem",
-                          borderRadius: 999,
-                          border: "1px solid var(--border, #d9d9d9)",
-                          background: "var(--bg-card, #fff)",
-                          color: "inherit",
-                          font: "inherit",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <option value="deadline">Deadline (soonest)</option>
-                        <option value="newest">Newest added</option>
-                        <option value="amount">Award amount</option>
-                        <option value="difficulty">Difficulty (easiest)</option>
-                      </select>
-                    </label>
+                      <Select value={sort} onValueChange={setSort}>
+                        <SelectTrigger className="ss-sort-trigger" aria-label="Sort opportunities">
+                          <SelectValue>{OPP_SORT_LABELS[sort] ?? "Deadline (soonest)"}</SelectValue>
+                        </SelectTrigger>
+                        <SelectContent className="ss-sort-menu" align="end">
+                          <SelectItem className="ss-sort-item" value="deadline">
+                            Deadline (soonest)
+                          </SelectItem>
+                          <SelectItem className="ss-sort-item" value="newest">
+                            Newest added
+                          </SelectItem>
+                          <SelectItem className="ss-sort-item" value="amount">
+                            Award amount
+                          </SelectItem>
+                          <SelectItem className="ss-sort-item" value="difficulty">
+                            Difficulty (easiest)
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </span>
                     {filtered.length > 6 && (
                       <button className="show-all-btn" onClick={() => setShowAll((s) => !s)}>
                         {showAll ? "Show less ↑" : `Show all ${filtered.length} →`}
