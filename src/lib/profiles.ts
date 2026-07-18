@@ -149,6 +149,7 @@ const allProfiles: Profile[] = [
   {
     id: "anya-draves",
     name: "Anya Draves",
+    photo: "/profiles/anya-draves.png",
     major: "Physics",
     location: "Berkeley, California",
     curriculum: "AP (8 APs)",
@@ -872,6 +873,7 @@ const allProfiles: Profile[] = [
   {
     id: "carim-jalloh",
     name: "Carim Jalloh",
+    photo: "/profiles/carim-jalloh.png",
     major: "Pre-Medicine",
     location: "New York",
     curriculum: "AP (9 APs)",
@@ -1047,6 +1049,7 @@ const allProfiles: Profile[] = [
   {
     id: "dontae-christie",
     name: "Dontae Christie",
+    photo: "/profiles/dontae-christie.png",
     major: "Government",
     location: "Cambridge, Massachusetts",
     curriculum: "AP (11 APs)",
