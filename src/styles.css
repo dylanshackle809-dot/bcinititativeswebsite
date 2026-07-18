@@ -2284,6 +2284,12 @@ footer.foot {
   font-size: 1.15rem;
   flex-shrink: 0;
 }
+.pf-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .pf-card-body {
   min-width: 0;
   flex: 1;

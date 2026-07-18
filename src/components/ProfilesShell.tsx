@@ -4,6 +4,7 @@ import { Sparkles } from "lucide-react";
 import { LogoMark } from "@/components/LogoMark";
 import { schoolById } from "@/lib/schools";
 import { themeLabels, type ThemeId } from "@/lib/profiles";
+import { initials, tintFor } from "@/components/PartnerDirectory";
 
 const homeSearch = {
   category: "all",
@@ -93,6 +94,35 @@ export function SchoolCrest({ id, large = false }: { id: string; large?: boolean
         <img src={src} alt={school.name} />
       ) : (
         <span aria-label={school.name}>{school.short}</span>
+      )}
+    </span>
+  );
+}
+
+/**
+ * Circular student avatar. Shows the profile's submitted photo, but only once
+ * the file is probed client-side (mirrors SchoolCrest) — a profile without a
+ * photo, or whose file is missing/broken, keeps the initials tile. Never a
+ * broken-image icon.
+ */
+export function ProfileAvatar({ name, photo }: { name: string; photo?: string }) {
+  const tint = tintFor(name);
+  const [src, setSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSrc(null);
+    if (!photo) return;
+    const img = new Image();
+    img.onload = () => setSrc(photo);
+    img.src = photo;
+  }, [photo]);
+
+  return (
+    <span className="pf-avatar" style={{ background: tint.bg, color: tint.color }}>
+      {src ? (
+        <img className="pf-avatar-img" src={src} alt={name} />
+      ) : (
+        <span aria-hidden="true">{initials(name)}</span>
       )}
     </span>
   );

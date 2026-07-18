@@ -25,8 +25,7 @@ import {
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
 import { partners } from "@/lib/partners";
 import { buildOptions, fieldOptions, findMatch } from "@/lib/match";
-import { initials, tintFor } from "@/components/PartnerDirectory";
-import { CrestRow } from "@/components/ProfilesShell";
+import { CrestRow, ProfileAvatar } from "@/components/ProfilesShell";
 import { Reveal } from "@/components/Reveal";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { toast } from "sonner";
@@ -342,7 +341,6 @@ const demoFieldLabel = (id: string) => fieldOptions.find((f) => f.id === id)?.la
 const demoBuildLabel = (id: string) => buildOptions.find((b) => b.id === id)?.label ?? id;
 
 function QuizDemo() {
-  const tint = tintFor(quizDemo.profile.name);
   const demoFields: Array<[string, React.ElementType, boolean]> = [
     ["computer-science", Code, true],
     ["engineering", Wrench, false],
@@ -421,9 +419,7 @@ function QuizDemo() {
           <div className="qd-step qd-step-4">
             <div className="qd-h">Your match</div>
             <div className="qd-reveal">
-              <span className="pf-avatar" style={{ background: tint.bg, color: tint.color }}>
-                {initials(quizDemo.profile.name)}
-              </span>
+              <ProfileAvatar name={quizDemo.profile.name} photo={quizDemo.profile.photo} />
               <span className="qd-name">{quizDemo.profile.name}</span>
               <span className="qd-major">{quizDemo.profile.major}</span>
               {quizDemo.pct !== null && (

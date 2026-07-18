@@ -3,8 +3,13 @@ import { ArrowLeft, Award, BadgeCheck, ExternalLink } from "lucide-react";
 import { getProfile, themeLabels } from "@/lib/profiles";
 import { schoolById } from "@/lib/schools";
 import { opportunities } from "@/lib/opportunities";
-import { initials, tintFor } from "@/components/PartnerDirectory";
-import { ProfilesTopBar, SchoolCrest, CrestRow, ThemeChips } from "@/components/ProfilesShell";
+import {
+  ProfilesTopBar,
+  ProfileAvatar,
+  SchoolCrest,
+  CrestRow,
+  ThemeChips,
+} from "@/components/ProfilesShell";
 import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/profiles_/$id")({
@@ -61,7 +66,6 @@ function ProfileDetail() {
     );
   }
 
-  const tint = tintFor(p.name);
   const attending = p.attendingSchoolId ? schoolById[p.attendingSchoolId] : undefined;
   const mailSubject = encodeURIComponent(`Profile correction/removal: ${p.name} (${p.id})`);
 
@@ -82,13 +86,7 @@ function ProfileDetail() {
         </Link>
 
         <header className="pf-hero">
-          <span
-            className="pf-avatar"
-            style={{ background: tint.bg, color: tint.color }}
-            aria-hidden="true"
-          >
-            {initials(p.name)}
-          </span>
+          <ProfileAvatar name={p.name} photo={p.photo} />
           <div>
             <h1 className="pf-hero-name">
               {p.name}

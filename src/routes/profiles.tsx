@@ -39,8 +39,14 @@ import {
   type ThemeId,
 } from "@/lib/profiles";
 import { schoolSections } from "@/lib/schools";
-import { initials, tintFor, PartnerDirectory } from "@/components/PartnerDirectory";
-import { ProfilesTopBar, SchoolCrest, CrestRow, ThemeChips } from "@/components/ProfilesShell";
+import { PartnerDirectory } from "@/components/PartnerDirectory";
+import {
+  ProfilesTopBar,
+  ProfileAvatar,
+  SchoolCrest,
+  CrestRow,
+  ThemeChips,
+} from "@/components/ProfilesShell";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -150,7 +156,6 @@ const rolesLine = (p: Profile) =>
     .join(" | ");
 
 function ProfileCard({ p, matched }: { p: Profile; matched?: boolean }) {
-  const tint = tintFor(p.name);
   return (
     <Link
       to="/profiles/$id"
@@ -158,13 +163,7 @@ function ProfileCard({ p, matched }: { p: Profile; matched?: boolean }) {
       className={`pf-card ${matched ? "pf-card--match" : ""}`}
       aria-label={`${p.name}, ${p.major}`}
     >
-      <span
-        className="pf-avatar"
-        style={{ background: tint.bg, color: tint.color }}
-        aria-hidden="true"
-      >
-        {initials(p.name)}
-      </span>
+      <ProfileAvatar name={p.name} photo={p.photo} />
       <span className="pf-card-body">
         {matched && (
           <span className="pf-match-label">

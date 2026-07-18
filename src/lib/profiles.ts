@@ -30,6 +30,7 @@ export interface Extracurricular {
 export interface Profile {
   id: string; // URL slug for /profiles/$id
   name: string;
+  photo?: string; // student-submitted headshot under public/profiles/; initials avatar when absent
   major: string;
   gradYear?: number; // omitted when the source doesn't state it
   location: string;
@@ -50,6 +51,7 @@ const allProfiles: Profile[] = [
   {
     id: "christian-phanhthourath",
     name: "Christian Phanhthourath",
+    photo: "/profiles/christian-phanhthourath.png",
     major: "Physics",
     gradYear: 2025,
     location: "Atlanta, Georgia",
@@ -238,6 +240,7 @@ const allProfiles: Profile[] = [
   {
     id: "adam-liao",
     name: "Adam Liao",
+    photo: "/profiles/adam-liao.png",
     major: "Engineering",
     location: "United States",
     curriculum: "AP (4 APs)",
@@ -325,6 +328,7 @@ const allProfiles: Profile[] = [
   {
     id: "katherine-zhao",
     name: "Katherine Zhao",
+    photo: "/profiles/katherine-zhao.png",
     major: "Architecture",
     location: "Great Neck, New York",
     curriculum: "AP (25 APs)",
@@ -417,6 +421,7 @@ const allProfiles: Profile[] = [
   {
     id: "rachel-tong",
     name: "Rachel Tong",
+    photo: "/profiles/rachel-tong.png",
     major: "Strategic Design and Management",
     location: "New York / Washington",
     curriculum: "",
@@ -506,6 +511,7 @@ const allProfiles: Profile[] = [
   {
     id: "ming-an-cybele-fasquelle",
     name: "Ming-An Cybèle Fasquelle",
+    photo: "/profiles/ming-fasquelle.png",
     major: "Psychology",
     location: "Los Angeles Metropolitan Area",
     curriculum: "IB (4 APs)",
@@ -597,6 +603,7 @@ const allProfiles: Profile[] = [
   {
     id: "anika-suman",
     name: "Anika Suman",
+    photo: "/profiles/anika-suman.png",
     major: "Electrical & Computer Engineering, Computer Science",
     location: "Raleigh-Durham-Chapel Hill Area",
     curriculum: "AP (8 APs)",
@@ -690,6 +697,7 @@ const allProfiles: Profile[] = [
   {
     id: "anita-liu",
     name: "Anita Liu",
+    photo: "/profiles/anita-liu.png",
     major: "Undeclared",
     location: "San Francisco Bay Area",
     curriculum: "AP (12 APs)",
@@ -772,6 +780,7 @@ const allProfiles: Profile[] = [
   {
     id: "brianna-zhang",
     name: "Brianna Zhang",
+    photo: "/profiles/brianna-zhang.png",
     major: "Undeclared",
     location: "Kalamazoo, Michigan",
     curriculum: "AP (16 APs)",
@@ -945,6 +954,7 @@ const allProfiles: Profile[] = [
   {
     id: "daniel-lee",
     name: "Daniel Lee",
+    photo: "/profiles/daniel-lee.png",
     major: "Computer Science",
     location: "New York City",
     curriculum: "IB",
@@ -1122,6 +1132,7 @@ const allProfiles: Profile[] = [
   {
     id: "belise-swartwood",
     name: "Belise Swartwood",
+    photo: "/profiles/belise-swartwood.png",
     major: "Mathematics and Finance",
     location: "Honolulu, Hawaii",
     curriculum: "AP (15 APs)",
@@ -1187,6 +1198,7 @@ const allProfiles: Profile[] = [
   {
     id: "marcos-rico-peng",
     name: "Marcos Rico Peng",
+    photo: "/profiles/marcos-peng.png",
     major: "Electrical Engineering and Computer Science",
     location: "Madrid, Spain / Wyoming Seminary, Pennsylvania",
     curriculum: "IB Diploma",

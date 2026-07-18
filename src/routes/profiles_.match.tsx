@@ -40,8 +40,13 @@ import {
 } from "@/lib/match";
 import { themeLabels } from "@/lib/profiles";
 import { schoolSections, schoolById } from "@/lib/schools";
-import { initials, tintFor } from "@/components/PartnerDirectory";
-import { CrestRow, ProfilesTopBar, SchoolCrest, ThemeChips } from "@/components/ProfilesShell";
+import {
+  CrestRow,
+  ProfileAvatar,
+  ProfilesTopBar,
+  SchoolCrest,
+  ThemeChips,
+} from "@/components/ProfilesShell";
 import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/profiles_/match")({
@@ -352,16 +357,7 @@ function MatchQuiz() {
                 : "The admitted student most like you, based on your answers."}
             </p>
             <div className="pf-q-reveal">
-              <span
-                className="pf-avatar"
-                style={{
-                  background: tintFor(result.profile.name).bg,
-                  color: tintFor(result.profile.name).color,
-                }}
-                aria-hidden="true"
-              >
-                {initials(result.profile.name)}
-              </span>
+              <ProfileAvatar name={result.profile.name} photo={result.profile.photo} />
               <span className="pf-name" style={{ fontSize: "1.2rem" }}>
                 {result.profile.name}
               </span>
