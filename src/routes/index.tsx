@@ -10,7 +10,6 @@ import {
   Search,
   SlidersHorizontal,
   Heart,
-  CalendarDays,
   Handshake,
   Code,
   Wrench,
@@ -21,6 +20,7 @@ import {
   FlaskConical,
   Sparkles,
   Check,
+  MousePointer2,
 } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
 import { partners } from "@/lib/partners";
@@ -316,161 +316,6 @@ function CatIcon({ id }: { id: string }) {
   }
 }
 
-/* Static product-preview mockup shown under the hero */
-function ProductPreview() {
-  const mockCards = [
-    {
-      title: "National Science Olympiad",
-      badge: "Competition",
-      badgeClass: "badge-competition",
-      deadline: "Mar 15, 2027",
-      elig: "Grades 9–12 · Team-based · National finals",
-    },
-    {
-      title: "Youth Climate Action Grant",
-      badge: "Grant",
-      badgeClass: "badge-grant",
-      deadline: "Rolling deadline",
-      elig: "Ages 15–30 · Project-based · Up to $5,000",
-    },
-    {
-      title: "Local Hospital Volunteering",
-      badge: "Volunteering",
-      badgeClass: "badge-volunteer",
-      deadline: "Ongoing intake",
-      elig: "Grade 10+ · 4 hrs/week · Reference letter",
-    },
-    {
-      title: "University Research Internship",
-      badge: "Internship",
-      badgeClass: "badge-internship",
-      deadline: "Feb 1, 2027",
-      elig: "Grades 11–12 · Paid summer placement",
-    },
-  ];
-  return (
-    <div className="preview-section" aria-hidden="true">
-      <Reveal>
-        <div className="preview-wrap">
-          <div className="preview-card" aria-hidden="true">
-            <div className="preview-chrome">
-              <div className="chrome-dots">
-                <span className="chrome-dot" />
-                <span className="chrome-dot" />
-                <span className="chrome-dot" />
-              </div>
-              <div className="chrome-url">summitseeker.app/opportunities</div>
-              <div style={{ width: 54 }} />
-            </div>
-            <div className="preview-body">
-              <aside className="preview-sidebar">
-                <div className="sidebar-title">Filters</div>
-                <div className="filter-group">
-                  <div className="filter-title">Type</div>
-                  <div className="filter-opt">
-                    <span className="f-box checked" />
-                    Scholarships
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box checked" />
-                    Competitions
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box" />
-                    Volunteering
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box" />
-                    Grants
-                  </div>
-                </div>
-                <div className="filter-group">
-                  <div className="filter-title">Subject</div>
-                  <div className="filter-opt">
-                    <span className="f-box checked" />
-                    STEM
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box" />
-                    Business
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box" />
-                    Community
-                  </div>
-                </div>
-                <div className="filter-group">
-                  <div className="filter-title">Grade level</div>
-                  <div className="filter-opt">
-                    <span className="f-box" />
-                    Grades 9–10
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box checked" />
-                    Grades 11–12
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box" />
-                    CEGEP
-                  </div>
-                </div>
-                <div className="filter-group">
-                  <div className="filter-title">Deadline</div>
-                  <div className="filter-opt">
-                    <span className="f-box f-radio" />
-                    Next 30 days
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box f-radio checked" />
-                    This semester
-                  </div>
-                  <div className="filter-opt">
-                    <span className="f-box f-radio" />
-                    Any time
-                  </div>
-                </div>
-              </aside>
-              <div className="preview-main">
-                <div className="preview-main-head">
-                  <div className="preview-count">
-                    Showing <strong>{opportunities.length}</strong> opportunities
-                  </div>
-                  <div className="preview-sort">Sort: Deadline ↑</div>
-                </div>
-                <div className="mock-grid">
-                  {mockCards.map((c) => (
-                    <div className="mock-card" key={c.title}>
-                      <div className="mock-top">
-                        <span className={`mock-badge ${c.badgeClass}`}>{c.badge}</span>
-                        <Heart size={14} strokeWidth={1.8} color="var(--text-muted)" />
-                      </div>
-                      <div className="mock-title">{c.title}</div>
-                      <div className="mock-deadline">
-                        <CalendarDays size={13} strokeWidth={1.8} />
-                        {c.deadline}
-                      </div>
-                      <div className="mock-elig">{c.elig}</div>
-                    </div>
-                  ))}
-                  {[0, 1].map((i) => (
-                    <div className="mock-card mock-skeleton" key={`sk-${i}`}>
-                      <div className="mock-top">
-                        <span className="sk-badge" />
-                      </div>
-                      <div className="sk-bar sk-title" />
-                      <div className="sk-bar sk-line" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Reveal>
-    </div>
-  );
-}
-
 /* Looping, non-interactive demo of the /profiles/match quiz. The reveal is
    computed by the REAL matcher over real profile data — nothing invented.
    All timing lives in CSS keyframes on one shared 18s timeline (no JS timers);
@@ -575,11 +420,17 @@ function QuizDemo() {
               <CrestRow ids={quizDemo.profile.acceptedSchoolIds} />
             </div>
           </div>
+          <span className="qd-cursor">
+            <MousePointer2 size={22} strokeWidth={1.5} fill="currentColor" />
+          </span>
         </div>
       </div>
       <div className="qd-cta-row">
         <Link to="/profiles/match" className="qd-cta">
           Find your match →
+        </Link>
+        <Link to="/profiles" className="qd-cta-alt">
+          Access the Student Profiles tab →
         </Link>
       </div>
     </div>
@@ -779,7 +630,11 @@ function Index() {
         </div>
       </header>
 
-      <ProductPreview />
+      <div className="preview-section">
+        <Reveal>
+          <QuizDemo />
+        </Reveal>
+      </div>
 
       <section className="stats-section" aria-label="Platform stats">
         <div className="stat-grid">
@@ -1123,20 +978,6 @@ function Index() {
                 );
               })}
             </div>
-          </Reveal>
-        </section>
-
-        <section className="section" id="profiles-demo">
-          <Reveal>
-            <span className="section-label">Student Profiles</span>
-            <h2 className="section-h2">See who did it before you</h2>
-            <p className="partners-intro">
-              Answer a few quick questions and get matched with a real admitted student —
-              here&apos;s how it works.
-            </p>
-          </Reveal>
-          <Reveal>
-            <QuizDemo />
           </Reveal>
         </section>
 
