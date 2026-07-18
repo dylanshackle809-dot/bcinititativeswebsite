@@ -395,7 +395,7 @@ input {
   left: -2%;
 }
 .parallax-layer--sky {
-  animation: heroDriftSky 75s ease-in-out infinite;
+  animation: heroDriftSky 40s ease-in-out infinite;
 }
 .parallax-layer--mist {
   animation: heroDriftMist 55s ease-in-out infinite;
