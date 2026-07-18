@@ -188,6 +188,13 @@ function ParallaxLayers() {
         data-speed="0.18"
         draggable={false}
       />
+      <img
+        src="/mist.png"
+        alt=""
+        className="parallax-layer parallax-layer--mist2"
+        data-speed="0.22"
+        draggable={false}
+      />
       <img src="/trees.png" alt="" className="parallax-layer" data-speed="0.06" draggable={false} />
       <div className="hero-fade" />
     </div>

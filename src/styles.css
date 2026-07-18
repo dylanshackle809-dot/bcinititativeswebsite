@@ -400,6 +400,25 @@ input {
 .parallax-layer--mist {
   animation: heroDriftMist 30s ease-in-out infinite;
 }
+/* second mist pass — flipped via the independent `scale` property (composes
+   with the JS parallax transform) and counter-drifting, for thicker fog */
+.parallax-layer--mist2 {
+  width: 104%;
+  left: -2%;
+  scale: -1 1;
+  animation: heroDriftMist2 36s ease-in-out infinite;
+}
+@keyframes heroDriftMist2 {
+  0%,
+  100% {
+    translate: -10px 0;
+    opacity: 0.85;
+  }
+  50% {
+    translate: 12px 0;
+    opacity: 0.7;
+  }
+}
 @keyframes heroDriftSky {
   0%,
   100% {
