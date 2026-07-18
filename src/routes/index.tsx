@@ -167,6 +167,15 @@ function ParallaxLayers() {
   }, []);
   return (
     <div className="hero-parallax" ref={ref} aria-hidden="true">
+      {/* mist.png's own alpha peaks at ~22% — this filter amplifies the alpha
+          channel so the mist layers read as real fog (see .parallax-layer--mist) */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+        <filter id="mist-boost">
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="2.6" />
+          </feComponentTransfer>
+        </filter>
+      </svg>
       <img
         src="/sky.png"
         alt=""

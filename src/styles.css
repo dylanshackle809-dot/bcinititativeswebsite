@@ -397,6 +397,28 @@ input {
 .parallax-layer--sky {
   animation: heroDriftSky 27s ease-in-out infinite;
 }
+.parallax-layer--mist,
+.parallax-layer--mist2 {
+  filter: url(#mist-boost);
+  /* confine the boosted fog to the mountain-base band so the sky and
+     headline stay clear */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 68%,
+    black 80%,
+    black 94%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 68%,
+    black 80%,
+    black 94%,
+    transparent 100%
+  );
+}
 .parallax-layer--mist {
   animation: heroDriftMist 30s ease-in-out infinite;
 }
