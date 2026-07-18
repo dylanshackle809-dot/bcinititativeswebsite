@@ -727,6 +727,10 @@ input {
 .section {
   padding: 3.5rem 0;
 }
+/* anchored scrolls (hero search, scroll pill, hash links) land below the fixed nav */
+#opportunities {
+  scroll-margin-top: 84px;
+}
 
 .section-label {
   display: block;
@@ -3446,6 +3450,9 @@ a.pf-chip--blue:hover {
   gap: 1.1rem;
   margin-top: 1.25rem;
 }
+.qd-cta-row + .qd-cta-row {
+  margin-top: 0.9rem;
+}
 .qd-cta {
   display: inline-flex;
   align-items: center;
@@ -3454,6 +3461,9 @@ a.pf-chip--blue:hover {
   color: #fff;
   font-size: 0.9rem;
   font-weight: 600;
+  font-family: inherit;
+  border: 0;
+  cursor: pointer;
   padding: 0.65rem 1.5rem;
   border-radius: 999px;
   text-decoration: none;
@@ -3464,6 +3474,12 @@ a.pf-chip--blue:hover {
 .qd-cta:hover {
   background: #275a42;
   transform: translateY(-1px);
+}
+.qd-cta--blue {
+  background: var(--pf-blue);
+}
+.qd-cta--blue:hover {
+  background: #24407f;
 }
 
 /* step visibility windows on the shared 18s timeline */

@@ -20,6 +20,7 @@ import {
   FlaskConical,
   Sparkles,
   Check,
+  ChevronDown,
   MousePointer2,
 } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
@@ -336,6 +337,14 @@ function CatIcon({ id }: { id: string }) {
    All timing lives in CSS keyframes on one shared 18s timeline (no JS timers);
    with animations disabled (reduced motion) the base styles show a single
    static "Your match" frame. */
+const scrollToOpportunities = () => {
+  const reduce =
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document
+    .getElementById("opportunities")
+    ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+};
+
 const quizDemo = findMatch({ fields: ["computer-science"], schools: [], build: "app" });
 const demoFieldLabel = (id: string) => fieldOptions.find((f) => f.id === id)?.label ?? id;
 const demoBuildLabel = (id: string) => buildOptions.find((b) => b.id === id)?.label ?? id;
@@ -443,6 +452,11 @@ function QuizDemo() {
           Access the Student Profiles tab →
         </Link>
       </div>
+      <div className="qd-cta-row">
+        <button type="button" className="qd-cta qd-cta--blue" onClick={scrollToOpportunities}>
+          Scroll down to opportunities <ChevronDown size={15} strokeWidth={2.2} />
+        </button>
+      </div>
     </div>
   );
 }
@@ -477,15 +491,6 @@ function Index() {
   useEffect(() => {
     setShowAll(false);
   }, [search, category, difficulty, grade, international, savedOnly]);
-
-  const scrollToOpportunities = () => {
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    document
-      .getElementById("opportunities")
-      ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-  };
 
   const submitHeroSearch = (e: React.FormEvent) => {
     e.preventDefault();
