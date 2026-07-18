@@ -3660,32 +3660,36 @@ a.pf-chip--blue:hover {
   animation: qdCursor 10s ease-in-out infinite;
 }
 @keyframes qdCursor {
+  /* travel segments all run ~250-290 px/s; cards get true rests around clicks */
   0% {
     opacity: 0;
-    transform: translate(130px, 150px) scale(1);
+    transform: translate(60px, 100px) scale(1);
   }
-  3% {
+  1.5% {
     opacity: 1;
-    transform: translate(50px, 90px) scale(1);
+    transform: translate(30px, 70px) scale(1);
   }
-  7% {
+  8% {
     opacity: 1;
     transform: translate(-120px, -20px) scale(1);
   }
-  8.3% {
+  8.4% {
     transform: translate(-120px, -20px) scale(0.8);
   }
-  9.3% {
+  9.4% {
     transform: translate(-120px, -20px) scale(1);
   }
-  14% {
-    transform: translate(-70px, 40px) scale(1);
+  12% {
+    transform: translate(-120px, -20px) scale(1);
   }
-  30% {
+  16% {
+    transform: translate(-40px, 60px) scale(1);
+  }
+  33% {
     opacity: 1;
-    transform: translate(-40px, 80px) scale(1);
+    transform: translate(-40px, 60px) scale(1);
   }
-  36.5% {
+  37.5% {
     transform: translate(85px, 25px) scale(1);
   }
   38.3% {
@@ -3694,18 +3698,24 @@ a.pf-chip--blue:hover {
   39.3% {
     transform: translate(85px, 25px) scale(1);
   }
-  46% {
+  43% {
+    transform: translate(85px, 25px) scale(1);
+  }
+  47% {
+    transform: translate(150px, 90px) scale(1);
+  }
+  49% {
     opacity: 1;
-    transform: translate(140px, 90px) scale(1);
+    transform: translate(150px, 90px) scale(1);
   }
   53%,
   96% {
     opacity: 0;
-    transform: translate(170px, 120px) scale(1);
+    transform: translate(150px, 90px) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translate(130px, 150px) scale(1);
+    transform: translate(60px, 100px) scale(1);
   }
 }
 @media (prefers-reduced-motion: reduce) {
