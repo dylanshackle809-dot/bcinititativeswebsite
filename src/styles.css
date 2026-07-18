@@ -794,6 +794,10 @@ input {
   color: var(--text-muted);
   align-self: center;
   margin-right: 0.5rem;
+  /* fixed column sized to the longest label (DIFFICULTY) so every row's
+     "All" pill starts at the same x */
+  width: 92px;
+  flex-shrink: 0;
 }
 .chip {
   border-radius: 999px;
