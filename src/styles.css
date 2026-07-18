@@ -2109,7 +2109,9 @@ footer.foot {
 /*  tokens too.                                                        */
 /* ------------------------------------------------------------------ */
 .pf-scope,
-.pf-sheet {
+.pf-sheet,
+.qd-stage,
+.qd-cta {
   --pf-bg: #f6f5f2;
   --pf-card: #ffffff;
   --pf-border: #e7e7e4;
@@ -2952,7 +2954,8 @@ a.pf-chip--blue:hover {
 /*  Find-your-match quiz (pf-q-) — Profiles Phase 2                    */
 /* ------------------------------------------------------------------ */
 .pf-scope,
-.pf-sheet {
+.pf-sheet,
+.qd-stage {
   /* mirrors legacy --accent-orange; pf block stays self-contained */
   --pf-orange: #b45309;
 }
@@ -3490,6 +3493,378 @@ a.pf-chip--blue:hover {
     transition: none;
   }
   .pf-school-tile:hover {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Homepage quiz-demo mockup (qd-) — a looping, non-interactive       */
+/*  preview of /profiles/match on one shared 18s CSS timeline.         */
+/*  Base (no-animation) state = the static "Your match" frame, which   */
+/*  is exactly what reduced-motion users see.                          */
+/* ------------------------------------------------------------------ */
+.quiz-demo-wrap {
+  max-width: 660px;
+  margin: 2rem auto 0;
+}
+.qd-stage {
+  position: relative;
+  height: 400px;
+  background: var(--pf-bg);
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+.qd-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.75rem;
+  text-align: center;
+  opacity: 0;
+}
+.qd-step-4 {
+  opacity: 1; /* static fallback frame */
+}
+.qd-h {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--pf-navy);
+}
+.qd-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem;
+  width: 100%;
+  max-width: 440px;
+  text-align: left;
+}
+.qd-grid--rows {
+  grid-template-columns: 1fr;
+  max-width: 320px;
+}
+.qd-opt {
+  padding: 0.6rem 0.7rem;
+  font-size: 0.78rem;
+  gap: 0.45rem;
+  border-radius: 12px;
+  box-shadow: none;
+  cursor: default;
+}
+.qd-opt:hover {
+  transform: none;
+}
+/* picked cards: base = selected look (the static frame); the timeline
+   animates them from unselected to selected mid-step */
+.qd-pick-blue {
+  border-color: var(--pf-blue);
+  background: var(--pf-navy-soft);
+  animation: qdPickBlue 18s ease-in-out infinite;
+}
+.qd-pick-green {
+  border-color: var(--pf-green);
+  background: var(--pf-green-soft);
+  animation: qdPickGreen 18s ease-in-out infinite;
+}
+.qd-check {
+  opacity: 1;
+  transform: scale(1);
+}
+.qd-check-blue {
+  animation: qdCheckBlue 18s ease-in-out infinite;
+}
+.qd-check-green {
+  animation: qdCheckGreen 18s ease-in-out infinite;
+}
+.qd-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 340px;
+}
+.qd-pill {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.8rem;
+}
+.qd-pill-1 {
+  animation: qdPill1 18s ease-in-out infinite;
+}
+.qd-pill-2 {
+  animation: qdPill2 18s ease-in-out infinite;
+}
+.qd-pill-3 {
+  animation: qdPill3 18s ease-in-out infinite;
+}
+.qd-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+.qd-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+.qd-major {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.qd-pct {
+  animation: qdPct 18s ease-in-out infinite;
+}
+.qd-reveal .pf-crests {
+  margin-left: 0;
+  padding-left: 5px;
+  margin-top: 0.2rem;
+}
+.qd-cta-row {
+  text-align: center;
+  margin-top: 1.25rem;
+}
+.qd-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--pf-green);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.qd-cta:hover {
+  background: #275a42;
+  transform: translateY(-1px);
+}
+
+/* step visibility windows on the shared 18s timeline */
+.qd-step-1 {
+  animation: qdStep1 18s ease-in-out infinite;
+}
+.qd-step-2 {
+  animation: qdStep2 18s ease-in-out infinite;
+}
+.qd-step-3 {
+  animation: qdStep3 18s ease-in-out infinite;
+}
+.qd-step-4 {
+  animation: qdStep4 18s ease-in-out infinite;
+}
+@keyframes qdStep1 {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  2% {
+    opacity: 1;
+    transform: none;
+  }
+  27% {
+    opacity: 1;
+    transform: none;
+  }
+  30%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes qdStep2 {
+  0%,
+  30% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  33% {
+    opacity: 1;
+    transform: none;
+  }
+  49% {
+    opacity: 1;
+    transform: none;
+  }
+  52%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes qdStep3 {
+  0%,
+  52.5% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  55% {
+    opacity: 1;
+    transform: none;
+  }
+  64% {
+    opacity: 1;
+    transform: none;
+  }
+  66.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes qdStep4 {
+  0%,
+  67% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  69.5% {
+    opacity: 1;
+    transform: none;
+  }
+  96% {
+    opacity: 1;
+    transform: none;
+  }
+  99%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes qdPickBlue {
+  0%,
+  7% {
+    border-color: var(--pf-border);
+    background: var(--pf-card);
+  }
+  9%,
+  100% {
+    border-color: var(--pf-blue);
+    background: var(--pf-navy-soft);
+  }
+}
+@keyframes qdCheckBlue {
+  0%,
+  7% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  9%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes qdPickGreen {
+  0%,
+  37% {
+    border-color: var(--pf-border);
+    background: var(--pf-card);
+  }
+  39%,
+  100% {
+    border-color: var(--pf-green);
+    background: var(--pf-green-soft);
+  }
+}
+@keyframes qdCheckGreen {
+  0%,
+  37% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  39%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes qdPill1 {
+  0%,
+  54% {
+    opacity: 0;
+    transform: scale(0.7) translateY(4px);
+  }
+  56%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes qdPill2 {
+  0%,
+  56% {
+    opacity: 0;
+    transform: scale(0.7) translateY(4px);
+  }
+  58%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes qdPill3 {
+  0%,
+  58% {
+    opacity: 0;
+    transform: scale(0.7) translateY(4px);
+  }
+  60%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes qdPct {
+  0%,
+  71% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  73.5%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .qd-stage {
+    height: 430px;
+  }
+  .qd-grid {
+    max-width: 100%;
+  }
+  .qd-opt {
+    font-size: 0.72rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qd-step-1,
+  .qd-step-2,
+  .qd-step-3,
+  .qd-step-4,
+  .qd-pick-blue,
+  .qd-pick-green,
+  .qd-check-blue,
+  .qd-check-green,
+  .qd-pill-1,
+  .qd-pill-2,
+  .qd-pill-3,
+  .qd-pct {
+    animation: none !important;
+  }
+  .qd-cta:hover {
     transform: none;
   }
 }

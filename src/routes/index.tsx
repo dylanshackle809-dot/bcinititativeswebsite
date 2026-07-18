@@ -12,9 +12,21 @@ import {
   Heart,
   CalendarDays,
   Handshake,
+  Code,
+  Wrench,
+  Dna,
+  TrendingUp,
+  Rocket,
+  Smartphone,
+  FlaskConical,
+  Sparkles,
+  Check,
 } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
 import { partners } from "@/lib/partners";
+import { buildOptions, fieldOptions, findMatch } from "@/lib/match";
+import { initials, tintFor } from "@/components/PartnerDirectory";
+import { CrestRow } from "@/components/ProfilesShell";
 import { Reveal } from "@/components/Reveal";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { toast } from "sonner";
@@ -347,7 +359,7 @@ function ProductPreview() {
                 <span className="chrome-dot" />
                 <span className="chrome-dot" />
               </div>
-              <div className="chrome-url">summitseeker.ca/opportunities</div>
+              <div className="chrome-url">summitseeker.app/opportunities</div>
               <div style={{ width: 54 }} />
             </div>
             <div className="preview-body">
@@ -455,6 +467,121 @@ function ProductPreview() {
           </div>
         </div>
       </Reveal>
+    </div>
+  );
+}
+
+/* Looping, non-interactive demo of the /profiles/match quiz. The reveal is
+   computed by the REAL matcher over real profile data — nothing invented.
+   All timing lives in CSS keyframes on one shared 18s timeline (no JS timers);
+   with animations disabled (reduced motion) the base styles show a single
+   static "Your match" frame. */
+const quizDemo = findMatch({ fields: ["computer-science"], schools: [], build: "app" });
+const demoFieldLabel = (id: string) => fieldOptions.find((f) => f.id === id)?.label ?? id;
+const demoBuildLabel = (id: string) => buildOptions.find((b) => b.id === id)?.label ?? id;
+
+function QuizDemo() {
+  const tint = tintFor(quizDemo.profile.name);
+  const demoFields: Array<[string, React.ElementType, boolean]> = [
+    ["computer-science", Code, true],
+    ["engineering", Wrench, false],
+    ["biology", Dna, false],
+    ["economics", TrendingUp, false],
+  ];
+  const demoBuilds: Array<[string, React.ElementType, boolean]> = [
+    ["startup", Rocket, false],
+    ["app", Smartphone, true],
+    ["research", FlaskConical, false],
+  ];
+  return (
+    <div className="preview-wrap quiz-demo-wrap">
+      <div className="preview-card">
+        <div className="preview-chrome">
+          <div className="chrome-dots">
+            <span className="chrome-dot" />
+            <span className="chrome-dot" />
+            <span className="chrome-dot" />
+          </div>
+          <div className="chrome-url">summitseeker.app/profiles/match</div>
+          <div style={{ width: 54 }} />
+        </div>
+        <div className="qd-stage" aria-hidden="true">
+          <div className="qd-step qd-step-1">
+            <div className="qd-h">What are you into?</div>
+            <div className="qd-grid">
+              {demoFields.map(([id, Icon, picked]) => (
+                <div key={id} className={`pf-q-opt qd-opt ${picked ? "qd-pick-blue" : ""}`}>
+                  <span className="pf-q-opt-icon">
+                    <Icon size={15} strokeWidth={2} />
+                  </span>
+                  {demoFieldLabel(id)}
+                  {picked && (
+                    <span className="pf-q-opt-check qd-check qd-check-blue">
+                      <Check size={11} strokeWidth={3} />
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="qd-step qd-step-2">
+            <div className="qd-h">What would you love to build?</div>
+            <div className="qd-grid qd-grid--rows">
+              {demoBuilds.map(([id, Icon, picked]) => (
+                <div
+                  key={id}
+                  className={`pf-q-opt pf-q-opt--row pf-q-opt--green qd-opt ${picked ? "qd-pick-green" : ""}`}
+                >
+                  <span className="pf-q-opt-icon">
+                    <Icon size={15} strokeWidth={2} />
+                  </span>
+                  {demoBuildLabel(id)}
+                  {picked && (
+                    <span className="pf-q-opt-check qd-check qd-check-green">
+                      <Check size={11} strokeWidth={3} />
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="qd-step qd-step-3">
+            <div className="qd-h">Reading your answers…</div>
+            <div className="qd-pills">
+              <span className="pf-chip pf-chip--blue qd-pill qd-pill-1">
+                {demoFieldLabel("computer-science")}
+              </span>
+              <span className="pf-chip pf-chip--blue qd-pill qd-pill-2">
+                {demoBuildLabel("app")}
+              </span>
+              <span className="pf-chip qd-pill qd-pill-3">STEM &amp; Research</span>
+            </div>
+          </div>
+          <div className="qd-step qd-step-4">
+            <div className="qd-h">Your match</div>
+            <div className="qd-reveal">
+              <span className="pf-avatar" style={{ background: tint.bg, color: tint.color }}>
+                {initials(quizDemo.profile.name)}
+              </span>
+              <span className="qd-name">{quizDemo.profile.name}</span>
+              <span className="qd-major">
+                {quizDemo.profile.major} · Class of {quizDemo.profile.gradYear}
+              </span>
+              {quizDemo.pct !== null && (
+                <span className="pf-q-pct qd-pct">
+                  <Sparkles size={12} strokeWidth={2.2} /> {quizDemo.pct}% match
+                </span>
+              )}
+              <CrestRow ids={quizDemo.profile.acceptedSchoolIds} />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="qd-cta-row">
+        <Link to="/profiles/match" className="qd-cta">
+          Find your match →
+        </Link>
+      </div>
     </div>
   );
 }
@@ -996,6 +1123,20 @@ function Index() {
                 );
               })}
             </div>
+          </Reveal>
+        </section>
+
+        <section className="section" id="profiles-demo">
+          <Reveal>
+            <span className="section-label">Student Profiles</span>
+            <h2 className="section-h2">See who did it before you</h2>
+            <p className="partners-intro">
+              Answer a few quick questions and get matched with a real admitted student —
+              here&apos;s how it works.
+            </p>
+          </Reveal>
+          <Reveal>
+            <QuizDemo />
           </Reveal>
         </section>
 
