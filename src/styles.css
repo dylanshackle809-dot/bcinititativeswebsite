@@ -3222,6 +3222,9 @@ a.pf-chip--blue:hover {
   color: var(--pf-green);
   margin: 0.9rem 0 0.5rem;
 }
+.pf-filter-cards {
+  margin-top: 0.85rem;
+}
 .pf-school-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

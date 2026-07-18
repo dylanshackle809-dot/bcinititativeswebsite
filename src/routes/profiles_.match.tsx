@@ -39,7 +39,7 @@ import {
   type QuizAnswers,
 } from "@/lib/match";
 import { themeLabels } from "@/lib/profiles";
-import { schools, schoolById } from "@/lib/schools";
+import { schoolSections, schoolById } from "@/lib/schools";
 import { initials, tintFor } from "@/components/PartnerDirectory";
 import { CrestRow, ProfilesTopBar, SchoolCrest, ThemeChips } from "@/components/ProfilesShell";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -228,30 +228,38 @@ function MatchQuiz() {
               <p className="pf-q-sub">
                 Choose a few, or skip — plenty of students were still deciding too.
               </p>
-              <div className="pf-q-grid pf-q-grid--rows">
-                {schools.map((s) => {
-                  const on = answers.schools.includes(s.id);
-                  return (
-                    <label
-                      key={s.id}
-                      className={`pf-q-opt pf-q-opt--row ${on ? "pf-q-opt--on" : ""}`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={on}
-                        onChange={() =>
-                          setAnswers((a) => ({ ...a, schools: toggle(a.schools, s.id) }))
-                        }
-                      />
-                      <SchoolCrest id={s.id} />
-                      {s.name}
-                      <span className="pf-q-opt-check" aria-hidden="true">
-                        <Check size={12} strokeWidth={3} />
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
+              {schoolSections.map((group) => {
+                if (group.schools.length === 0) return null;
+                return (
+                  <div key={group.label}>
+                    <h3 className="pf-school-group-h">{group.label}</h3>
+                    <div className="pf-q-grid pf-q-grid--rows">
+                      {group.schools.map((s) => {
+                        const on = answers.schools.includes(s.id);
+                        return (
+                          <label
+                            key={s.id}
+                            className={`pf-q-opt pf-q-opt--row ${on ? "pf-q-opt--on" : ""}`}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={on}
+                              onChange={() =>
+                                setAnswers((a) => ({ ...a, schools: toggle(a.schools, s.id) }))
+                              }
+                            />
+                            <SchoolCrest id={s.id} />
+                            {s.name}
+                            <span className="pf-q-opt-check" aria-hidden="true">
+                              <Check size={12} strokeWidth={3} />
+                            </span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
             </fieldset>
             <div className="pf-q-actions">
               <button

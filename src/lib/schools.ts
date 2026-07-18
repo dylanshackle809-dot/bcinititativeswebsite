@@ -1,9 +1,12 @@
+export type UsTier = "ivy" | "top-private" | "uc" | "top-public";
+
 export interface School {
   id: string;
   name: string;
   short: string; // crest fallback label when no logo image exists, keep <= 3 chars
   logo?: string; // path under public/; missing files fall back to `short` seamlessly
   country: "CA" | "US";
+  usTier?: UsTier; // required for US schools so every one lands in a section
 }
 
 export const schools: School[] = [
@@ -55,6 +58,7 @@ export const schools: School[] = [
     short: "HU",
     logo: "/schools/harvard.png",
     country: "US",
+    usTier: "ivy",
   },
   {
     id: "stanford",
@@ -62,6 +66,7 @@ export const schools: School[] = [
     short: "SU",
     logo: "/schools/stanford.png",
     country: "US",
+    usTier: "top-private",
   },
   {
     id: "queens",
@@ -97,6 +102,7 @@ export const schools: School[] = [
     short: "MIT",
     logo: "/schools/mit.png",
     country: "US",
+    usTier: "top-private",
   },
   {
     id: "princeton",
@@ -104,6 +110,7 @@ export const schools: School[] = [
     short: "PU",
     logo: "/schools/princeton.png",
     country: "US",
+    usTier: "ivy",
   },
   {
     id: "yale",
@@ -111,6 +118,7 @@ export const schools: School[] = [
     short: "Y",
     logo: "/schools/yale.png",
     country: "US",
+    usTier: "ivy",
   },
   {
     id: "penn",
@@ -118,6 +126,7 @@ export const schools: School[] = [
     short: "UP",
     logo: "/schools/penn.png",
     country: "US",
+    usTier: "ivy",
   },
   {
     id: "duke",
@@ -125,6 +134,7 @@ export const schools: School[] = [
     short: "DU",
     logo: "/schools/duke.png",
     country: "US",
+    usTier: "top-private",
   },
   {
     id: "columbia",
@@ -132,6 +142,7 @@ export const schools: School[] = [
     short: "CU",
     logo: "/schools/columbia.png",
     country: "US",
+    usTier: "ivy",
   },
   {
     id: "georgetown",
@@ -139,6 +150,7 @@ export const schools: School[] = [
     short: "GU",
     logo: "/schools/georgetown.png",
     country: "US",
+    usTier: "top-private",
   },
   {
     id: "washu",
@@ -146,6 +158,7 @@ export const schools: School[] = [
     short: "WU",
     logo: "/schools/washu.png",
     country: "US",
+    usTier: "top-private",
   },
   {
     id: "ucla",
@@ -153,6 +166,7 @@ export const schools: School[] = [
     short: "UCL",
     logo: "/schools/ucla.png",
     country: "US",
+    usTier: "uc",
   },
   {
     id: "cornell",
@@ -160,6 +174,7 @@ export const schools: School[] = [
     short: "COR",
     logo: "/schools/cornell.png",
     country: "US",
+    usTier: "ivy",
   },
   {
     id: "michigan",
@@ -167,6 +182,7 @@ export const schools: School[] = [
     short: "UM",
     logo: "/schools/michigan.png",
     country: "US",
+    usTier: "top-public",
   },
   {
     id: "usc",
@@ -174,6 +190,7 @@ export const schools: School[] = [
     short: "USC",
     logo: "/schools/usc.png",
     country: "US",
+    usTier: "top-private",
   },
   {
     id: "gatech",
@@ -181,6 +198,7 @@ export const schools: School[] = [
     short: "GT",
     logo: "/schools/gatech.png",
     country: "US",
+    usTier: "top-public",
   },
   {
     id: "uva",
@@ -188,6 +206,7 @@ export const schools: School[] = [
     short: "UVA",
     logo: "/schools/uva.png",
     country: "US",
+    usTier: "top-public",
   },
   {
     id: "utaustin",
@@ -195,6 +214,7 @@ export const schools: School[] = [
     short: "UTA",
     logo: "/schools/utaustin.png",
     country: "US",
+    usTier: "top-public",
   },
   {
     id: "ucirvine",
@@ -202,6 +222,7 @@ export const schools: School[] = [
     short: "UCI",
     logo: "/schools/ucirvine.png",
     country: "US",
+    usTier: "uc",
   },
   {
     id: "ucsd",
@@ -209,6 +230,7 @@ export const schools: School[] = [
     short: "SD",
     logo: "/schools/ucsd.png",
     country: "US",
+    usTier: "uc",
   },
   {
     id: "northeastern",
@@ -216,6 +238,7 @@ export const schools: School[] = [
     short: "NEU",
     logo: "/schools/northeastern.png",
     country: "US",
+    usTier: "top-private",
   },
   {
     id: "brown",
@@ -223,6 +246,7 @@ export const schools: School[] = [
     short: "BR",
     logo: "/schools/brown.png",
     country: "US",
+    usTier: "ivy",
   },
   {
     id: "dartmouth",
@@ -230,6 +254,7 @@ export const schools: School[] = [
     short: "DAR",
     logo: "/schools/dartmouth.png",
     country: "US",
+    usTier: "ivy",
   },
   {
     id: "caltech",
@@ -237,6 +262,7 @@ export const schools: School[] = [
     short: "CIT",
     logo: "/schools/caltech.png",
     country: "US",
+    usTier: "top-private",
   },
   {
     id: "ucberkeley",
@@ -244,7 +270,22 @@ export const schools: School[] = [
     short: "CAL",
     logo: "/schools/ucberkeley.png",
     country: "US",
+    usTier: "uc",
   },
 ];
 
 export const schoolById: Record<string, School> = Object.fromEntries(schools.map((s) => [s.id, s]));
+
+/** Display sections for school pickers (filter panel + match quiz). Purely cosmetic — matching uses ids only. */
+export interface SchoolSection {
+  label: string;
+  schools: School[];
+}
+
+export const schoolSections: SchoolSection[] = [
+  { label: "Canadian Universities", schools: schools.filter((s) => s.country === "CA") },
+  { label: "Ivy League", schools: schools.filter((s) => s.usTier === "ivy") },
+  { label: "Top Private Schools", schools: schools.filter((s) => s.usTier === "top-private") },
+  { label: "UC Schools", schools: schools.filter((s) => s.usTier === "uc") },
+  { label: "Top Public Schools", schools: schools.filter((s) => s.usTier === "top-public") },
+];

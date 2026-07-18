@@ -5,7 +5,31 @@ import {
   type SearchSchemaInput,
 } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Check, Search, SlidersHorizontal, Sparkles } from "lucide-react";
+import {
+  Atom,
+  Brain,
+  Building2,
+  Check,
+  Code,
+  Compass,
+  Cpu,
+  FlaskConical,
+  GraduationCap,
+  HeartHandshake,
+  Landmark,
+  Palette,
+  PenTool,
+  Rocket,
+  Search,
+  Sigma,
+  SlidersHorizontal,
+  Sparkles,
+  Stethoscope,
+  Trophy,
+  Users,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 import {
   profiles,
   majorOptions,
@@ -14,7 +38,7 @@ import {
   type Profile,
   type ThemeId,
 } from "@/lib/profiles";
-import { schools } from "@/lib/schools";
+import { schoolSections } from "@/lib/schools";
 import { initials, tintFor, PartnerDirectory } from "@/components/PartnerDirectory";
 import { ProfilesTopBar, SchoolCrest, CrestRow, ThemeChips } from "@/components/ProfilesShell";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -199,10 +223,30 @@ function ProfilesPending() {
   );
 }
 
-const SCHOOL_GROUPS = [
-  { label: "Canadian Universities", country: "CA" as const },
-  { label: "US Universities", country: "US" as const },
-];
+/** Icons per major slug, consistent with the quiz's fieldIcons; GraduationCap for anything unmapped. */
+const majorIcons: Record<string, LucideIcon> = {
+  physics: Atom,
+  "computer-science": Code,
+  engineering: Wrench,
+  "pre-medicine": Stethoscope,
+  psychology: Brain,
+  government: Landmark,
+  "mathematics-and-finance": Sigma,
+  "electrical-computer-engineering-computer-science": Cpu,
+  "electrical-engineering-and-computer-science": Cpu,
+  architecture: Building2,
+  "strategic-design-and-management": PenTool,
+  undeclared: Compass,
+};
+
+const themeIcons: Record<ThemeId, LucideIcon> = {
+  stem: FlaskConical,
+  leadership: Users,
+  service: HeartHandshake,
+  arts: Palette,
+  athletics: Trophy,
+  entrepreneurship: Rocket,
+};
 
 /** Tabbed checkbox filters — rendered in the desktop sidebar AND the mobile sheet. */
 function FilterPanel({
@@ -237,14 +281,13 @@ function FilterPanel({
             </button>
           )}
         </div>
-        {SCHOOL_GROUPS.map((group) => {
-          const items = schools.filter((s) => s.country === group.country);
-          if (items.length === 0) return null;
+        {schoolSections.map((group) => {
+          if (group.schools.length === 0) return null;
           return (
-            <div key={group.country}>
+            <div key={group.label}>
               <h3 className="pf-school-group-h">{group.label}</h3>
               <div className="pf-school-grid">
-                {items.map((s) => {
+                {group.schools.map((s) => {
                   const on = selectedSchools.includes(s.id);
                   return (
                     <label
@@ -270,31 +313,43 @@ function FilterPanel({
         })}
       </TabsContent>
       <TabsContent value="major">
-        <div className="pf-options">
-          {majorOptions.map((m) => (
-            <label key={m.value} className="pf-option">
-              <input
-                type="checkbox"
-                checked={csv(search.major).includes(m.value)}
-                onChange={() => onToggle("major", m.value)}
-              />
-              {m.label}
-            </label>
-          ))}
+        <div className="pf-q-grid pf-filter-cards">
+          {majorOptions.map((m) => {
+            const Icon = majorIcons[m.value] ?? GraduationCap;
+            const on = csv(search.major).includes(m.value);
+            return (
+              <label key={m.value} className={`pf-q-opt ${on ? "pf-q-opt--on" : ""}`}>
+                <input type="checkbox" checked={on} onChange={() => onToggle("major", m.value)} />
+                <span className="pf-q-opt-icon">
+                  <Icon size={18} strokeWidth={2} />
+                </span>
+                {m.label}
+                <span className="pf-q-opt-check" aria-hidden="true">
+                  <Check size={12} strokeWidth={3} />
+                </span>
+              </label>
+            );
+          })}
         </div>
       </TabsContent>
       <TabsContent value="theme">
-        <div className="pf-options">
-          {(Object.keys(themeLabels) as ThemeId[]).map((t) => (
-            <label key={t} className="pf-option">
-              <input
-                type="checkbox"
-                checked={csv(search.theme).includes(t)}
-                onChange={() => onToggle("theme", t)}
-              />
-              {themeLabels[t]}
-            </label>
-          ))}
+        <div className="pf-q-grid pf-filter-cards">
+          {(Object.keys(themeLabels) as ThemeId[]).map((t) => {
+            const Icon = themeIcons[t];
+            const on = csv(search.theme).includes(t);
+            return (
+              <label key={t} className={`pf-q-opt ${on ? "pf-q-opt--on" : ""}`}>
+                <input type="checkbox" checked={on} onChange={() => onToggle("theme", t)} />
+                <span className="pf-q-opt-icon">
+                  <Icon size={18} strokeWidth={2} />
+                </span>
+                {themeLabels[t]}
+                <span className="pf-q-opt-check" aria-hidden="true">
+                  <Check size={12} strokeWidth={3} />
+                </span>
+              </label>
+            );
+          })}
         </div>
       </TabsContent>
     </Tabs>
