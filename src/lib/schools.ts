@@ -252,7 +252,7 @@ export const schools: School[] = [
     id: "dartmouth",
     name: "Dartmouth College",
     short: "DAR",
-    logo: "/schools/dartmouth.png",
+    logo: "/schools/dartmouth.jpg",
     country: "US",
     usTier: "ivy",
   },
