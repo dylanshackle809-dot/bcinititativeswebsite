@@ -17,9 +17,9 @@ export const Route = createFileRoute("/profiles_/$id")({
           .filter(Boolean)
           .join(", ")
       : "";
-    const attending = p ? schoolById[p.attendingSchoolId]?.name : "";
+    const attending = p?.attendingSchoolId ? schoolById[p.attendingSchoolId]?.name : "";
     const desc = p
-      ? `${p.major}, Class of ${p.gradYear} — accepted to ${accepted}, attending ${attending}.`
+      ? `${p.major}${p.gradYear ? `, Class of ${p.gradYear}` : ""} — accepted to ${accepted}${attending ? `, attending ${attending}` : ""}.`
       : "Student profile on Summit Seeker.";
     const title = p
       ? `${p.name} — Student Profile — Summit Seeker`
@@ -62,7 +62,7 @@ function ProfileDetail() {
   }
 
   const tint = tintFor(p.name);
-  const attending = schoolById[p.attendingSchoolId];
+  const attending = p.attendingSchoolId ? schoolById[p.attendingSchoolId] : undefined;
   const mailSubject = encodeURIComponent(`Profile correction/removal: ${p.name} (${p.id})`);
 
   return (
@@ -99,7 +99,8 @@ function ProfileDetail() {
               )}
             </h1>
             <p className="pf-hero-major">
-              {p.major} · Class of {p.gradYear}
+              {p.major}
+              {p.gradYear ? ` · Class of ${p.gradYear}` : ""}
             </p>
             <ThemeChips themes={p.themes} />
           </div>
@@ -118,13 +119,17 @@ function ProfileDetail() {
                     .join(" · ")}
                 </span>
               </div>
-              <h2 className="pf-section-title" style={{ marginTop: "1.3rem" }}>
-                Attending
-              </h2>
-              <div className="pf-school-row">
-                <SchoolCrest id={p.attendingSchoolId} large />
-                <span className="pf-school-name">{attending?.name}</span>
-              </div>
+              {p.attendingSchoolId && (
+                <>
+                  <h2 className="pf-section-title" style={{ marginTop: "1.3rem" }}>
+                    Attending
+                  </h2>
+                  <div className="pf-school-row">
+                    <SchoolCrest id={p.attendingSchoolId} large />
+                    <span className="pf-school-name">{attending?.name}</span>
+                  </div>
+                </>
+              )}
             </section>
 
             {p.extracurriculars.length > 0 && (
@@ -180,18 +185,22 @@ function ProfileDetail() {
             <section className="pf-section">
               <h2 className="pf-section-title">Quick facts</h2>
               <dl style={{ margin: 0 }}>
-                <div className="pf-fact-row">
-                  <dt>Grad year</dt>
-                  <dd>{p.gradYear}</dd>
-                </div>
+                {p.gradYear && (
+                  <div className="pf-fact-row">
+                    <dt>Grad year</dt>
+                    <dd>{p.gradYear}</dd>
+                  </div>
+                )}
                 <div className="pf-fact-row">
                   <dt>Location</dt>
                   <dd>{p.location}</dd>
                 </div>
-                <div className="pf-fact-row">
-                  <dt>Curriculum</dt>
-                  <dd>{p.curriculum}</dd>
-                </div>
+                {p.curriculum && (
+                  <div className="pf-fact-row">
+                    <dt>Curriculum</dt>
+                    <dd>{p.curriculum}</dd>
+                  </div>
+                )}
                 {p.stats.map((s) => (
                   <div key={s.label} className="pf-fact-row">
                     <dt>{s.label}</dt>
@@ -203,12 +212,19 @@ function ProfileDetail() {
                 Stats are self-reported.
               </p>
             </section>
-            <section className="pf-section">
-              <h2 className="pf-section-title">Source</h2>
-              <a className="pf-video-link" href={p.sourceVideoUrl} target="_blank" rel="noreferrer">
-                <ExternalLink size={14} strokeWidth={2} /> Watch the interview
-              </a>
-            </section>
+            {p.sourceVideoUrl && (
+              <section className="pf-section">
+                <h2 className="pf-section-title">Source</h2>
+                <a
+                  className="pf-video-link"
+                  href={p.sourceVideoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <ExternalLink size={14} strokeWidth={2} /> Watch the interview
+                </a>
+              </section>
+            )}
           </aside>
         </div>
 

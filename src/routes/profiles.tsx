@@ -149,7 +149,8 @@ function ProfileCard({ p, matched }: { p: Profile; matched?: boolean }) {
         )}
         <span className="pf-name">{p.name}</span>
         <span className="pf-major" style={{ display: "block" }}>
-          {p.major} · Class of {p.gradYear}
+          {p.major}
+          {p.gradYear ? ` · Class of ${p.gradYear}` : ""}
         </span>
         {p.extracurriculars.length > 0 && (
           <span className="pf-roles" style={{ display: "block" }}>
@@ -347,7 +348,7 @@ function ProfilesPage() {
       case "name":
         return [...list].sort((a, b) => a.name.localeCompare(b.name));
       case "gradYear":
-        return [...list].sort((a, b) => b.gradYear - a.gradYear);
+        return [...list].sort((a, b) => (b.gradYear ?? 0) - (a.gradYear ?? 0));
       default: // featured — verified first, then name
         return [...list].sort(
           (a, b) => (b.verified ? 1 : 0) - (a.verified ? 1 : 0) || a.name.localeCompare(b.name),

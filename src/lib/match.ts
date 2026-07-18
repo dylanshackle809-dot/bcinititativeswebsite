@@ -18,11 +18,20 @@ export const fieldOptions: FieldOption[] = [
   {
     id: "computer-science",
     label: "Computer Science",
-    majorSlugs: ["computer-science"],
+    majorSlugs: [
+      "computer-science",
+      "electrical-computer-engineering-computer-science",
+      "electrical-engineering-and-computer-science",
+    ],
     themes: ["stem"],
   },
   { id: "engineering", label: "Engineering", majorSlugs: ["engineering"], themes: ["stem"] },
-  { id: "mathematics", label: "Mathematics", majorSlugs: ["mathematics"], themes: ["stem"] },
+  {
+    id: "mathematics",
+    label: "Mathematics",
+    majorSlugs: ["mathematics", "mathematics-and-finance"],
+    themes: ["stem"],
+  },
   { id: "physics", label: "Physics", majorSlugs: ["physics"], themes: ["stem"] },
   {
     id: "biology",
@@ -33,7 +42,7 @@ export const fieldOptions: FieldOption[] = [
   {
     id: "pre-med",
     label: "Pre-Med & Health",
-    majorSlugs: ["pre-med"],
+    majorSlugs: ["pre-med", "pre-medicine"],
     themes: ["stem", "service"],
   },
   {
@@ -59,7 +68,7 @@ export const fieldOptions: FieldOption[] = [
   {
     id: "political-science",
     label: "Political Science",
-    majorSlugs: ["political-science"],
+    majorSlugs: ["political-science", "government"],
     themes: ["leadership"],
   },
   {
@@ -202,7 +211,10 @@ export function findMatch(a: QuizAnswers): MatchResult {
     fields.find((f) => f.majorSlugs.includes(majorSlug))?.label ??
     fields.find((f) => f.themes.some((t) => p.themes.includes(t)))?.label ??
     p.major;
-  const topSchoolId = a.schools.find((s) => p.acceptedSchoolIds.includes(s)) ?? p.attendingSchoolId;
+  const topSchoolId =
+    a.schools.find((s) => p.acceptedSchoolIds.includes(s)) ??
+    p.attendingSchoolId ??
+    p.acceptedSchoolIds[0];
 
   return { profile: p, pct, fieldLabel, topSchoolId, opportunity: pickOpportunity(p, a) };
 }

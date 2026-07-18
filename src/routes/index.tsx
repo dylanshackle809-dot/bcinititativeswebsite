@@ -425,9 +425,7 @@ function QuizDemo() {
                 {initials(quizDemo.profile.name)}
               </span>
               <span className="qd-name">{quizDemo.profile.name}</span>
-              <span className="qd-major">
-                {quizDemo.profile.major} · Class of {quizDemo.profile.gradYear}
-              </span>
+              <span className="qd-major">{quizDemo.profile.major}</span>
               {quizDemo.pct !== null && (
                 <span className="pf-q-pct qd-pct">
                   <Sparkles size={12} strokeWidth={2.2} /> {quizDemo.pct}% match
