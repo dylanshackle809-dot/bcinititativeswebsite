@@ -1820,6 +1820,36 @@ footer.foot {
   background: var(--accent-soft);
 }
 
+/* Detail-page sidebar Save — same secondary-button family as Share above */
+.save-btn-labeled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition:
+    color 150ms,
+    border-color 150ms,
+    background 150ms;
+}
+.save-btn-labeled:hover {
+  color: var(--accent-bright);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.save-btn-labeled.saved {
+  color: var(--accent-bright);
+  border-color: var(--accent);
+}
+
 /* ------------------------------------------------------------------ */
 /*  Footer additions                                                   */
 /* ------------------------------------------------------------------ */

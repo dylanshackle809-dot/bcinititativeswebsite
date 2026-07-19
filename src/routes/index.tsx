@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
+import { parseLocalDate } from "@/lib/dates";
 import { partners } from "@/lib/partners";
 import { buildOptions, fieldOptions, findMatch } from "@/lib/match";
 import { CrestRow, ProfileAvatar } from "@/components/ProfilesShell";
@@ -64,13 +65,6 @@ const categoryConfig: Record<string, { color: string; soft: string }> = {
 const categoryNameById: Record<string, string> = Object.fromEntries(
   categories.map((c) => [c.id, c.name]),
 );
-
-// "YYYY-MM-DD" through new Date() parses as UTC midnight, which renders as
-// the previous day in negative-offset timezones — parse parts into a local date.
-function parseLocalDate(iso: string): Date {
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Date(y, m - 1, d);
-}
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>) => ({

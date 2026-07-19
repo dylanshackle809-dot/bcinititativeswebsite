@@ -13,8 +13,12 @@ import {
   BarChart2,
   ArrowLeft,
   Globe,
+  Heart,
 } from "lucide-react";
+import { toast } from "sonner";
 import { opportunities } from "@/lib/opportunities";
+import { formatDeadline, parseLocalDate } from "@/lib/dates";
+import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { ShareButton } from "@/components/ShareButton";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -55,6 +59,11 @@ const categoryConfig: Record<
   },
   grants: { bg: "rgba(190, 24, 93, 0.08)", color: "#be185d", Icon: Banknote, label: "Grant" },
 };
+
+/* Competitive is demanding, not dangerous — amber, never red (red reads as
+   closed/warning). Easy green, Moderate neutral ink. Detail page only. */
+const difficultyColor = (d: string) =>
+  d === "Easy" ? "#15803d" : d === "Competitive" ? "#b45309" : "var(--text-primary)";
 
 export const Route = createFileRoute("/opportunities/$id")({
   head: ({ params }) => {
@@ -105,6 +114,7 @@ export const Route = createFileRoute("/opportunities/$id")({
 function OpportunityDetail() {
   const { id } = Route.useParams();
   const opp = opportunities.find((o) => o.id === Number(id));
+  const { isSaved, toggle } = useSavedOpportunities();
 
   if (!opp) {
     return (
@@ -132,6 +142,33 @@ function OpportunityDetail() {
 
   const cfg = categoryConfig[opp.category];
   const Icon = cfg?.Icon ?? GraduationCap;
+
+  const saved = isSaved(opp.id);
+  const onToggleSave = () => {
+    const nowSaved = toggle(opp.id);
+    toast(nowSaved ? "Saved" : "Removed", {
+      description: nowSaved
+        ? `${opp.name} added to your saved list.`
+        : `${opp.name} removed from your saved list.`,
+    });
+  };
+
+  // Countdown next to the header deadline — only for real parseable dates
+  // (sentinel 2099-12-31 = rolling/undated), same day math as the homepage.
+  const daysUntil =
+    opp.deadlineSort !== "2099-12-31" && opp.deadlineStatus !== "closed"
+      ? Math.ceil((parseLocalDate(opp.deadlineSort).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+      : null;
+  const deadlineNote =
+    daysUntil === null || daysUntil < 0
+      ? null
+      : daysUntil === 0
+        ? "closes today"
+        : daysUntil === 1
+          ? "closes tomorrow"
+          : daysUntil <= 60
+            ? `closes in ${daysUntil} days`
+            : `~${Math.round(daysUntil / 30)} months away`;
 
   return (
     <>
@@ -275,27 +312,6 @@ function OpportunityDetail() {
                 International
               </span>
             )}
-            <span
-              style={{
-                background:
-                  opp.deadlineStatus === "open"
-                    ? "rgba(21, 128, 61, 0.10)"
-                    : "rgba(180, 83, 9, 0.10)",
-                color: opp.deadlineStatus === "open" ? "#15803d" : "#b45309",
-                borderRadius: 999,
-                padding: "3px 12px",
-                fontSize: "0.7rem",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-              }}
-            >
-              {opp.deadlineStatus === "open"
-                ? "Open now"
-                : opp.deadlineStatus === "est"
-                  ? "Est. deadline"
-                  : "Closed"}
-            </span>
             {opp.isNew && (
               <span
                 style={{
@@ -340,10 +356,10 @@ function OpportunityDetail() {
           </p>
           <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
             {[
-              { label: "Award", value: opp.amount },
-              { label: "Deadline", value: opp.deadline },
-              { label: "Commitment", value: opp.timeCommitment },
-            ].map(({ label, value }) => (
+              { label: "Award", value: opp.amount, note: null as string | null },
+              { label: "Deadline", value: formatDeadline(opp.deadline), note: deadlineNote },
+              { label: "Commitment", value: opp.timeCommitment, note: null },
+            ].map(({ label, value, note }) => (
               <div key={label}>
                 <div
                   style={{
@@ -360,6 +376,13 @@ function OpportunityDetail() {
                 <div style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-primary)" }}>
                   {value}
                 </div>
+                {note && (
+                  <div
+                    style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.2rem" }}
+                  >
+                    {note}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -450,11 +473,31 @@ function OpportunityDetail() {
             </h2>
             <div className="detail-inner-grid">
               {[
-                { label: "Deadline", value: opp.deadline, Icon: Calendar },
-                { label: "Award / Value", value: opp.amount, Icon: DollarSign },
-                { label: "Difficulty", value: opp.difficulty, Icon: BarChart2 },
-                { label: "Time Commitment", value: opp.timeCommitment, Icon: Clock },
-              ].map(({ label, value, Icon: I }) => (
+                {
+                  label: "Deadline",
+                  value: formatDeadline(opp.deadline),
+                  Icon: Calendar,
+                  color: "var(--text-primary)",
+                },
+                {
+                  label: "Award / Value",
+                  value: opp.amount,
+                  Icon: DollarSign,
+                  color: "var(--text-primary)",
+                },
+                {
+                  label: "Difficulty",
+                  value: opp.difficulty,
+                  Icon: BarChart2,
+                  color: difficultyColor(opp.difficulty),
+                },
+                {
+                  label: "Time Commitment",
+                  value: opp.timeCommitment,
+                  Icon: Clock,
+                  color: "var(--text-primary)",
+                },
+              ].map(({ label, value, Icon: I, color }) => (
                 <div
                   key={label}
                   style={{
@@ -485,11 +528,7 @@ function OpportunityDetail() {
                       {label}
                     </span>
                   </div>
-                  <div
-                    style={{ fontSize: "0.95rem", fontWeight: 600, color: "var(--text-primary)" }}
-                  >
-                    {value}
-                  </div>
+                  <div style={{ fontSize: "0.95rem", fontWeight: 600, color }}>{value}</div>
                 </div>
               ))}
             </div>
@@ -542,6 +581,16 @@ function OpportunityDetail() {
             >
               Apply now <ExternalLink size={14} strokeWidth={2} />
             </a>
+            <button
+              type="button"
+              className={`save-btn-labeled ${saved ? "saved" : ""}`}
+              onClick={onToggleSave}
+              aria-pressed={saved}
+              aria-label={saved ? `Remove ${opp.name} from saved` : `Save ${opp.name}`}
+            >
+              <Heart size={14} strokeWidth={2} fill={saved ? "currentColor" : "none"} />
+              {saved ? "Saved" : "Save"}
+            </button>
             <Link
               to="/"
               search={{
@@ -618,24 +667,6 @@ function OpportunityDetail() {
                 <span style={{ color: "var(--text-secondary)" }}>International</span>
                 <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>
                   {opp.international ? "Open internationally" : "Canada only"}
-                </span>
-              </div>
-              <div
-                style={{ display: "flex", justifyContent: "space-between", fontSize: "0.82rem" }}
-              >
-                <span style={{ color: "var(--text-secondary)" }}>Difficulty</span>
-                <span
-                  style={{
-                    fontWeight: 600,
-                    color:
-                      opp.difficulty === "Competitive"
-                        ? "#b91c1c"
-                        : opp.difficulty === "Moderate"
-                          ? "#b45309"
-                          : "#15803d",
-                  }}
-                >
-                  {opp.difficulty}
                 </span>
               </div>
               {opp.stem && (
