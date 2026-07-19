@@ -23,6 +23,7 @@ import {
   ChevronDown,
   MousePointer2,
 } from "lucide-react";
+import { format } from "date-fns";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
 import { partners } from "@/lib/partners";
 import { buildOptions, fieldOptions, findMatch } from "@/lib/match";
@@ -48,14 +49,28 @@ const OPP_SORT_LABELS: Record<string, string> = {
   difficulty: "Difficulty (easiest)",
 };
 
-const categoryConfig: Record<string, { color: string; soft: string; Icon: React.ElementType }> = {
-  scholarships: { color: "#1d4ed8", soft: "rgba(29, 78, 216, 0.08)", Icon: GraduationCap },
-  volunteering: { color: "#15803d", soft: "rgba(21, 128, 61, 0.09)", Icon: HandHeart },
-  competitions: { color: "#b45309", soft: "rgba(180, 83, 9, 0.1)", Icon: Trophy },
-  internships: { color: "#3451c6", soft: "rgba(59, 91, 219, 0.09)", Icon: Briefcase },
-  "summer-programs": { color: "#c2410c", soft: "rgba(234, 88, 12, 0.09)", Icon: Sun },
-  grants: { color: "#be185d", soft: "rgba(190, 24, 93, 0.08)", Icon: Banknote },
+/* Pastel category families — `soft` = 100-level chip background, `color` =
+   600/700-level text; shared by the explore-card chips and the bento
+   deadline dots so the two stay consistent. */
+const categoryConfig: Record<string, { color: string; soft: string }> = {
+  scholarships: { color: "#4338ca", soft: "#e0e7ff" }, // indigo
+  volunteering: { color: "#15803d", soft: "#dcfce7" }, // green
+  competitions: { color: "#b45309", soft: "#fef3c7" }, // amber
+  internships: { color: "#6d28d9", soft: "#ede9fe" }, // violet
+  "summer-programs": { color: "#c2410c", soft: "#ffedd5" }, // orange
+  grants: { color: "#0f766e", soft: "#ccfbf1" }, // teal
 };
+
+const categoryNameById: Record<string, string> = Object.fromEntries(
+  categories.map((c) => [c.id, c.name]),
+);
+
+// "YYYY-MM-DD" through new Date() parses as UTC midnight, which renders as
+// the previous day in negative-offset timezones — parse parts into a local date.
+function parseLocalDate(iso: string): Date {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -226,33 +241,22 @@ function OppCard({ o }: { o: Opportunity }) {
 
   return (
     <article className="opp-card">
-      <div className="opp-labelbar" style={cfg ? { background: cfg.soft } : undefined}>
-        <span className="opp-type" style={cfg ? { color: cfg.color } : undefined}>
-          {cfg && <cfg.Icon size={13} strokeWidth={2.2} />}
-          {o.category.replace("-", " ")}
-        </span>
-        <div className="opp-labelbar-right">
-          {o.isNew && (
-            <span
-              style={{
-                background: "var(--accent-soft)",
-                color: "#3451c6",
-                borderRadius: 999,
-                padding: "2px 8px",
-                fontSize: "0.62rem",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: "0.06em",
-              }}
-            >
-              New
-            </span>
-          )}
+      <div className="opp-top">
+        <div className="opp-top-badges">
+          <span
+            className="opp-cat-chip"
+            style={cfg ? { background: cfg.soft, color: cfg.color } : undefined}
+          >
+            {categoryNameById[o.category] ?? o.category.replace("-", " ")}
+          </span>
+          {o.isNew && <span className="opp-new-pill">New</span>}
           <span
             className={`deadline-badge deadline-${o.deadlineStatus === "open" ? "open" : o.deadlineStatus === "est" ? "est" : "closed"}`}
           >
             {o.deadlineStatus === "open" ? "Open" : o.deadlineStatus === "est" ? "Est." : "Closed"}
           </span>
+        </div>
+        <div className="opp-top-actions">
           <ShareButton path={`/opportunities/${o.id}`} title={o.name} text={o.description} />
           <button
             type="button"
@@ -276,23 +280,24 @@ function OppCard({ o }: { o: Opportunity }) {
         </Link>
       </h3>
       <p className="opp-desc">{o.description}</p>
-      <hr className="opp-divider" />
-      <div className="opp-meta">
-        <div>
-          <div className="meta-label">Deadline</div>
-          <div className="meta-value">{o.deadline}</div>
-        </div>
-        <div>
-          <div className="meta-label">Award</div>
-          <div className="meta-value">{o.amount}</div>
-        </div>
-        <div>
-          <div className="meta-label">Difficulty</div>
-          <div className="meta-value">{o.difficulty}</div>
-        </div>
-        <div>
-          <div className="meta-label">Commitment</div>
-          <div className="meta-value">{o.timeCommitment}</div>
+      <div className="opp-details">
+        <div className="opp-meta">
+          <div>
+            <div className="meta-label">Deadline</div>
+            <div className="meta-value">{o.deadline}</div>
+          </div>
+          <div>
+            <div className="meta-label">Award</div>
+            <div className="meta-value">{o.amount}</div>
+          </div>
+          <div>
+            <div className="meta-label">Difficulty</div>
+            <div className="meta-value">{o.difficulty}</div>
+          </div>
+          <div>
+            <div className="meta-label">Commitment</div>
+            <div className="meta-value">{o.timeCommitment}</div>
+          </div>
         </div>
       </div>
       <div className="opp-bottom">
@@ -533,7 +538,7 @@ function Index() {
         return daysUntil >= 0 && daysUntil <= 180;
       })
       .sort((a, b) => new Date(a.deadlineSort).getTime() - new Date(b.deadlineSort).getTime())
-      .slice(0, 3);
+      .slice(0, 4);
   }, []);
 
   return (
@@ -651,49 +656,104 @@ function Index() {
         </Reveal>
       </div>
 
-      <section className="stats-section" aria-label="Platform stats">
-        <div className="stat-grid">
-          {[
-            { num: `${opportunities.length}+`, label: "Opportunities" },
-            { num: `${categories.length}`, label: "Categories" },
-            { num: "1000+", label: "Students" },
-          ].map((s, i) => (
-            <Reveal key={s.label} delay={i * 120}>
-              <div className="stat-card">
-                <div className="stat-num">{s.num}</div>
-                <div className="stat-label">{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
       <main className="container">
         <section className="section" id="categories">
           <Reveal>
-            <span className="section-label">
+            <span className="section-label section-label--accent">
               <span className="num">01</span>Categories
             </span>
             <h2 className="section-h2">Browse by category</h2>
-            <div className="cat-grid">
+            <div className="bento-grid">
+              <div className="bento-tile bento-feature">
+                <span className="bento-feature-label">Tracked right now</span>
+                <div className="bento-feature-num">{opportunities.length}+</div>
+                <p className="bento-feature-sub">
+                  opportunities across scholarships, programs &amp; more
+                </p>
+                <button type="button" className="bento-feature-btn" onClick={scrollToOpportunities}>
+                  Browse all →
+                </button>
+              </div>
+              <div className="bento-tile bento-stat">
+                <div className="bento-stat-num">{categories.length}</div>
+                <div className="bento-stat-label">Categories</div>
+              </div>
+              <div className="bento-tile bento-stat">
+                <div className="bento-stat-num">1000+</div>
+                <div className="bento-stat-label">Students</div>
+              </div>
+              <div className="bento-tile bento-deadlines">
+                <div className="bento-deadlines-head">
+                  <span className="section-label section-label--accent">
+                    <span className="num">02</span>Deadlines — Closing soon
+                  </span>
+                  <button
+                    type="button"
+                    className="bento-deadlines-all"
+                    onClick={() => {
+                      setSort("deadline");
+                      scrollToOpportunities();
+                    }}
+                  >
+                    All →
+                  </button>
+                </div>
+                {closingSoon.length === 0 ? (
+                  <p className="bento-deadline-empty">No deadlines in the next 6 months.</p>
+                ) : (
+                  <div className="bento-deadline-rows">
+                    {closingSoon.map((o) => {
+                      const d = parseLocalDate(o.deadlineSort);
+                      const daysUntil = Math.ceil(
+                        (d.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+                      );
+                      const cfg = categoryConfig[o.category];
+                      return (
+                        <Link
+                          key={o.id}
+                          to="/opportunities/$id"
+                          params={{ id: String(o.id) }}
+                          className="bento-deadline-row"
+                        >
+                          <span
+                            className="bento-deadline-dot"
+                            style={{ background: cfg?.color ?? "var(--text-muted)" }}
+                          />
+                          <span className="bento-deadline-main">
+                            <span className="bento-deadline-name">{o.name}</span>
+                            <span className="bento-deadline-cat">
+                              {categoryNameById[o.category] ?? o.category}
+                            </span>
+                          </span>
+                          <span className="bento-deadline-when">
+                            <span className="bento-deadline-date">{format(d, "MMM d")}</span>
+                            <span className="bento-deadline-days">
+                              {daysUntil === 0 ? "Today" : `${daysUntil} days left`}
+                            </span>
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
               {categories.map((c) => {
                 const count = opportunities.filter((o) => o.category === c.id).length;
                 return (
                   <button
                     key={c.id}
-                    className="cat-card"
+                    type="button"
+                    className="bento-tile bento-cat"
                     onClick={() => {
                       setCategory(c.id);
                       scrollToOpportunities();
                     }}
                   >
-                    <div className="cat-icon">
+                    <span className="bento-cat-icon">
                       <CatIcon id={c.id} />
-                    </div>
-                    <div>
-                      <div className="cat-count">{count}</div>
-                      <div className="cat-name">{c.name}</div>
-                    </div>
+                    </span>
+                    <span className="bento-cat-count">{count}</span>
+                    <span className="bento-cat-name">{c.name}</span>
                   </button>
                 );
               })}
@@ -701,64 +761,26 @@ function Index() {
           </Reveal>
         </section>
 
-        {closingSoon.length > 0 && (
-          <section className="section">
-            <Reveal>
-              <span className="section-label">
-                <span className="num">02</span>Deadlines
-              </span>
-              <h2 className="section-h2">Closing soon</h2>
-              <div className="closing-grid">
-                {closingSoon.map((o) => {
-                  const deadline = new Date(o.deadlineSort);
-                  const daysUntil = Math.ceil(
-                    (deadline.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-                  );
-                  const cfg = categoryConfig[o.category];
-                  return (
-                    <Link
-                      key={o.id}
-                      to="/opportunities/$id"
-                      params={{ id: String(o.id) }}
-                      className="closing-card"
-                    >
-                      <div className="closing-top">
-                        <span
-                          className="closing-cat"
-                          style={{ color: cfg?.color ?? "var(--text-muted)" }}
-                        >
-                          {o.category.replace("-", " ")}
-                        </span>
-                        <span className="closing-days">
-                          {daysUntil === 0 ? "Today" : `${daysUntil}d left`}
-                        </span>
-                      </div>
-                      <div className="closing-name">{o.name}</div>
-                      <div className="closing-amount">{o.amount}</div>
-                      <div className="closing-link">View details →</div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </Reveal>
-          </section>
-        )}
-
         <section className="section" id="opportunities">
           <Reveal>
-            <span className="section-label">
+            <span className="section-label section-label--accent">
               <span className="num">03</span>Explore
             </span>
             <h2 className="section-h2">All opportunities</h2>
 
             <div className="search-row">
-              <input
-                className="search-input"
-                placeholder="Search by name, eligibility, or keyword…"
-                aria-label="Search opportunities"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
+              <div className="search-box">
+                <span className="search-box-icon">
+                  <Search size={17} strokeWidth={1.8} aria-hidden />
+                </span>
+                <input
+                  className="search-input"
+                  placeholder="Search by name, eligibility, or keyword…"
+                  aria-label="Search opportunities"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
             </div>
 
             <div className="chip-group">
@@ -887,23 +909,8 @@ function Index() {
               <>
                 <div className="opp-grid-header">
                   <span className="opp-count">{filtered.length} results</span>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.75rem",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.4rem",
-                        fontSize: "0.85rem",
-                        color: "var(--text-secondary)",
-                      }}
-                    >
+                  <div className="opp-toolbar">
+                    <span className="opp-sort">
                       Sort
                       <Select value={sort} onValueChange={setSort}>
                         <SelectTrigger className="ss-sort-trigger" aria-label="Sort opportunities">
@@ -944,7 +951,7 @@ function Index() {
 
         <section className="section" id="features">
           <Reveal>
-            <span className="section-label">
+            <span className="section-label section-label--accent">
               <span className="num">04</span>Features
             </span>
             <h2 className="section-h2">Everything you need to get ahead</h2>
@@ -998,7 +1005,7 @@ function Index() {
 
         <section className="section" id="about">
           <Reveal>
-            <span className="section-label">
+            <span className="section-label section-label--accent">
               <span className="num">05</span>About
             </span>
             <h2 className="section-h2">Built by students, for students</h2>
