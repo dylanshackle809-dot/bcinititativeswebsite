@@ -2243,8 +2243,6 @@ footer.foot {
 
 /* ── Filter sidebar ── */
 .pf-sidebar {
-  position: sticky;
-  top: 84px;
   background: var(--pf-card);
   border: 1px solid var(--pf-border);
   border-radius: var(--pf-radius);

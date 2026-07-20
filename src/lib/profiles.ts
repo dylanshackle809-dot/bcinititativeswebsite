@@ -1260,6 +1260,1125 @@ const allProfiles: Profile[] = [
     verified: false,
     consent: true,
   },
+  {
+    id: "akshaj-satyawada",
+    name: "Akshaj Satyawada",
+    photo: "/profiles/akshaj-satyawada.png",
+    major: "Artificial Intelligence",
+    location: "Northeast Ohio",
+    curriculum: "AP (12 APs)",
+    stats: [
+      { label: "GPA (UW)", value: "4.0" },
+      { label: "GPA (W)", value: "4.6" },
+      { label: "SAT", value: "1550" },
+    ],
+    themes: ["stem", "arts", "service"],
+    extracurriculars: [
+      {
+        role: "Founder and iOS Developer",
+        org: "MindMatters",
+        theme: "stem",
+        description:
+          "Built an award-winning Swift mental-health app with 15+ resources; won the 2023 Congressional App Challenge and pitched to Fortune 500 companies.",
+      },
+      {
+        role: "Data Science AI Intern",
+        org: "Cleveland Clinic",
+        theme: "stem",
+        description:
+          "Paid summer internship (sub-10% acceptance) curating a 400+ patient intracranial EEG dataset for ML and neurological research.",
+      },
+      {
+        role: "Researcher",
+        org: "AI Dementia Classification Project",
+        theme: "stem",
+        description:
+          "Developed a CNN for dementia classification on 3,600 MRI scans reaching 99% accuracy; published in the Journal of Emerging Investigators.",
+      },
+      {
+        role: "Percussion Captain and Section Leader",
+        org: "North Royalton High School",
+        theme: "arts",
+        description:
+          "Led the drum line with 10 years of experience, directing 200+ band members and mentoring 25+ percussionists.",
+      },
+      {
+        role: "AI Models Researcher",
+        org: "Case Western Blood, Heart, Lung, and Immunology Research Center",
+        theme: "stem",
+        description:
+          "Developed regression and ML models analyzing cardiac calcium-score variables in a clinical database.",
+      },
+      {
+        role: "Head Sound Producer and Actor",
+        org: "Local Temple Cultural Program",
+        theme: "arts",
+        description:
+          "Volunteered 10+ years as actor and head sound producer, producing audio every Sunday.",
+      },
+      {
+        role: "Captain and Build Event Leader",
+        org: "Science Olympiad",
+        theme: "stem",
+        description:
+          "Led build events and captained the team to its first-ever state qualifier; organized a $3,000+ fundraiser.",
+      },
+      {
+        role: "Dietary Aide",
+        org: "Regina Health Center",
+        theme: "service",
+        description:
+          "Paid dietary aide preparing and delivering food trays for residents at a nonprofit nursing facility.",
+      },
+      {
+        role: "Social Media Content Creator",
+        org: "Independent",
+        theme: "entrepreneurship",
+        description:
+          "Produces short-form basketball content across Instagram Reels, YouTube Shorts, and Facebook Reels.",
+      },
+      {
+        role: "Participant",
+        org: "Cleveland Clinic Effective Leadership Academy",
+        theme: "leadership",
+        description:
+          "Selected as one of 90 from 1,000+ applicants; completed 26 hours of leadership training and earned a certificate.",
+      },
+    ],
+    awards: [
+      "Congressional App Challenge Winner",
+      "National Merit Commended Scholar",
+      "United Nations Association National Community Impact Award",
+      "Ohio Governor Merit Scholarship Award",
+      "AP Scholar with Distinction",
+    ],
+    acceptedSchoolIds: ["penn"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "alondra-de-la-torre-ramirez",
+    name: "Alondra De La Torre Ramirez",
+    photo: "/profiles/alondra-de-la-torre-ramirez.png",
+    major: "Environmental Science and Policy",
+    location: "San Diego, California",
+    curriculum: "AP (6 APs)",
+    stats: [{ label: "SAT", value: "Test-optional" }],
+    themes: ["service", "athletics", "stem"],
+    extracurriculars: [
+      {
+        role: "Varsity Lacrosse Captain",
+        org: "Morse High School",
+        theme: "athletics",
+        description: "Played varsity lacrosse all four years and captained the team senior year.",
+      },
+      {
+        role: "Varsity Soccer Captain",
+        org: "Morse High School",
+        theme: "athletics",
+        description: "Played varsity soccer all four years and captained the team senior year.",
+      },
+      {
+        role: "President",
+        org: "Environmental Club",
+        theme: "service",
+        description:
+          "Led the environmental club, organizing community events promoting environmental awareness and stewardship.",
+      },
+      {
+        role: "Microbiology Research Student",
+        org: "UC Irvine",
+        theme: "stem",
+        description:
+          "Studied the gut microbiome in a month-long residential program, optimizing probiotic survival in the human stomach.",
+      },
+      {
+        role: "Laboratory Assistant",
+        org: "Salk Institute for Biological Studies",
+        theme: "stem",
+        description:
+          "Assisted plant-biology researchers over a summer at the Salk Institute in La Jolla.",
+      },
+      {
+        role: "Peer Mentor",
+        org: "First Gen Scholars",
+        theme: "service",
+        description:
+          "Mentored first-generation, low-income students through the college application process; continued mentoring after enrolling in college.",
+      },
+      {
+        role: "Squared Fellow",
+        org: "San Diego Squared (SD2)",
+        theme: "stem",
+        description:
+          "Selected as a Squared Fellow in an 11-month STEM-diversity program, touring San Diego STEM companies.",
+      },
+    ],
+    awards: [],
+    acceptedSchoolIds: ["ucsd", "uchicago", "ucirvine", "ucla", "vanderbilt", "duke"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "helen-piltner",
+    name: "Helen Piltner",
+    photo: "/profiles/helen-piltner.png",
+    major: "Biomedical Engineering",
+    location: "Charleston, South Carolina",
+    curriculum: "AP (6 APs)",
+    stats: [
+      { label: "GPA (UW)", value: "4.0" },
+      { label: "GPA (W)", value: "100.936" },
+      { label: "SAT", value: "1530 superscore" },
+    ],
+    themes: ["stem", "arts"],
+    extracurriculars: [
+      {
+        role: "Researcher",
+        org: "Math and Engineering Research",
+        theme: "stem",
+        description:
+          "Analyzed abdominal aortic aneurysm images using elastic deformation functions; presented at the 2021 Joint Mathematics Meetings poster session.",
+      },
+      {
+        role: "Researcher",
+        org: "Georgia Southern University",
+        theme: "stem",
+        description:
+          "Created polyacrylonitrile/polysulfide membranes to compare lithium-ion battery performance.",
+      },
+      {
+        role: "Independent Researcher",
+        org: "Breakthrough Junior Challenge",
+        theme: "stem",
+        description:
+          "Modeled international COVID-19 case data with logistic differential equations in MATLAB.",
+      },
+      {
+        role: "Founder and President",
+        org: "Cultural Appreciation Club",
+        theme: "leadership",
+        description:
+          "Founded a club promoting inclusivity and diversity through culture-appreciation activities and events.",
+      },
+      {
+        role: "Founder and President",
+        org: "Mu Alpha Theta Chapter",
+        theme: "stem",
+        description:
+          "Founded the school's math honor-society chapter, running weekly meetings and fundraising for elementary math tournaments.",
+      },
+      {
+        role: "Competitive Dancer and Choreographer",
+        org: "School Theater",
+        theme: "arts",
+        description:
+          "Danced since age 3, won regional dance awards, and choreographed school theater productions.",
+      },
+      {
+        role: "Student Director and Performer",
+        org: "School Theater",
+        theme: "arts",
+        description:
+          "Student-directed multiple school shows and performed in plays, musicals, and variety shows.",
+      },
+      {
+        role: "Pianist and Accompanist",
+        org: "School Theater",
+        theme: "arts",
+        description: "Played piano overtures for musicals and plays and accompanied a radio play.",
+      },
+      {
+        role: "Piano Volunteer",
+        org: "Local Retirement Home",
+        theme: "service",
+        description:
+          "Performed piano selections for residents every other week across classical, Disney, and other genres.",
+      },
+      {
+        role: "Volunteer",
+        org: "Ralph H. Johnson VA Medical Center Summer Youth Program",
+        theme: "service",
+        description:
+          "Helped veterans navigate technology in a virtual summer program, reaching 100+ volunteer hours.",
+      },
+    ],
+    awards: [
+      "Regional Dance Awards",
+      "Volunteer Excellence Award, Ralph H. Johnson VA Medical Center",
+    ],
+    acceptedSchoolIds: ["harvard", "columbia", "duke", "vanderbilt", "emory", "gatech"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "madison-walia-peters",
+    name: "Madison Walia-Peters",
+    photo: "/profiles/madison-walia-peters.png",
+    major: "Pre-Medicine",
+    location: "Hoboken, New Jersey",
+    curriculum: "AP (15 APs)",
+    stats: [
+      { label: "GPA (W)", value: "4.679" },
+      { label: "SAT", value: "1590" },
+    ],
+    themes: ["stem", "leadership", "athletics"],
+    extracurriculars: [
+      {
+        role: "Research Assistant",
+        org: "Albert Einstein College of Medicine",
+        theme: "stem",
+        description:
+          "Assisted NIH-funded neuroscience research on Alzheimer's risk factors in elderly Bronx residents.",
+      },
+      {
+        role: "Council Member",
+        org: "Hoboken Youth Advisory Commission",
+        theme: "leadership",
+        description:
+          "Worked with city council members and the mayor on youth issues, advocating for teen safe spaces from 9th grade.",
+      },
+      {
+        role: "Co-Founder and Co-Chair",
+        org: "Hoboken High School Health and Wellness Committee",
+        theme: "service",
+        description:
+          "Co-founded a committee leading suicide-prevention walks, anti-bullying demonstrations, and blood drives.",
+      },
+      {
+        role: "Varsity Volleyball Player and Co-Captain",
+        org: "Hoboken High School",
+        theme: "athletics",
+        description:
+          "Four-year varsity player and co-captain; named freshman MVP and helped turn the team from 1-16 to 20-3.",
+      },
+      {
+        role: "Scholar",
+        org: "Governor's STEM Scholars Program",
+        theme: "stem",
+        description:
+          "One of ~150 statewide scholars; conducted a research project on white noise as a non-pharmacological sleep aid.",
+      },
+      {
+        role: "Research Assistant",
+        org: "Stevens Institute of Technology",
+        theme: "stem",
+        description:
+          "Assisted a musculoskeletal-lab thesis on optimal basketball-dunk jump mechanics; contributing research published in 2024.",
+      },
+      {
+        role: "Senior Class President",
+        org: "Hoboken High School Student Government",
+        theme: "leadership",
+        description:
+          "Progressed from class rep to secretary to Senior Class President, driving school-wide fundraisers and initiatives.",
+      },
+      {
+        role: "Competitor",
+        org: "Harvard and Princeton Model Congress",
+        theme: "leadership",
+        description:
+          "Competed in Harvard and Princeton Model Congress within a 100+ member debate program.",
+      },
+      {
+        role: "Research Assistant and Intern",
+        org: "Montclair Hospital",
+        theme: "stem",
+        description:
+          "Supported research on cognition of elderly patients post-cardiovascular rehabilitation.",
+      },
+      {
+        role: "Senior Mentor",
+        org: "Girls on the Run",
+        theme: "service",
+        description:
+          "Mentored elementary girls through running activities and lessons on empathy and self-confidence, culminating in a 5K.",
+      },
+    ],
+    awards: [
+      "Published Researcher @ Journal of Student Research",
+      "Honorable Mention @ USA Biology Olympiad",
+      "Merit Award @ National Honor Society",
+      "Civic Award @ Governor's STEM Scholars Program",
+      "National Merit Scholar",
+    ],
+    acceptedSchoolIds: ["harvard", "cornell", "ucberkeley"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "precious-agwagom",
+    name: "Precious Agwagom",
+    photo: "/profiles/precious-agwagom.png",
+    major: "Pre-Medicine",
+    location: "Arlington, Texas",
+    curriculum: "AP (13 APs)",
+    stats: [
+      { label: "GPA (UW)", value: "3.98" },
+      { label: "GPA (W)", value: "102.5" },
+      { label: "SAT", value: "1420" },
+    ],
+    themes: ["stem", "service", "leadership"],
+    extracurriculars: [
+      {
+        role: "President",
+        org: "Key Club International",
+        theme: "service",
+        description:
+          "Led the school's Key Club chapter, coordinating service events and membership.",
+      },
+      {
+        role: "Co-Founder",
+        org: "Red Alert",
+        theme: "stem",
+        description:
+          "Co-founded a class passion project designing period-scrub prototypes to help healthcare workers manage menstrual changes during long shifts.",
+      },
+      {
+        role: "Class President & Spirit Committee Head",
+        org: "Mansfield Frontier High School Student Council",
+        theme: "leadership",
+        description:
+          "Served as class president (grades 9-10) and spirit committee head in 10th grade.",
+      },
+      {
+        role: "EKG Certification Candidate",
+        org: "Health Science CTE Program",
+        theme: "stem",
+        description:
+          "Completed CTE health-science coursework, performed 10 successful EKGs, and passed the NHA certification exam.",
+      },
+      {
+        role: "Summer Immersion Program Student",
+        org: "Girlswhocode",
+        theme: "stem",
+        description:
+          "Learned JavaScript and p5.js to build five games and joined a game jam and workshop with JPMorgan Chase.",
+      },
+      {
+        role: "Member",
+        org: "Hope Squad",
+        theme: "service",
+        description:
+          "One of 20 students serving as a peer mental-health listener for grades 10-12.",
+      },
+      {
+        role: "Youth Member",
+        org: "Nigerian Catholic Community",
+        theme: "service",
+        description: "Led the rosary and helped organize the parish's annual cultural picnic.",
+      },
+      {
+        role: "Lead Planner",
+        org: "Engineering Day",
+        theme: "stem",
+        description:
+          "Co-organized a school-wide engineering career fair, coordinating 10 presenters.",
+      },
+      {
+        role: "Member",
+        org: "HOSA",
+        theme: "stem",
+        description:
+          "Obtained CPR certification, performed blood-pressure screenings at a Toys for Tots event, and placed third in medical assisting at area level.",
+      },
+      {
+        role: "Ambassador",
+        org: "College Board BigFuture",
+        theme: "service",
+        description:
+          "Created and reshared content connecting peers with college-planning resources.",
+      },
+    ],
+    awards: [
+      "Penn Early Exploration Program",
+      "Most Improved Key Club Honorable Mention",
+      "National African American Recognition Program",
+      "AP Scholar with Distinction",
+      "National Honor Society",
+    ],
+    acceptedSchoolIds: ["penn", "utaustin"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "elijah-jenkins",
+    name: "Elijah Jenkins",
+    photo: "/profiles/elijah-jenkins.png",
+    major: "Law, Letters, and Society",
+    location: "Phoenix, Arizona",
+    curriculum: "AP (11 APs)",
+    stats: [
+      { label: "GPA (UW)", value: "3.79" },
+      { label: "GPA (W)", value: "4.2" },
+      { label: "SAT", value: "1400" },
+    ],
+    themes: ["leadership", "service", "arts"],
+    extracurriculars: [
+      {
+        role: "Co-Founder & COO",
+        org: "African American Reconstruction",
+        theme: "service",
+        description:
+          "Co-founded a Phoenix nonprofit; hosted a three-day teen conference and civic forums to register voters and support youth education.",
+      },
+      {
+        role: "Member",
+        org: "SEED Philanthropy",
+        theme: "service",
+        description:
+          "Fundraised for minority-owned businesses and nonprofits through a student-led African American youth philanthropy group.",
+      },
+      {
+        role: "Youth Advisor",
+        org: "City of Phoenix District 4",
+        theme: "leadership",
+        description:
+          "Served on the District 4 youth advisory, launching the district's first-ever 5K to fund youth education programs.",
+      },
+      {
+        role: "President",
+        org: "Black Student Union",
+        theme: "leadership",
+        description:
+          "Rose from Historian to Secretary to President, leading 50+ members and co-hosting events with affinity clubs.",
+      },
+      {
+        role: "Member",
+        org: "Culture Project",
+        theme: "service",
+        description:
+          "Helped run an organization spotlighting marginalized communities and creating events for DACA/Dreamer students.",
+      },
+      {
+        role: "President",
+        org: "Model United Nations",
+        theme: "leadership",
+        description:
+          "Led the MUN club, coaching members on proposals and resolutions and preparing for competition.",
+      },
+      {
+        role: "Peer Mentor",
+        org: "Big Brother Program",
+        theme: "service",
+        description:
+          "Mentored 20+ incoming freshmen through campus life and the social transition to high school.",
+      },
+      {
+        role: "Class Representative",
+        org: "Student Council",
+        theme: "leadership",
+        description: "Represented the junior and senior class, organizing assemblies and dances.",
+      },
+      {
+        role: "Section Leader",
+        org: "Orchestra",
+        theme: "arts",
+        description:
+          "Served as orchestra section leader, mentoring peers and competing at state level.",
+      },
+      {
+        role: "Missions Guide",
+        org: "School",
+        theme: "service",
+        description: "Led campus tours and helped host school events as a missions guide.",
+      },
+    ],
+    awards: [
+      "Committed to Doing Justice Award",
+      "Gymnastics Regional Second Place",
+      "Poetry Out Loud Runner-Up",
+      "AP Scholar with Distinction",
+      "Tri-M Music Honor Society",
+    ],
+    acceptedSchoolIds: ["uchicago"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "christopher-delcher",
+    name: "Christopher Delcher",
+    photo: "/profiles/christopher-delcher.png",
+    major: "Aerospace Engineering",
+    location: "Lexington, Kentucky",
+    curriculum: "AP (24 APs)",
+    stats: [
+      { label: "GPA (UW)", value: "4.0" },
+      { label: "GPA (W)", value: "4.8" },
+      { label: "ACT", value: "36" },
+    ],
+    themes: ["stem", "arts", "service"],
+    extracurriculars: [
+      {
+        role: "Founder and Co-President",
+        org: "Dunbar Aerospace and Rocketry Club",
+        theme: "stem",
+        description:
+          "Founded a model-rocketry club, running flight simulations to engineer fuselage/fin parameters and overseeing 10+ launches.",
+      },
+      {
+        role: "Captain and President",
+        org: "Science Olympiad",
+        theme: "stem",
+        description:
+          "Led the team as captain and president, authored practice exams, and guided the team to three state tournaments with podium finishes.",
+      },
+      {
+        role: "Researcher",
+        org: "University of Kentucky Mechanical and Aerospace Engineering",
+        theme: "stem",
+        description:
+          "Completed a 360-hour capstone simulating capsule re-entry and thermal protection response for NASA Artemis-era heat-shield research.",
+      },
+      {
+        role: "Co-Founder",
+        org: "Hifivetutoring",
+        theme: "service",
+        description:
+          "Co-founded a 501(c)(3) tutoring nonprofit, raising $2,000+ for pediatric cancer research and growing to $500+/month.",
+      },
+      {
+        role: "Researcher",
+        org: "REU Research in Symmetries, University of Kentucky",
+        theme: "stem",
+        description:
+          "Engineered resin clip-winding mechanisms for uniform magnetic fields in cosine-theta coils and presented at a symposium.",
+      },
+      {
+        role: "Student Researcher",
+        org: "University of Kentucky Physics and Astronomy",
+        theme: "stem",
+        description:
+          "Fabricated spin-transport coil prototypes in Fusion 360 to reproduce theoretical magnetic-field data over 60 hours.",
+      },
+      {
+        role: "Founder",
+        org: "WPLLD en Espanol",
+        theme: "service",
+        description:
+          "Founded the school's first ESL Spanish-language news broadcast, earning JEA National Diversity Recognition.",
+      },
+      {
+        role: "Pianist",
+        org: "Independent",
+        theme: "arts",
+        description:
+          "Classically trained pianist with 9+ years; admitted to the Kentucky Governor's School for the Arts for piano performance.",
+      },
+      {
+        role: "Private Piano Instructor and Academic Tutor",
+        org: "Independent",
+        theme: "service",
+        description:
+          "Tutors piano students in advanced technique and provides academic tutoring in AP and honors courses.",
+      },
+    ],
+    awards: [
+      "Science Olympiad State Champion Medalist",
+      "KSLE State Speech Champion",
+      "Research Experience for Undergraduates Certificate",
+      "USAT National Triathlon Qualifier",
+      "Kentucky Governor's School for the Arts Admission",
+    ],
+    acceptedSchoolIds: ["gatech", "cmu", "michigan"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "anastasia-poliakova",
+    name: "Anastasia Poliakova",
+    photo: "/profiles/anastasia-poliakova.png",
+    major: "Economics",
+    location: "Cambridge, Massachusetts",
+    curriculum: "AP (11 APs)",
+    stats: [
+      { label: "GPA (UW)", value: "3.89" },
+      { label: "SAT", value: "1510" },
+    ],
+    themes: ["arts", "entrepreneurship", "athletics"],
+    extracurriculars: [
+      {
+        role: "Pre-Professional Ballet Dancer",
+        org: "Tokyo International Ballet Junior Company",
+        theme: "arts",
+        description:
+          "Trained 14 years and performed 26 shows with the company alongside Mariinsky and Mannheim principal dancers during freshman year.",
+      },
+      {
+        role: "Founder & President",
+        org: "DECA",
+        theme: "entrepreneurship",
+        description:
+          "Founded the school's first DECA chapter and organized business pitch competitions and fundraisers.",
+      },
+      {
+        role: "Competitive Ballet Dancer",
+        org: "Independent",
+        theme: "arts",
+        description:
+          "Earned first place in both winter and summer Educational Ballet Competition tournaments in freshman and sophomore years.",
+      },
+      {
+        role: "Economic Researcher",
+        org: "Independent",
+        theme: "stem",
+        description:
+          "Researched South Korea's gender wage gap (1990s-2022) using KLIPS panel data, regression, and wage-decomposition techniques.",
+      },
+      {
+        role: "Secretary-Treasurer & Booster Treasurer",
+        org: "Student Council",
+        theme: "leadership",
+        description: "Served as junior secretary-treasurer and booster treasurer.",
+      },
+      {
+        role: "Founder & President",
+        org: "Mock Trial Club",
+        theme: "leadership",
+        description:
+          "Founded and led the mock trial club, running structured trial simulations on criminal and property law.",
+      },
+      {
+        role: "Volunteer",
+        org: "Relay for Life & Social Service Council",
+        theme: "service",
+        description:
+          "Volunteered at Relay for Life in Ueno Park, Tokyo, all four years of high school.",
+      },
+      {
+        role: "Soprano Section Leader & Honor Choir Member",
+        org: "School Choir",
+        theme: "arts",
+        description:
+          "Participated in choir all four years, serving as soprano-one section leader in senior year.",
+      },
+      {
+        role: "Runner",
+        org: "Varsity Cross Country",
+        theme: "athletics",
+        description:
+          "Competed on the varsity cross country team from freshman through senior year.",
+      },
+      {
+        role: "Captain",
+        org: "Varsity Track and Field",
+        theme: "athletics",
+        description:
+          "Captained the team and advanced as a finalist in all four events at the 2023 DOD Far East Championships.",
+      },
+    ],
+    awards: [
+      "High School Choir Gold Medal & Carnegie Hall Invitation",
+      "Educational Ballet Competition First Place Winner",
+      "Team Play Second Place & Educational Ballet Competition Third Place",
+      "KATO Regionals Art Competition Medals",
+    ],
+    acceptedSchoolIds: ["harvard"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "aleysha-chen",
+    name: "Aleysha Chen",
+    photo: "/profiles/aleysha-chen.png",
+    major: "Bioengineering",
+    location: "San Diego, California",
+    curriculum: "AP (12 APs)",
+    stats: [
+      { label: "GPA", value: "4.5" },
+      { label: "SAT", value: "1530" },
+    ],
+    themes: ["stem", "leadership"],
+    extracurriculars: [
+      {
+        role: "Secretary, Vice President, and Co-President",
+        org: "Engineering Club",
+        theme: "stem",
+        description:
+          "Advanced through leadership roles, coordinating annual school science fairs all four years and competing for three.",
+      },
+      {
+        role: "Founder",
+        org: "Science Olympiad Team",
+        theme: "stem",
+        description:
+          "Founded a Science Olympiad team after identifying the school lacked one, adding a STEM competition pathway.",
+      },
+      {
+        role: "Vice President",
+        org: "National Honor Society",
+        theme: "leadership",
+        description:
+          "Served as NHS VP senior year, coordinating with teachers and helping organize school events.",
+      },
+      {
+        role: "Undergraduate Researcher",
+        org: "UC Berkeley Schaffer Laboratory",
+        theme: "stem",
+        description:
+          "Conducted bioengineering research in David Schaffer's lab, developing a scientific poster and continuing work during breaks.",
+      },
+      {
+        role: "Summer Researcher",
+        org: "UC San Diego School of Medicine",
+        theme: "stem",
+        description:
+          "Completed endothelial-cell biology research with independent project work and a public poster presentation.",
+      },
+      {
+        role: "Academic Committee Chair",
+        org: "UC Berkeley Biomedical Engineering Society",
+        theme: "leadership",
+        description:
+          "Led academic programming for Cal BMES, supporting panels, mentorship, and graduate-student connections.",
+      },
+      {
+        role: "External Relations / Outreach",
+        org: "UC Berkeley Biomedical Engineering Society",
+        theme: "leadership",
+        description:
+          "Built external relationships connecting bioengineering students with alumni, corporate, and community opportunities.",
+      },
+    ],
+    awards: [],
+    acceptedSchoolIds: ["ucberkeley", "rice"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "amy-fan",
+    name: "Amy Fan",
+    photo: "/profiles/amy-fan.png",
+    major: "Psychology",
+    location: "Auburn, Alabama",
+    curriculum: "IB Diploma",
+    stats: [
+      { label: "GPA (W)", value: "4.27" },
+      { label: "SAT", value: "1497" },
+    ],
+    themes: ["stem", "service", "arts"],
+    extracurriculars: [
+      {
+        role: "Competitor",
+        org: "HOSA International Leadership Conference",
+        theme: "stem",
+        description:
+          "Advanced to HOSA's International Leadership Conference, placing 2nd in the Human Growth & Development event.",
+      },
+      {
+        role: "Treasurer",
+        org: "Science and Engineering Fair Club",
+        theme: "stem",
+        description:
+          "Placed 2nd in Behavioral & Social Sciences at the Alabama Science Fair; the project drove her pivot from engineering to psychology.",
+      },
+      {
+        role: "Vice President",
+        org: "Mock Trial (Youth Judicial)",
+        theme: "leadership",
+        description:
+          "Rose to VP of the mock trial club, competing through the Alabama YMCA Youth Judicial program.",
+      },
+      {
+        role: "Research Intern",
+        org: "Auburn University Materials Engineering",
+        theme: "stem",
+        description:
+          "Assisted graduate students with materials-engineering research over roughly two months.",
+      },
+      {
+        role: "Teen Volunteer",
+        org: "East Alabama Health",
+        theme: "service",
+        description:
+          "Served in a teen volunteer program at the local hospital, supporting patient and community services.",
+      },
+      {
+        role: "Treasurer",
+        org: "Music from the Heart",
+        theme: "arts",
+        description:
+          "Treasurer of a student band performing for local nursing homes and the hospital.",
+      },
+      {
+        role: "Player",
+        org: "IB Girls Basketball Team",
+        theme: "athletics",
+        description:
+          "Played on the school's intramural IB girls basketball team against other city teams.",
+      },
+      {
+        role: "Member",
+        org: "French Club and Societe Honoraire de Francais",
+        theme: "arts",
+        description:
+          "Inducted into the Societe Honoraire de Francais and participated in French Club.",
+      },
+      {
+        role: "Participant",
+        org: "Distinguished Young Women Program",
+        theme: "leadership",
+        description:
+          "Competed across five categories, earning a scholastic scholarship and writing her Common App essay on the experience.",
+      },
+      {
+        role: "Member",
+        org: "Auburn High School Marching Band",
+        theme: "arts",
+        description: "Marched with the band (including color guard) through sophomore year.",
+      },
+    ],
+    awards: [
+      "National Merit Finalist",
+      "Northwestern National Merit Scholarship",
+      "2nd Place, HOSA Human Growth & Development (International Leadership Conference)",
+      "2nd Place, Alabama Science and Engineering Fair (Behavioral & Social Sciences)",
+      "Distinguished Young Women Scholastic Scholarship",
+    ],
+    acceptedSchoolIds: ["bu", "northwestern"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "anshika-ojha",
+    name: "Anshika Ojha",
+    photo: "/profiles/anshika-ojha.png",
+    major: "Computer Science and Business Administration",
+    location: "Pleasanton, California",
+    curriculum: "AP (10 APs)",
+    stats: [],
+    themes: ["entrepreneurship", "service", "arts"],
+    extracurriculars: [
+      {
+        role: "Book Reviewer",
+        org: "Selective Literature Review Program",
+        theme: "arts",
+        description:
+          "Reviewed unreleased manuscripts, analyzing structure and character development to advise a local bookstore on titles to stock.",
+      },
+      {
+        role: "Director of Partnership",
+        org: "The Urban Garden Initiative",
+        theme: "service",
+        description:
+          "Led partnership development for an international youth sustainability nonprofit with 60+ chapters worldwide.",
+      },
+      {
+        role: "Business Development Intern",
+        org: "Vijay Computer Academy (VCA)",
+        theme: "entrepreneurship",
+        description:
+          "Researched Instagram SEO to promote coding courses for women and hosted webinars on discrimination women face in tech.",
+      },
+      {
+        role: "Instagram Content Curator & Visual Marketing Strategist",
+        org: "Independent",
+        theme: "entrepreneurship",
+        description:
+          "Ran an Instagram content program with Pixlr/Lightroom workflows for sustainability and women's organizations.",
+      },
+      {
+        role: "Social Media Manager",
+        org: "American Red Cross",
+        theme: "service",
+        description:
+          "Revamped the Red Cross's pandemic-era social presence, boosting engagement and contributing to record donation levels.",
+      },
+    ],
+    awards: [
+      "AP Scholar with Distinction",
+      "Sandia Women's Connection Award",
+      "Presidential Volunteer Service Award",
+      "Blue Star Award",
+    ],
+    acceptedSchoolIds: ["ucberkeley", "ucsd", "ucsb", "ucdavis", "ucirvine"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "athina-chen",
+    name: "Athina Chen",
+    photo: "/profiles/athina-chen.png",
+    major: "Applied Mathematics-Economics",
+    location: "Palo Alto, California",
+    curriculum: "AP (12 APs)",
+    stats: [
+      { label: "GPA (UW)", value: "3.97" },
+      { label: "GPA (W)", value: "4.33" },
+      { label: "ACT", value: "35" },
+    ],
+    themes: ["entrepreneurship", "arts", "athletics"],
+    extracurriculars: [
+      {
+        role: "Solo Violinist and Concertmaster",
+        org: "Youth Orchestra",
+        theme: "arts",
+        description:
+          "Performed as a solo violinist, winning first place and prize-winner distinctions in multiple competitions.",
+      },
+      {
+        role: "Captain",
+        org: "Varsity Golf Team",
+        theme: "athletics",
+        description:
+          "Captained the varsity golf team and served as low-scoring player in multiple tournaments.",
+      },
+      {
+        role: "Volunteer and Guest Speaker",
+        org: "Firsttee",
+        theme: "service",
+        description:
+          "Volunteered with First Tee and was competitively selected nationally to participate in national events.",
+      },
+      {
+        role: "Co-Founder",
+        org: "Perfect Square Tutors",
+        theme: "entrepreneurship",
+        description:
+          "Co-founded a math tutoring business connecting grades 6-12 students with perfect-scoring tutors.",
+      },
+      {
+        role: "Co-Founder and President",
+        org: "Socially Responsible Investment Fund",
+        theme: "entrepreneurship",
+        description:
+          "Founded a club on impact investing and sustainable finance, advocating for gender equity in finance.",
+      },
+      {
+        role: "Co-President",
+        org: "Mock Trial",
+        theme: "leadership",
+        description:
+          "Rose to co-president, helping lead the team through case strategy and courtroom performance.",
+      },
+      {
+        role: "President",
+        org: "SAGE (Students for the Advancement of Global Entrepreneurship)",
+        theme: "entrepreneurship",
+        description: "Chapter president leading the club through competitions and initiatives.",
+      },
+      {
+        role: "Participant",
+        org: "Google Apprentice Program",
+        theme: "entrepreneurship",
+        description:
+          "Developed a business plan and presented at Google Pitch Night, earning first place with a partner.",
+      },
+      {
+        role: "Teaching Assistant",
+        org: "BEAM Course",
+        theme: "service",
+        description:
+          "TA for a business/entrepreneurship/math elective, designing mini-lessons and interactive activities.",
+      },
+      {
+        role: "Program Manager",
+        org: "Big Sisters Project",
+        theme: "service",
+        description:
+          "Helped manage a 10-week summer entrepreneurship program for young girls, developing curriculum content.",
+      },
+    ],
+    awards: [
+      "First Place @ Google Pitch Night",
+      "First Tee ACE Certification",
+      "ICDC Qualifier @ DECA",
+      "Third Place @ SAGE Competition",
+      "Second Place @ Girls Who Invest Challenge",
+    ],
+    acceptedSchoolIds: ["brown"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "chloe-barbu",
+    name: "Chloe Barbu",
+    photo: "/profiles/chloe-barbu.png",
+    major: "Business Administration",
+    location: "Charlotte, North Carolina",
+    curriculum: "AP (5 APs)",
+    stats: [
+      { label: "GPA (UW)", value: "3.93" },
+      { label: "GPA (W)", value: "4.6" },
+      { label: "SAT", value: "1350" },
+    ],
+    themes: ["athletics", "entrepreneurship", "service"],
+    extracurriculars: [
+      {
+        role: "Captain",
+        org: "Varsity Volleyball",
+        theme: "athletics",
+        description:
+          "Played varsity volleyball all four years and captained senior year; ran camps and clinics as community service.",
+      },
+      {
+        role: "President",
+        org: "We the People Club",
+        theme: "leadership",
+        description:
+          "Led the school's We the People civic-education club all four years and organized a shoe-drive with Samaritan's Feet.",
+      },
+      {
+        role: "Senior Leader",
+        org: "National Honor Society",
+        theme: "leadership",
+        description:
+          "Held an NHS senior leadership role and was a two-year member of the National English Honor Society.",
+      },
+      {
+        role: "Captain",
+        org: "Club Volleyball",
+        theme: "athletics",
+        description:
+          "Captained multiple club volleyball teams through junior year, sustaining year-round athletics.",
+      },
+      {
+        role: "Volunteer",
+        org: "Local and National Political Campaigns",
+        theme: "service",
+        description:
+          "Volunteered with local government and national political campaigns, an early civic commitment she credited for standing out at UNC.",
+      },
+      {
+        role: "Co-Founder",
+        org: "Shop Barbu",
+        theme: "entrepreneurship",
+        description:
+          "Co-founded an online women's clothing boutique with her sisters, growing the combined social following past 2,000.",
+      },
+      {
+        role: "Content Creator",
+        org: "YouTube",
+        theme: "entrepreneurship",
+        description:
+          "Ran a lifestyle and college-admissions vlog channel from 2018, growing past 17,000 subscribers and 1.2M+ lifetime views.",
+      },
+      {
+        role: "Coach",
+        org: "Youth Volleyball",
+        theme: "athletics",
+        description:
+          "Coached a youth volleyball team for two years as a paid coach and volunteered at summer camps.",
+      },
+    ],
+    awards: [],
+    acceptedSchoolIds: ["unc"],
+    sourceVideoUrl: "",
+    verified: false,
+    consent: true,
+  },
 ];
 
 /** The consent gate. Non-consenting entries never leave this module. */
