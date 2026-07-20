@@ -31,3 +31,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local working docs — keep out of the public repo
+contextbci.md
+profiles-source.md
+opportunities-list.md
+opportunities-research.json
+existing-opportunities.txt
