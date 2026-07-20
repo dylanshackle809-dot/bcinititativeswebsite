@@ -363,13 +363,35 @@ input {
 /* ------------------------------------------------------------------ */
 .hero {
   position: relative;
-  padding: 13.25rem 2rem 26rem;
+  padding: 10rem 2rem 8rem;
+  /* The backdrop art is 16:9, so tie the hero to that aspect — the scene then
+     fills the hero edge-to-edge with nothing cropped. Narrow viewports fall
+     below this floor and grow for the text instead, pinning the art bottom. */
+  min-height: 56.25vw;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   /* Cool sky tint fallback behind the pixel-art layers */
   background: linear-gradient(180deg, #e8f0f9 0%, var(--bg-primary) 100%);
+}
+/* Soft light pool behind the copy — keeps the headline and subtext legible
+   where they cross the mountain's mid-tone rock and forest. Full-bleed radial
+   so it dissolves well inside the viewport, leaving the foothills and the
+   edges of the scene fully saturated (a boxed scrim would show its seams). */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 46% 42% at 50% 40%,
+    rgba(248, 250, 252, 0.8) 0%,
+    rgba(248, 250, 252, 0.58) 42%,
+    rgba(248, 250, 252, 0.22) 70%,
+    rgba(248, 250, 252, 0) 100%
+  );
 }
 
 /* Layered pixel-art mountain backdrop (sky → mountain → mist → trees) */
@@ -379,16 +401,27 @@ input {
   z-index: 0;
   pointer-events: none;
 }
+/* Scene layers (mountain/mist/trees) are transparent cutouts sized to the art's
+   own 16:9 box, so the full landscape — foothills to both edges — always shows.
+   `cover` used to scale them to a much taller box, slicing ~19% off each side. */
 .parallax-layer {
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 120%; /* small headroom for parallax; lower than before so the peaks aren't clipped at the top */
-  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: contain;
   object-position: center bottom;
   image-rendering: pixelated;
   will-change: transform;
+}
+/* The sky is the one opaque layer — it keeps filling the whole hero, including
+   above the mountain and the strip exposed as layers drift down on scroll. */
+.parallax-layer--sky {
+  aspect-ratio: auto;
+  height: 120%;
+  object-fit: cover;
 }
 /* Ambient drift — animates the standalone `translate` property so it composes
    with the JS parallax, which owns `transform`. Sway (not one-way pan) because
@@ -478,7 +511,7 @@ input {
 }
 @media (max-width: 720px) {
   .hero {
-    padding: 10.25rem 1.25rem 14rem;
+    padding: 9rem 1.25rem 7rem;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -525,6 +558,11 @@ input {
   letter-spacing: -0.035em;
   line-height: 1.04;
   text-align: center;
+  /* Light halo instead of a scrim — the pixel art stays fully saturated while
+     dark type keeps its edge over mid-tone rock and forest. */
+  text-shadow:
+    0 1px 2px rgba(248, 250, 252, 0.85),
+    0 4px 24px rgba(248, 250, 252, 0.7);
 }
 .accent-word {
   color: var(--text-primary);
@@ -538,6 +576,9 @@ input {
   max-width: 720px;
   margin: 1.5rem auto 2.25rem;
   text-align: center;
+  text-shadow:
+    0 1px 2px rgba(248, 250, 252, 0.95),
+    0 2px 14px rgba(248, 250, 252, 0.85);
 }
 
 /* Hero search bar */
