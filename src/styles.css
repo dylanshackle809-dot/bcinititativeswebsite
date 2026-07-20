@@ -375,24 +375,6 @@ input {
   /* Cool sky tint fallback behind the pixel-art layers */
   background: linear-gradient(180deg, #e8f0f9 0%, var(--bg-primary) 100%);
 }
-/* Soft light pool behind the copy — keeps the headline and subtext legible
-   where they cross the mountain's mid-tone rock and forest. Full-bleed radial
-   so it dissolves well inside the viewport, leaving the foothills and the
-   edges of the scene fully saturated (a boxed scrim would show its seams). */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 46% 42% at 50% 40%,
-    rgba(248, 250, 252, 0.8) 0%,
-    rgba(248, 250, 252, 0.58) 42%,
-    rgba(248, 250, 252, 0.22) 70%,
-    rgba(248, 250, 252, 0) 100%
-  );
-}
 
 /* Layered pixel-art mountain backdrop (sky → mountain → mist → trees) */
 .hero-parallax {
@@ -498,15 +480,16 @@ input {
     opacity: 0.82;
   }
 }
-/* Readability overlay: page color at top fading into the sky */
+/* Top-edge blend only: seats the fixed nav/eyebrow against the sky without
+   washing the mountain — fades out well above the peak. */
 .hero-fade {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(248, 250, 252, 0.5) 0%,
-    rgba(248, 250, 252, 0.12) 28%,
-    rgba(248, 250, 252, 0) 55%
+    rgba(248, 250, 252, 0.32) 0%,
+    rgba(248, 250, 252, 0.08) 14%,
+    rgba(248, 250, 252, 0) 24%
   );
 }
 @media (max-width: 720px) {
@@ -526,7 +509,7 @@ input {
 .hero-inner {
   position: relative;
   z-index: 2;
-  max-width: 1040px;
+  max-width: 1280px;
   margin: 0 auto;
   text-align: center;
 }
@@ -552,33 +535,27 @@ input {
 .hero-h1 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.7rem, 7.5vw, 5.5rem);
+  /* min holds mobile (never overflows the ~432px content box); max is the
+     commanding desktop size; vw scales fluidly between. */
+  font-size: clamp(2.85rem, 8.5vw, 6.75rem);
   font-weight: 800;
   color: var(--text-primary);
   letter-spacing: -0.035em;
   line-height: 1.04;
   text-align: center;
-  /* Light halo instead of a scrim — the pixel art stays fully saturated while
-     dark type keeps its edge over mid-tone rock and forest. */
-  text-shadow:
-    0 1px 2px rgba(248, 250, 252, 0.85),
-    0 4px 24px rgba(248, 250, 252, 0.7);
 }
 .accent-word {
   color: var(--text-primary);
 }
 
 .hero-sub {
-  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
   color: var(--text-primary);
-  font-weight: 600;
-  line-height: 1.7;
-  max-width: 720px;
+  font-weight: 700;
+  line-height: 1.6;
+  max-width: 900px;
   margin: 1.5rem auto 2.25rem;
   text-align: center;
-  text-shadow:
-    0 1px 2px rgba(248, 250, 252, 0.95),
-    0 2px 14px rgba(248, 250, 252, 0.85);
 }
 
 /* Hero search bar */
