@@ -52,24 +52,16 @@ const liUrl = (n: string) =>
   `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(n)}`;
 
 function PartnerCard({ p }: { p: Partner }) {
-  const tint = tintFor(p.name);
   const featured = p.region === "BC/Canada";
   return (
     <article className={`hp-card ${featured ? "hp-card--featured" : ""}`}>
       <div className="hp-head">
-        <div
-          className="hp-avatar"
-          style={{ background: tint.bg, color: tint.color }}
-          aria-hidden="true"
-        >
-          {initials(p.name)}
-        </div>
+        <h3 className="hp-name">{p.name}</h3>
         <span className={`hp-region ${featured ? "hp-region--ca" : ""}`}>
           <MapPin size={11} strokeWidth={2} /> {p.location}
         </span>
       </div>
       <span className="hp-theme">{p.theme}</span>
-      <h3 className="hp-name">{p.name}</h3>
       <p className="hp-desc">{p.description}</p>
       <div className="hp-opp">
         <span className="hp-opp-badge">{p.opportunityType}</span>
