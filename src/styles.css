@@ -3989,13 +3989,13 @@ a.pf-chip--blue:hover {
 }
 .fw-row {
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: 3.5rem;
+  grid-template-columns: minmax(0, 4.5fr) minmax(0, 7.5fr);
+  gap: 3rem;
   align-items: center;
 }
 .fw-row--flip {
   /* mirrored rows keep the mockup on the wide side */
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  grid-template-columns: minmax(0, 7.5fr) minmax(0, 4.5fr);
 }
 .fw-row--flip .fw-text {
   order: 2;
@@ -4066,15 +4066,35 @@ a.pf-chip--blue:hover {
 
 /* Mockup frame internals — decorative viewports, never interactive. */
 .mock-body {
-  padding: 1.1rem 1.25rem;
+  padding: 0.8rem 1.05rem;
   pointer-events: none;
   user-select: none;
   overflow: hidden;
 }
+/* Tighten the real cards ONLY inside the mockups so the frames stay short —
+   the live /opportunities + /profiles pages keep their roomier spacing. */
+.mock-body .opp-card {
+  padding: 1.05rem;
+}
+.mock-body .opp-title {
+  margin-top: 0.6rem;
+}
+.mock-body .opp-desc {
+  margin-top: 0.3rem;
+}
+.mock-body .opp-details {
+  padding: 0.7rem;
+  margin-top: 0.7rem;
+}
+.mock-body .opp-meta {
+  row-gap: 0.5rem;
+}
 .mock-scale {
-  transform: scale(0.82);
-  transform-origin: top left;
-  width: 121.95%;
+  /* `zoom` (not transform: scale) so the shrunk cards also reflow their layout
+     height — transform would reserve the full unscaled height and leave a dead
+     band at the frame bottom. zoom reflows width too, so no width compensation. */
+  zoom: 0.82;
+  width: 100%;
 }
 .mock-search {
   display: flex;
@@ -4091,7 +4111,7 @@ a.pf-chip--blue:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin: 0.7rem 0 0.9rem;
+  margin: 0.5rem 0 0.6rem;
 }
 .mock-pills .chip {
   padding: 0.28rem 0.7rem;
@@ -4100,7 +4120,7 @@ a.pf-chip--blue:hover {
 .mock-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.8rem;
+  gap: 0.6rem;
 }
 .mock-split {
   display: flex;
@@ -4152,7 +4172,7 @@ a.pf-chip--blue:hover {
 .mock-profiles {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.5rem;
   flex: 1;
   min-width: 0;
 }
@@ -4161,7 +4181,7 @@ a.pf-chip--blue:hover {
      real viewport (matches the concept mockups) instead of squeezing */
   display: grid;
   grid-template-columns: repeat(3, minmax(220px, 1fr));
-  gap: 0.8rem;
+  gap: 0.6rem;
 }
 @media (max-width: 960px) {
   .fw-row {
