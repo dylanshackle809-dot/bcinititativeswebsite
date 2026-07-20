@@ -34,23 +34,10 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
-import {
-  profiles,
-  majorOptions,
-  themeLabels,
-  slugify,
-  type Profile,
-  type ThemeId,
-} from "@/lib/profiles";
+import { profiles, majorOptions, themeLabels, slugify, type ThemeId } from "@/lib/profiles";
 import { schoolSections } from "@/lib/schools";
 import { PartnerDirectory } from "@/components/PartnerDirectory";
-import {
-  ProfilesTopBar,
-  ProfileAvatar,
-  SchoolCrest,
-  CrestRow,
-  ThemeChips,
-} from "@/components/ProfilesShell";
+import { ProfilesTopBar, SchoolCrest, ProfileCard } from "@/components/ProfilesShell";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -152,44 +139,6 @@ const toggleCsv = (s: string, v: string) => {
   else set.add(v);
   return [...set].join(",");
 };
-
-const rolesLine = (p: Profile) =>
-  p.extracurriculars
-    .slice(0, 2)
-    .map((e) => `${e.role} @ ${e.org}`)
-    .join(" | ");
-
-function ProfileCard({ p, matched }: { p: Profile; matched?: boolean }) {
-  return (
-    <Link
-      to="/profiles/$id"
-      params={{ id: p.id }}
-      className={`pf-card ${matched ? "pf-card--match" : ""}`}
-      aria-label={`${p.name}, ${p.major}`}
-    >
-      <ProfileAvatar name={p.name} photo={p.photo} />
-      <span className="pf-card-body">
-        {matched && (
-          <span className="pf-match-label">
-            <Sparkles size={11} strokeWidth={2.2} /> Matched for you
-          </span>
-        )}
-        <span className="pf-name">{p.name}</span>
-        <span className="pf-major" style={{ display: "block" }}>
-          {p.major}
-          {p.gradYear ? ` · Class of ${p.gradYear}` : ""}
-        </span>
-        {p.extracurriculars.length > 0 && (
-          <span className="pf-roles" style={{ display: "block" }}>
-            {rolesLine(p)}
-          </span>
-        )}
-        <ThemeChips themes={p.themes} />
-      </span>
-      <CrestRow ids={p.acceptedSchoolIds} />
-    </Link>
-  );
-}
 
 function ProfileCardSkeleton() {
   return (

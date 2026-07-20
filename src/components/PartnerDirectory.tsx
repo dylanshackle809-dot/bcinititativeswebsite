@@ -51,7 +51,7 @@ const siteUrl = (w: string) => (/^https?:\/\//.test(w) ? w : `https://${w}`);
 const liUrl = (n: string) =>
   `https://www.linkedin.com/search/results/all/?keywords=${encodeURIComponent(n)}`;
 
-function PartnerCard({ p }: { p: Partner }) {
+export function PartnerCard({ p }: { p: Partner }) {
   const featured = p.region === "BC/Canada";
   return (
     <article className={`hp-card ${featured ? "hp-card--featured" : ""}`}>

@@ -46,9 +46,6 @@ export function SiteFooter() {
           <div className="footer-head">Explore</div>
           <div className="footer-links">
             <Link to="/opportunities">All opportunities</Link>
-            <Link to="/" hash="categories">
-              Categories
-            </Link>
             <Link to="/profiles">Student Profiles</Link>
             <Link to="/partners">Our Partners</Link>
             <Link to="/about">About</Link>

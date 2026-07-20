@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Sparkles } from "lucide-react";
 import { LogoMark } from "@/components/LogoMark";
 import { schoolById } from "@/lib/schools";
-import { themeLabels, type ThemeId } from "@/lib/profiles";
+import { themeLabels, type Profile, type ThemeId } from "@/lib/profiles";
 import { initials, tintFor } from "@/components/PartnerDirectory";
 
 /** Top app bar for the Profiles section — distinct from the marketing nav. */
@@ -158,5 +158,44 @@ export function ThemeChips({ themes }: { themes: ThemeId[] }) {
         </span>
       ))}
     </span>
+  );
+}
+
+const rolesLine = (p: Profile) =>
+  p.extracurriculars
+    .slice(0, 2)
+    .map((e) => `${e.role} @ ${e.org}`)
+    .join(" | ");
+
+/** One row in the profiles directory — avatar, name/major/roles, theme chips, crests. */
+export function ProfileCard({ p, matched }: { p: Profile; matched?: boolean }) {
+  return (
+    <Link
+      to="/profiles/$id"
+      params={{ id: p.id }}
+      className={`pf-card ${matched ? "pf-card--match" : ""}`}
+      aria-label={`${p.name}, ${p.major}`}
+    >
+      <ProfileAvatar name={p.name} photo={p.photo} />
+      <span className="pf-card-body">
+        {matched && (
+          <span className="pf-match-label">
+            <Sparkles size={11} strokeWidth={2.2} /> Matched for you
+          </span>
+        )}
+        <span className="pf-name">{p.name}</span>
+        <span className="pf-major" style={{ display: "block" }}>
+          {p.major}
+          {p.gradYear ? ` · Class of ${p.gradYear}` : ""}
+        </span>
+        {p.extracurriculars.length > 0 && (
+          <span className="pf-roles" style={{ display: "block" }}>
+            {rolesLine(p)}
+          </span>
+        )}
+        <ThemeChips themes={p.themes} />
+      </span>
+      <CrestRow ids={p.acceptedSchoolIds} />
+    </Link>
   );
 }

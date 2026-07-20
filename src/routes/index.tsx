@@ -1,16 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  GraduationCap,
-  HandHeart,
-  Trophy,
-  Briefcase,
-  Sun,
-  Banknote,
   Search,
-  SlidersHorizontal,
-  Heart,
-  Handshake,
   Code,
   Wrench,
   Dna,
@@ -20,19 +11,21 @@ import {
   FlaskConical,
   Sparkles,
   Check,
-  ChevronDown,
   MousePointer2,
+  Bookmark,
+  ArrowRight,
+  Instagram,
+  Linkedin,
 } from "lucide-react";
-import { format } from "date-fns";
-import { opportunities, categories } from "@/lib/opportunities";
-import { categoryConfig, categoryNameById } from "@/lib/categoryDisplay";
-import { parseLocalDate } from "@/lib/dates";
+import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
+import { profiles } from "@/lib/profiles";
 import { partners } from "@/lib/partners";
 import { buildOptions, fieldOptions, findMatch } from "@/lib/match";
-import { CrestRow, ProfileAvatar } from "@/components/ProfilesShell";
+import { CrestRow, ProfileAvatar, ProfileCard, SchoolCrest } from "@/components/ProfilesShell";
+import { OppCard } from "@/components/OppCard";
+import { PartnerCard } from "@/components/PartnerDirectory";
 import { Reveal } from "@/components/Reveal";
 import { LogoMark } from "@/components/LogoMark";
-import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -147,25 +140,43 @@ function ParallaxLayers() {
   );
 }
 
-function CatIcon({ id }: { id: string }) {
-  const props = { size: 22, strokeWidth: 1.5, color: "currentColor" };
-  switch (id) {
-    case "scholarships":
-      return <GraduationCap {...props} />;
-    case "volunteering":
-      return <HandHeart {...props} />;
-    case "competitions":
-      return <Trophy {...props} />;
-    case "internships":
-      return <Briefcase {...props} />;
-    case "summer-programs":
-      return <Sun {...props} />;
-    case "grants":
-      return <Banknote {...props} />;
-    default:
-      return null;
-  }
-}
+/* Real entries for the section-2 browser mockups — deterministic picks from
+   the live datasets so the homepage always previews current content. */
+const mockOpps = ["scholarships", "competitions", "internships", "summer-programs"]
+  .map((cat) => opportunities.find((o) => o.category === cat && o.deadlineStatus === "open"))
+  .filter((o): o is Opportunity => Boolean(o));
+const mockProfiles = profiles.filter((p) => p.photo).slice(0, 3);
+const mockPartners = [
+  ...partners.filter((p) => p.region === "BC/Canada").slice(0, 2),
+  ...partners.filter((p) => p.region === "International").slice(0, 1),
+];
+
+const faqs = [
+  {
+    q: "What is SummitSeeker?",
+    a: "SummitSeeker is a free directory of scholarships, competitions, internships, summer programs, volunteering, and grants for high school students in Canada and beyond — plus real profiles of admitted students so you can see exactly what worked. It's a student-led project by BC Initiatives, with no accounts and no paywalls.",
+  },
+  {
+    q: "What kinds of opportunities are listed?",
+    a: "Six categories: scholarships, volunteering, competitions, internships & co-ops, summer programs, and grants & funding — Canadian and international. Every listing is hand-checked, with deadlines, award amounts, eligibility, difficulty, and time commitment tracked.",
+  },
+  {
+    q: "What are the student profiles?",
+    a: "Real admitted students' extracurriculars, awards, stats, and acceptances, compiled from their own public videos. You can filter them by school, major, or theme to study the actual activities behind successful applications.",
+  },
+  {
+    q: "How does 'Find your match' work?",
+    a: "You answer three quick questions — what you're into, your dream schools, and what you'd love to build. The quiz scores every student profile against your answers and shows the admitted student most like you. Nothing is stored and no account is needed.",
+  },
+  {
+    q: "Are the profiles real and consented?",
+    a: "Yes — every profile is a real student, published with their consent; non-consenting profiles never appear. Stats are self-reported, and we confirm details with each student before marking a profile verified.",
+  },
+  {
+    q: "Is it free to use?",
+    a: "Completely free. No sign-up, no ads, no paywalls — saved opportunities live in your own browser.",
+  },
+];
 
 /* Looping, non-interactive demo of the /profiles/match quiz. The reveal is
    computed by the REAL matcher over real profile data — nothing invented.
@@ -271,20 +282,76 @@ function QuizDemo() {
           </span>
         </div>
       </div>
-      <div className="qd-cta-row">
-        <Link to="/profiles/match" className="qd-cta">
-          Find your match →
-        </Link>
-        <Link to="/profiles" className="qd-cta-alt">
-          Access the Student Profiles tab →
-        </Link>
-      </div>
-      <div className="qd-cta-row">
-        <Link to="/opportunities" className="qd-cta qd-cta--blue">
-          Browse all opportunities <ChevronDown size={15} strokeWidth={2.2} />
-        </Link>
-      </div>
     </div>
+  );
+}
+
+/** Browser-frame chrome shared by the section-2 mockups (QuizDemo has its own). */
+function MockChrome({ url }: { url: string }) {
+  return (
+    <div className="preview-chrome">
+      <div className="chrome-dots">
+        <span className="chrome-dot" />
+        <span className="chrome-dot" />
+        <span className="chrome-dot" />
+      </div>
+      <div className="chrome-url">{url}</div>
+      <div style={{ width: 54 }} />
+    </div>
+  );
+}
+
+/** Homepage-local footer per the Phase 2 design; other pages keep SiteFooter. */
+function HomeFooter() {
+  return (
+    <footer className="hf">
+      <div className="hf-grid">
+        <div>
+          <span className="logo-lockup">
+            <span className="logo">
+              <LogoMark size={22} />
+              Summit<span>Seeker</span>
+            </span>
+            <span className="logo-tag">by BC Initiatives</span>
+          </span>
+          <p className="hf-tag">Find and build opportunities that matter.</p>
+        </div>
+        <div>
+          <div className="hf-head">Explore</div>
+          <div className="hf-links">
+            <Link to="/opportunities">Opportunities</Link>
+            <Link to="/profiles">Profiles</Link>
+            <Link to="/partners">Partners</Link>
+            <Link to="/about">About</Link>
+          </div>
+        </div>
+        <div>
+          <div className="hf-head">Follow us</div>
+          <div className="hf-social">
+            <a
+              href="https://www.instagram.com/bcinitiativessociety/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="BC Initiatives on Instagram"
+            >
+              <Instagram size={16} strokeWidth={1.8} />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/bc-initiatives"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="BC Initiatives on LinkedIn"
+            >
+              <Linkedin size={16} strokeWidth={1.8} />
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="hf-bottom">
+        <span>© 2026 BC Initiatives</span>
+        <span className="hf-site">summitseeker.app</span>
+      </div>
+    </footer>
   );
 }
 
@@ -298,20 +365,6 @@ function Index() {
     e.preventDefault();
     navigate({ to: "/opportunities", search: { q: heroQ } });
   };
-
-  const closingSoon = useMemo(() => {
-    const now = new Date();
-    return opportunities
-      .filter((o) => {
-        if (o.deadlineStatus !== "open" && o.deadlineStatus !== "est") return false;
-        if (o.deadlineSort === "2099-12-31") return false;
-        const deadline = new Date(o.deadlineSort);
-        const daysUntil = (deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-        return daysUntil >= 0 && daysUntil <= 180;
-      })
-      .sort((a, b) => new Date(a.deadlineSort).getTime() - new Date(b.deadlineSort).getTime())
-      .slice(0, 4);
-  }, []);
 
   return (
     <>
@@ -335,20 +388,17 @@ function Index() {
             <Link className="nav-link" to="/opportunities">
               Opportunities
             </Link>
-            <a className="nav-link" href="#categories">
-              Categories
-            </a>
-            <a className="nav-link" href="#features">
-              Features
-            </a>
+            <Link className="nav-link" to="/profiles">
+              Profiles
+            </Link>
+            <Link className="nav-link" to="/partners">
+              Partners
+            </Link>
             <Link className="nav-link" to="/about">
               About
             </Link>
-            <Link className="nav-cta nav-cta--outline" to="/profiles">
-              Student Profiles
-            </Link>
-            <Link className="nav-cta" to="/partners">
-              Our Partners
+            <Link className="nav-cta" to="/opportunities">
+              Get started
             </Link>
           </div>
           <button
@@ -365,24 +415,17 @@ function Index() {
             <Link className="nav-link" to="/opportunities" onClick={() => setMenuOpen(false)}>
               Opportunities
             </Link>
-            <a className="nav-link" href="#categories" onClick={() => setMenuOpen(false)}>
-              Categories
-            </a>
-            <a className="nav-link" href="#features" onClick={() => setMenuOpen(false)}>
-              Features
-            </a>
+            <Link className="nav-link" to="/profiles" onClick={() => setMenuOpen(false)}>
+              Profiles
+            </Link>
+            <Link className="nav-link" to="/partners" onClick={() => setMenuOpen(false)}>
+              Partners
+            </Link>
             <Link className="nav-link" to="/about" onClick={() => setMenuOpen(false)}>
               About
             </Link>
-            <Link
-              className="nav-cta nav-cta--outline"
-              to="/profiles"
-              onClick={() => setMenuOpen(false)}
-            >
-              Student Profiles
-            </Link>
-            <Link className="nav-cta" to="/partners" onClick={() => setMenuOpen(false)}>
-              Our Partners
+            <Link className="nav-cta" to="/opportunities" onClick={() => setMenuOpen(false)}>
+              Get started
             </Link>
           </div>
         </div>
@@ -422,240 +465,304 @@ function Index() {
         </div>
       </header>
 
-      <div className="preview-section">
-        <Reveal>
-          <QuizDemo />
-        </Reveal>
-      </div>
-
       <main className="container">
-        <section className="section" id="categories">
+        {/* SECTION 2 — Four ways (feature showcases with live mockups) */}
+        <section className="section">
           <Reveal>
-            <span className="section-label section-label--accent">
-              <span className="num">01</span>Categories
-            </span>
-            <h2 className="section-h2">Browse by category</h2>
-            <div className="bento-grid">
-              <div className="bento-tile bento-feature">
-                <span className="bento-feature-label">Tracked right now</span>
-                <div className="bento-feature-num">{opportunities.length}+</div>
-                <p className="bento-feature-sub">
-                  opportunities across scholarships, programs &amp; more
-                </p>
-                <button
-                  type="button"
-                  className="bento-feature-btn"
-                  onClick={() => navigate({ to: "/opportunities" })}
-                >
-                  Browse all →
-                </button>
-              </div>
-              <div className="bento-tile bento-stat">
-                <div className="bento-stat-num">{categories.length}</div>
-                <div className="bento-stat-label">Categories</div>
-              </div>
-              <div className="bento-tile bento-stat">
-                <div className="bento-stat-num">1000+</div>
-                <div className="bento-stat-label">Students</div>
-              </div>
-              <div className="bento-tile bento-deadlines">
-                <div className="bento-deadlines-head">
+            <div className="fw-header">
+              <span className="section-label section-label--accent">Inside SummitSeeker</span>
+              <h2 className="section-h2">Four ways to find your next opportunity</h2>
+            </div>
+          </Reveal>
+          <div className="fw-rows">
+            <Reveal>
+              <div className="fw-row">
+                <div className="fw-text">
                   <span className="section-label section-label--accent">
-                    <span className="num">02</span>Deadlines — Closing soon
+                    <span className="num">01</span>The opportunities directory
                   </span>
-                  <button
-                    type="button"
-                    className="bento-deadlines-all"
-                    onClick={() => navigate({ to: "/opportunities", search: { sort: "deadline" } })}
-                  >
-                    All →
-                  </button>
+                  <h3 className="fw-h3">Browse {opportunities.length}+ verified opportunities.</h3>
+                  <p className="fw-body">
+                    Six categories, one search. Filter by difficulty, grade, and location to find
+                    scholarships, competitions, and programs that actually fit.
+                  </p>
+                  <Link className="fw-link" to="/opportunities">
+                    Browse the directory →
+                  </Link>
                 </div>
-                {closingSoon.length === 0 ? (
-                  <p className="bento-deadline-empty">No deadlines in the next 6 months.</p>
-                ) : (
-                  <div className="bento-deadline-rows">
-                    {closingSoon.map((o) => {
-                      const d = parseLocalDate(o.deadlineSort);
-                      const daysUntil = Math.ceil(
-                        (d.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
-                      );
-                      const cfg = categoryConfig[o.category];
-                      return (
-                        <Link
-                          key={o.id}
-                          to="/opportunities/$id"
-                          params={{ id: String(o.id) }}
-                          className="bento-deadline-row"
-                        >
-                          <span
-                            className="bento-deadline-dot"
-                            style={{ background: cfg?.color ?? "var(--text-muted)" }}
-                          />
-                          <span className="bento-deadline-main">
-                            <span className="bento-deadline-name">{o.name}</span>
-                            <span className="bento-deadline-cat">
-                              {categoryNameById[o.category] ?? o.category}
-                            </span>
+                <div className="fw-frame">
+                  <div className="preview-card">
+                    <MockChrome url="summitseeker.app/opportunities" />
+                    <div className="mock-body" aria-hidden="true" inert>
+                      <div className="mock-search">
+                        <Search size={13} strokeWidth={2} /> Search {opportunities.length}+
+                        opportunities…
+                      </div>
+                      <div className="mock-pills">
+                        <span className="chip active">All</span>
+                        {categories.slice(0, 4).map((c) => (
+                          <span key={c.id} className="chip">
+                            {c.name}
                           </span>
-                          <span className="bento-deadline-when">
-                            <span className="bento-deadline-date">{format(d, "MMM d")}</span>
-                            <span className="bento-deadline-days">
-                              {daysUntil === 0 ? "Today" : `${daysUntil} days left`}
-                            </span>
-                          </span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-              {categories.map((c) => {
-                const count = opportunities.filter((o) => o.category === c.id).length;
-                return (
-                  <button
-                    key={c.id}
-                    type="button"
-                    className="bento-tile bento-cat"
-                    onClick={() => navigate({ to: "/opportunities", search: { category: c.id } })}
-                  >
-                    <span className="bento-cat-icon">
-                      <CatIcon id={c.id} />
-                    </span>
-                    <span className="bento-cat-count">{count}</span>
-                    <span className="bento-cat-name">{c.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </Reveal>
-        </section>
-
-        <section className="section" id="opportunities">
-          <Reveal>
-            <span className="section-label section-label--accent">
-              <span className="num">03</span>Explore
-            </span>
-            <h2 className="section-h2">All opportunities</h2>
-            <Link to="/opportunities" className="btn btn-primary">
-              Browse all opportunities →
-            </Link>
-          </Reveal>
-        </section>
-
-        <section className="section" id="features">
-          <Reveal>
-            <span className="section-label section-label--accent">
-              <span className="num">04</span>Features
-            </span>
-            <h2 className="section-h2">Everything you need to get ahead</h2>
-            <div className="features-grid">
-              {[
-                {
-                  Icon: SlidersHorizontal,
-                  title: "Search & Filter",
-                  desc: "Cut through the noise with instant search and filters for category, difficulty, and grade level — find your fit in seconds.",
-                },
-                {
-                  Icon: Heart,
-                  title: "Save Favorites",
-                  desc: "Bookmark the opportunities you care about and build your own shortlist to come back to anytime.",
-                },
-                {
-                  Icon: Handshake,
-                  title: "Featured Partners",
-                  desc: `Discover ${partners.length} youth-led and student-run organizations featured on the site — each one an extra door to opportunities, mentorship, and community.`,
-                  link: true,
-                },
-              ].map((f, i) => {
-                const inner = (
-                  <>
-                    <div className="feature-icon">
-                      <f.Icon size={22} strokeWidth={1.7} />
+                        ))}
+                      </div>
+                      <div className="mock-scale">
+                        <div className="mock-cards">
+                          {mockOpps.map((o) => (
+                            <OppCard key={o.id} o={o} />
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                    <h3 className="feature-title">{f.title}</h3>
-                    <p className="feature-desc">{f.desc}</p>
-                  </>
-                );
-                return (
-                  <Reveal key={f.title} delay={i * 120}>
-                    {"link" in f && f.link ? (
-                      <Link
-                        to="/partners"
-                        className="feature-card"
-                        style={{ display: "block", textDecoration: "none", color: "inherit" }}
-                      >
-                        {inner}
-                      </Link>
-                    ) : (
-                      <div className="feature-card">{inner}</div>
-                    )}
-                  </Reveal>
-                );
-              })}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal>
+              <div className="fw-row fw-row--flip">
+                <div className="fw-text">
+                  <span className="section-label section-label--accent">
+                    <span className="num">02</span>Real student profiles
+                  </span>
+                  <h3 className="fw-h3">See what admitted students actually did.</h3>
+                  <p className="fw-body">
+                    Filter by school, major, or theme and study the real activities, roles, and
+                    awards behind successful applications.
+                  </p>
+                  <Link className="fw-link" to="/profiles">
+                    Explore profiles →
+                  </Link>
+                </div>
+                <div className="fw-frame">
+                  <div className="preview-card">
+                    <MockChrome url="summitseeker.app/profiles" />
+                    <div className="mock-body pf-tokens" aria-hidden="true" inert>
+                      <div className="mock-split">
+                        <div className="mock-rail">
+                          <span className="mock-rail-item mock-rail-item--on">Schools</span>
+                          <span className="mock-rail-item">Major</span>
+                          <span className="mock-rail-item">Theme</span>
+                          <span className="mock-rail-note">
+                            Showing
+                            <span className="mock-rail-note-v">All profiles</span>
+                          </span>
+                        </div>
+                        <div className="mock-main">
+                          <div className="mock-scale">
+                            <div className="mock-profiles">
+                              {mockProfiles.map((p) => (
+                                <ProfileCard key={p.id} p={p} />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal>
+              <div className="fw-row">
+                <div className="fw-text">
+                  <span className="section-label section-label--accent">
+                    <span className="num">03</span>Find your match
+                  </span>
+                  <h3 className="fw-h3">A 2-minute quiz that points you to a fit.</h3>
+                  <p className="fw-body">
+                    Tell us what you're into and what you'd love to build — we score every
+                    admitted-student profile against your answers and reveal your closest match.
+                  </p>
+                  <Link className="fw-link" to="/profiles/match">
+                    Take the quiz →
+                  </Link>
+                </div>
+                <div className="fw-frame">
+                  <QuizDemo />
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal>
+              <div className="fw-row fw-row--flip">
+                <div className="fw-text">
+                  <span className="section-label section-label--accent">
+                    <span className="num">04</span>Partner organizations
+                  </span>
+                  <h3 className="fw-h3">Discover student-led orgs offering more.</h3>
+                  <p className="fw-body">
+                    Partner organizations offer roles, chapters, and programs you won't find in a
+                    listing — join one or start your own.
+                  </p>
+                  <Link className="fw-link" to="/partners">
+                    Meet the partners →
+                  </Link>
+                </div>
+                <div className="fw-frame">
+                  <div className="preview-card">
+                    <MockChrome url="summitseeker.app/partners" />
+                    <div className="mock-body" aria-hidden="true" inert>
+                      <div className="mock-scale">
+                        <div className="mock-partners">
+                          {mockPartners.map((p) => (
+                            <PartnerCard key={p.name} p={p} />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* SECTION 3 — Essentials bento */}
+        <section className="section">
+          <Reveal>
+            <div className="fw-header">
+              <span className="section-label section-label--accent">The essentials</span>
+              <h2 className="section-h2">Everything in one place</h2>
+            </div>
+            <div className="es-grid">
+              <div className="es-tile es-tile--brand">
+                <span className="es-num">{opportunities.length}+</span>
+                <span className="es-label">verified opportunities, updated every cycle</span>
+              </div>
+              <div className="es-tile">
+                <span className="es-num">{categories.length}</span>
+                <span className="es-title">categories</span>
+                <div className="es-chips">
+                  {categories.slice(0, 3).map((c) => (
+                    <span key={c.id} className="tag-chip">
+                      {c.name}
+                    </span>
+                  ))}
+                  <span className="tag-chip">+{categories.length - 3} more</span>
+                </div>
+              </div>
+              <div className="es-tile">
+                <span className="es-num">1,000+</span>
+                <span className="es-label">students already searching</span>
+              </div>
+              <div className="es-tile es-tile--navy">
+                <span className="es-title">Canada + international</span>
+                <span className="es-label">Listings from BC to everywhere students apply.</span>
+              </div>
+              <div className="es-tile es-tile--wide">
+                <div>
+                  <span className="es-title">Real admitted-student profiles</span>
+                  <span className="es-label" style={{ display: "block", marginTop: "0.3rem" }}>
+                    Shared with consent and filterable by school and major.
+                  </span>
+                </div>
+                <span className="es-crests pf-tokens">
+                  {["uoft", "mcgill", "ubc", "waterloo"].map((id) => (
+                    <SchoolCrest key={id} id={id} />
+                  ))}
+                </span>
+              </div>
+              <div className="es-tile">
+                <span className="es-icon">
+                  <Bookmark size={18} strokeWidth={2} />
+                </span>
+                <span className="es-title">Save &amp; track</span>
+                <span className="es-label">Build a shortlist and never miss a deadline.</span>
+              </div>
             </div>
           </Reveal>
         </section>
 
-        <section className="section" id="about">
+        {/* SECTION 4 — FAQ */}
+        <section className="section">
           <Reveal>
-            <span className="section-label section-label--accent">
-              <span className="num">05</span>About
-            </span>
-            <h2 className="section-h2">Built by students, for students</h2>
-            <div className="about-grid" style={{ margin: "0 auto" }}>
-              <div>
-                <p className="about-lead">
-                  Summit Seeker curates Canadian student opportunities so you spend less time
-                  searching and more time applying.
-                </p>
-                <p className="about-body">
-                  Every listing is hand-checked for accuracy and updated regularly. We focus on
-                  opportunities that are actually worth your time — no spam, no paywalls, no
-                  marketing fluff.
+            <div className="qa-grid">
+              <div className="qa-intro">
+                <span className="section-label section-label--accent">Questions, answered</span>
+                <h2 className="section-h2">Everything you need to know</h2>
+                <p className="fw-body" style={{ marginTop: "0.75rem" }}>
+                  How the directory, profiles, and match quiz work together — and what it costs
+                  (nothing).
                 </p>
               </div>
-              <div className="about-faq">
-                <div className="faq-item">
-                  <div className="faq-q">How often is this updated?</div>
-                  <div className="faq-a">
-                    Listings are reviewed and updated on a rolling basis. Deadlines are verified
-                    each cycle.
-                  </div>
-                </div>
-                <div className="faq-item">
-                  <div className="faq-q">Who runs this?</div>
-                  <div className="faq-a">
-                    Summit Seeker is a student-led project based in Richmond, BC, built to make
-                    opportunity discovery more equitable for Canadian students.
-                  </div>
-                </div>
-                <div className="faq-item">
-                  <div className="faq-q">Can I suggest an opportunity?</div>
-                  <div className="faq-a">Yes — reach out and we'll review it for inclusion.</div>
-                </div>
+              <div className="qa-list">
+                {faqs.map((f, i) => (
+                  <details className="qa-item" key={f.q} open={i === 0}>
+                    <summary className="qa-summary">
+                      <span className="qa-num">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="qa-q">{f.q}</span>
+                      <span className="qa-toggle" aria-hidden="true" />
+                    </summary>
+                    <p className="qa-body">{f.a}</p>
+                  </details>
+                ))}
               </div>
             </div>
           </Reveal>
         </section>
       </main>
 
-      <section className="cta-band">
+      {/* SECTION 5 — CTA band */}
+      <section className="cta2-band">
         <Reveal>
-          <div className="cta-card">
-            <h3>Don't miss an opportunity.</h3>
-            <p>
-              New scholarships, competitions, and programs are added all the time. Start exploring
-              and find the one that changes your trajectory.
-            </p>
-            <Link className="btn btn-primary" to="/opportunities">
-              Browse all opportunities
-            </Link>
+          <div className="cta2-card">
+            <div>
+              <span className="cta2-eyebrow">Your next step</span>
+              <h2 className="cta2-h2">Start finding opportunities that fit you.</h2>
+              <p className="cta2-sub">
+                Free for students. Search the directory, learn from real profiles, and let the quiz
+                do the narrowing.
+              </p>
+              <div className="cta2-actions">
+                <Link className="btn btn-primary" to="/opportunities">
+                  Browse opportunities
+                </Link>
+                <Link className="cta2-btn-ghost" to="/profiles/match">
+                  Find your match
+                </Link>
+              </div>
+            </div>
+            <div className="cta2-aside pf-tokens">
+              <div className="cta2-aside-head">
+                <strong>Start here</strong>
+                <span className="cta2-crests">
+                  {["uoft", "mcgill", "ubc", "waterloo"].map((id) => (
+                    <SchoolCrest key={id} id={id} />
+                  ))}
+                </span>
+              </div>
+              <Link className="cta2-row" to="/opportunities">
+                <span className="cta2-row-num">01</span>
+                <span>
+                  <span className="cta2-kicker">{opportunities.length}+ opportunities</span>
+                  <span className="cta2-row-title">Browse the directory</span>
+                </span>
+                <ArrowRight size={16} className="cta2-arrow" />
+              </Link>
+              <Link className="cta2-row" to="/profiles">
+                <span className="cta2-row-num">02</span>
+                <span>
+                  <span className="cta2-kicker">Filter by school &amp; major</span>
+                  <span className="cta2-row-title">Explore student profiles</span>
+                </span>
+                <ArrowRight size={16} className="cta2-arrow" />
+              </Link>
+              <Link className="cta2-row" to="/profiles/match">
+                <span className="cta2-row-num">03</span>
+                <span>
+                  <span className="cta2-kicker">2 minutes</span>
+                  <span className="cta2-row-title">Take the match quiz</span>
+                </span>
+                <ArrowRight size={16} className="cta2-arrow" />
+              </Link>
+            </div>
           </div>
         </Reveal>
       </section>
 
-      <SiteFooter />
+      <HomeFooter />
     </>
   );
 }

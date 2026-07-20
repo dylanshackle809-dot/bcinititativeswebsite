@@ -58,20 +58,17 @@ function PartnersPage() {
             <Link className="nav-link" to="/opportunities">
               Opportunities
             </Link>
-            <Link className="nav-link" to="/" hash="categories">
-              Categories
+            <Link className="nav-link" to="/profiles">
+              Profiles
             </Link>
-            <Link className="nav-link" to="/" hash="features">
-              Features
+            <Link className="nav-link" to="/partners" aria-current="page">
+              Partners
             </Link>
             <Link className="nav-link" to="/about">
               About
             </Link>
-            <Link className="nav-cta nav-cta--outline" to="/profiles">
-              Student Profiles
-            </Link>
-            <Link className="nav-cta" to="/partners" aria-current="page">
-              Our Partners
+            <Link className="nav-cta" to="/opportunities">
+              Get started
             </Link>
           </div>
           <button
@@ -88,29 +85,22 @@ function PartnersPage() {
             <Link className="nav-link" to="/opportunities" onClick={() => setMenuOpen(false)}>
               Opportunities
             </Link>
-            <Link className="nav-link" to="/" hash="categories" onClick={() => setMenuOpen(false)}>
-              Categories
-            </Link>
-            <Link className="nav-link" to="/" hash="features" onClick={() => setMenuOpen(false)}>
-              Features
-            </Link>
-            <Link className="nav-link" to="/about" onClick={() => setMenuOpen(false)}>
-              About
+            <Link className="nav-link" to="/profiles" onClick={() => setMenuOpen(false)}>
+              Profiles
             </Link>
             <Link
-              className="nav-cta nav-cta--outline"
-              to="/profiles"
-              onClick={() => setMenuOpen(false)}
-            >
-              Student Profiles
-            </Link>
-            <Link
-              className="nav-cta"
+              className="nav-link"
               to="/partners"
               aria-current="page"
               onClick={() => setMenuOpen(false)}
             >
-              Our Partners
+              Partners
+            </Link>
+            <Link className="nav-link" to="/about" onClick={() => setMenuOpen(false)}>
+              About
+            </Link>
+            <Link className="nav-cta" to="/opportunities" onClick={() => setMenuOpen(false)}>
+              Get started
             </Link>
           </div>
         </div>
