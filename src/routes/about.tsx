@@ -3,37 +3,36 @@ import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
-import { PartnerDirectory } from "@/components/PartnerDirectory";
 
-export const Route = createFileRoute("/partners")({
+export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "Our Partners — Summit Seeker" },
+      { title: "About — Summit Seeker" },
       {
         name: "description",
         content:
-          "Summit Seeker partners with student-led and youth-serving organizations across BC, Canada, and around the world — expanding the opportunities available to students. Meet all of our partner organizations.",
+          "Summit Seeker is a student-led project based in Richmond, BC that curates Canadian student opportunities — scholarships, competitions, internships, summer programs, volunteering, and grants — so you spend less time searching and more time applying.",
       },
-      { property: "og:title", content: "Our Partners — Summit Seeker" },
+      { property: "og:title", content: "About — Summit Seeker" },
       {
         property: "og:description",
         content:
-          "The student-led and youth-serving organizations Summit Seeker works with across BC, Canada, and internationally.",
+          "A student-led project curating Canadian student opportunities. Every listing hand-checked, no spam, no paywalls.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Our Partners — Summit Seeker" },
+      { name: "twitter:title", content: "About — Summit Seeker" },
       {
         name: "twitter:description",
         content:
-          "The student-led and youth-serving organizations Summit Seeker works with across BC, Canada, and internationally.",
+          "A student-led project curating Canadian student opportunities. Every listing hand-checked, no spam, no paywalls.",
       },
     ],
   }),
-  component: PartnersPage,
+  component: AboutPage,
 });
 
-function PartnersPage() {
+function AboutPage() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -64,13 +63,13 @@ function PartnersPage() {
             <Link className="nav-link" to="/" hash="features">
               Features
             </Link>
-            <Link className="nav-link" to="/about">
+            <Link className="nav-link" to="/about" aria-current="page">
               About
             </Link>
             <Link className="nav-cta nav-cta--outline" to="/profiles">
               Student Profiles
             </Link>
-            <Link className="nav-cta" to="/partners" aria-current="page">
+            <Link className="nav-cta" to="/partners">
               Our Partners
             </Link>
           </div>
@@ -94,7 +93,12 @@ function PartnersPage() {
             <Link className="nav-link" to="/" hash="features" onClick={() => setMenuOpen(false)}>
               Features
             </Link>
-            <Link className="nav-link" to="/about" onClick={() => setMenuOpen(false)}>
+            <Link
+              className="nav-link"
+              to="/about"
+              aria-current="page"
+              onClick={() => setMenuOpen(false)}
+            >
               About
             </Link>
             <Link
@@ -104,12 +108,7 @@ function PartnersPage() {
             >
               Student Profiles
             </Link>
-            <Link
-              className="nav-cta"
-              to="/partners"
-              aria-current="page"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link className="nav-cta" to="/partners" onClick={() => setMenuOpen(false)}>
               Our Partners
             </Link>
           </div>
@@ -117,17 +116,32 @@ function PartnersPage() {
       </nav>
 
       <main className="container">
-        <section className="section partners-page" id="partners">
+        <section className="section partners-page" id="about">
           <Reveal>
-            <span className="section-label">Our Partners</span>
-            <h2 className="section-h2">The organizations we work with</h2>
+            <span className="section-label">About</span>
+            <h2 className="section-h2">Built by students, for students</h2>
             <p className="partners-intro">
-              Student-led organizations we partner with to bring you more opportunities — across BC,
-              Canada, and around the world.
+              Summit Seeker curates Canadian student opportunities so you spend less time searching
+              and more time applying.
             </p>
           </Reveal>
           <Reveal>
-            <PartnerDirectory />
+            <div style={{ maxWidth: "70ch", lineHeight: 1.65, marginTop: "1.5rem" }}>
+              <p>
+                Every listing is hand-checked for accuracy and updated regularly. We focus on
+                opportunities that are actually worth your time — no spam, no paywalls, no marketing
+                fluff.
+              </p>
+              <p style={{ marginTop: "1rem" }}>
+                Summit Seeker is a student-led project by the BC Initiatives Society, based in
+                Richmond, BC, built to make opportunity discovery more equitable for Canadian
+                students.
+              </p>
+              <p style={{ marginTop: "1rem" }}>
+                Want to suggest an opportunity or get in touch? Email us at{" "}
+                <a href="mailto:bcinitiativessociety@gmail.com">bcinitiativessociety@gmail.com</a>.
+              </p>
+            </div>
           </Reveal>
         </section>
       </main>

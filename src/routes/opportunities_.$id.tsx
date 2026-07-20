@@ -65,7 +65,7 @@ const categoryConfig: Record<
 const difficultyColor = (d: string) =>
   d === "Easy" ? "#15803d" : d === "Competitive" ? "#b45309" : "var(--text-primary)";
 
-export const Route = createFileRoute("/opportunities/$id")({
+export const Route = createFileRoute("/opportunities_/$id")({
   head: ({ params }) => {
     const opp = opportunities.find((o) => o.id === Number(params.id));
     return {
@@ -122,18 +122,7 @@ function OpportunityDetail() {
         <h1 style={{ fontFamily: "var(--font-display)", marginBottom: "1rem" }}>
           Opportunity not found.
         </h1>
-        <Link
-          to="/"
-          search={{
-            category: "all",
-            difficulty: "all",
-            grade: "all",
-            international: "all",
-            q: "",
-            sort: "deadline",
-          }}
-          className="apply-link"
-        >
+        <Link to="/opportunities" className="apply-link">
           ← Back to all opportunities
         </Link>
       </main>
@@ -182,35 +171,13 @@ function OpportunityDetail() {
       <nav className="nav">
         <div className="nav-inner">
           <span className="logo-lockup">
-            <Link
-              to="/"
-              search={{
-                category: "all",
-                difficulty: "all",
-                grade: "all",
-                international: "all",
-                q: "",
-                sort: "deadline",
-              }}
-              className="logo"
-            >
+            <Link to="/" className="logo">
               <LogoMark size={22} />
               Summit<span>Seeker</span>
             </Link>
             <span className="logo-tag">by BC Initiatives</span>
           </span>
-          <Link
-            to="/"
-            search={{
-              category: "all",
-              difficulty: "all",
-              grade: "all",
-              international: "all",
-              q: "",
-              sort: "deadline",
-            }}
-            className="nav-link"
-          >
+          <Link to="/opportunities" className="nav-link">
             ← All opportunities
           </Link>
         </div>
@@ -225,15 +192,7 @@ function OpportunityDetail() {
       >
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           <Link
-            to="/"
-            search={{
-              category: "all",
-              difficulty: "all",
-              grade: "all",
-              international: "all",
-              q: "",
-              sort: "deadline",
-            }}
+            to="/opportunities"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -592,15 +551,8 @@ function OpportunityDetail() {
               {saved ? "Saved" : "Save"}
             </button>
             <Link
-              to="/"
-              search={{
-                category: opp.category,
-                difficulty: "all",
-                grade: "all",
-                international: "all",
-                q: "",
-                sort: "deadline",
-              }}
+              to="/opportunities"
+              search={{ category: opp.category }}
               style={{
                 display: "flex",
                 alignItems: "center",

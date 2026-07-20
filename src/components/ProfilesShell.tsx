@@ -6,22 +6,13 @@ import { schoolById } from "@/lib/schools";
 import { themeLabels, type ThemeId } from "@/lib/profiles";
 import { initials, tintFor } from "@/components/PartnerDirectory";
 
-const homeSearch = {
-  category: "all",
-  difficulty: "all",
-  grade: "all",
-  international: "all",
-  q: "",
-  sort: "deadline",
-};
-
 /** Top app bar for the Profiles section — distinct from the marketing nav. */
 export function ProfilesTopBar({ view = "profiles" }: { view?: string }) {
   return (
     <header className="pf-topbar">
       <div className="pf-topbar-inner">
         <span className="logo-lockup">
-          <Link to="/" search={homeSearch} className="logo">
+          <Link to="/" className="logo">
             <LogoMark size={22} />
             Summit<span>Seeker</span>
           </Link>
@@ -49,7 +40,7 @@ export function ProfilesTopBar({ view = "profiles" }: { view?: string }) {
           </Link>
         </nav>
         <div className="pf-actions">
-          <Link className="pf-ghost" to="/" search={homeSearch} hash="opportunities">
+          <Link className="pf-ghost" to="/opportunities">
             Opportunities
           </Link>
           {view !== "match" && (

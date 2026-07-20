@@ -4,15 +4,6 @@ import { Reveal } from "@/components/Reveal";
 import { LogoMark } from "@/components/LogoMark";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const homeSearch = {
-  category: "all",
-  difficulty: "all",
-  grade: "all",
-  international: "all",
-  q: "",
-  sort: "deadline",
-};
-
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
@@ -56,23 +47,23 @@ function PrivacyPage() {
       <nav className="nav">
         <div className="nav-inner">
           <span className="logo-lockup">
-            <Link to="/" search={homeSearch} className="logo">
+            <Link to="/" className="logo">
               <LogoMark size={22} />
               Summit<span>Seeker</span>
             </Link>
             <span className="logo-tag">by BC Initiatives</span>
           </span>
           <div className="nav-links">
-            <Link className="nav-link" to="/" search={homeSearch} hash="opportunities">
+            <Link className="nav-link" to="/opportunities">
               Opportunities
             </Link>
-            <Link className="nav-link" to="/" search={homeSearch} hash="categories">
+            <Link className="nav-link" to="/" hash="categories">
               Categories
             </Link>
-            <Link className="nav-link" to="/" search={homeSearch} hash="features">
+            <Link className="nav-link" to="/" hash="features">
               Features
             </Link>
-            <Link className="nav-link" to="/" search={homeSearch} hash="about">
+            <Link className="nav-link" to="/about">
               About
             </Link>
             <Link className="nav-cta nav-cta--outline" to="/profiles">
@@ -93,40 +84,16 @@ function PrivacyPage() {
             <span />
           </button>
           <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-            <Link
-              className="nav-link"
-              to="/"
-              search={homeSearch}
-              hash="opportunities"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link className="nav-link" to="/opportunities" onClick={() => setMenuOpen(false)}>
               Opportunities
             </Link>
-            <Link
-              className="nav-link"
-              to="/"
-              search={homeSearch}
-              hash="categories"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link className="nav-link" to="/" hash="categories" onClick={() => setMenuOpen(false)}>
               Categories
             </Link>
-            <Link
-              className="nav-link"
-              to="/"
-              search={homeSearch}
-              hash="features"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link className="nav-link" to="/" hash="features" onClick={() => setMenuOpen(false)}>
               Features
             </Link>
-            <Link
-              className="nav-link"
-              to="/"
-              search={homeSearch}
-              hash="about"
-              onClick={() => setMenuOpen(false)}
-            >
+            <Link className="nav-link" to="/about" onClick={() => setMenuOpen(false)}>
               About
             </Link>
             <Link

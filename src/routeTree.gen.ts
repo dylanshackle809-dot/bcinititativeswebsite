@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfilesRouteImport } from './routes/profiles'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as OpportunitiesRouteImport } from './routes/opportunities'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProfilesMatchRouteImport } from './routes/profiles_.match'
 import { Route as ProfilesIdRouteImport } from './routes/profiles_.$id'
-import { Route as OpportunitiesIdRouteImport } from './routes/opportunities.$id'
+import { Route as OpportunitiesIdRouteImport } from './routes/opportunities_.$id'
 
 const ProfilesRoute = ProfilesRouteImport.update({
   id: '/profiles',
@@ -30,6 +32,16 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PartnersRoute = PartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpportunitiesRoute = OpportunitiesRouteImport.update({
+  id: '/opportunities',
+  path: '/opportunities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -48,13 +60,15 @@ const ProfilesIdRoute = ProfilesIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const OpportunitiesIdRoute = OpportunitiesIdRouteImport.update({
-  id: '/opportunities/$id',
+  id: '/opportunities_/$id',
   path: '/opportunities/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/profiles': typeof ProfilesRoute
@@ -64,6 +78,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/profiles': typeof ProfilesRoute
@@ -74,10 +90,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/profiles': typeof ProfilesRoute
-  '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/opportunities_/$id': typeof OpportunitiesIdRoute
   '/profiles_/$id': typeof ProfilesIdRoute
   '/profiles_/match': typeof ProfilesMatchRoute
 }
@@ -85,6 +103,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
+    | '/opportunities'
     | '/partners'
     | '/privacy'
     | '/profiles'
@@ -94,6 +114,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
+    | '/opportunities'
     | '/partners'
     | '/privacy'
     | '/profiles'
@@ -103,16 +125,20 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
+    | '/opportunities'
     | '/partners'
     | '/privacy'
     | '/profiles'
-    | '/opportunities/$id'
+    | '/opportunities_/$id'
     | '/profiles_/$id'
     | '/profiles_/match'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  OpportunitiesRoute: typeof OpportunitiesRoute
   PartnersRoute: typeof PartnersRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfilesRoute: typeof ProfilesRoute
@@ -144,6 +170,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/opportunities': {
+      id: '/opportunities'
+      path: '/opportunities'
+      fullPath: '/opportunities'
+      preLoaderRoute: typeof OpportunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -165,8 +205,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfilesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/opportunities/$id': {
-      id: '/opportunities/$id'
+    '/opportunities_/$id': {
+      id: '/opportunities_/$id'
       path: '/opportunities/$id'
       fullPath: '/opportunities/$id'
       preLoaderRoute: typeof OpportunitiesIdRouteImport
@@ -177,6 +217,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  OpportunitiesRoute: OpportunitiesRoute,
   PartnersRoute: PartnersRoute,
   PrivacyRoute: PrivacyRoute,
   ProfilesRoute: ProfilesRoute,
