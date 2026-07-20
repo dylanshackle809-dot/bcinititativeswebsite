@@ -352,6 +352,20 @@ export const schools: School[] = [
     country: "US",
     usTier: "top-public",
   },
+  // Logo files not yet added — SchoolCrest falls back to the `short` label.
+  {
+    id: "york",
+    name: "York University",
+    short: "YU",
+    country: "CA",
+  },
+  {
+    id: "nyu",
+    name: "New York University",
+    short: "NYU",
+    country: "US",
+    usTier: "top-private",
+  },
 ];
 
 export const schoolById: Record<string, School> = Object.fromEntries(schools.map((s) => [s.id, s]));

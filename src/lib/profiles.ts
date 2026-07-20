@@ -2379,6 +2379,343 @@ const allProfiles: Profile[] = [
     verified: false,
     consent: true,
   },
+  {
+    id: "richard-uoft-ubc",
+    name: "Richard",
+    major: "Business / Commerce",
+    location: "Not stated",
+    curriculum: "AP",
+    stats: [{ label: "Average", value: "~97% overall" }],
+    themes: ["entrepreneurship", "leadership", "arts"],
+    extracurriculars: [
+      {
+        role: "Legislative Assistant",
+        org: "Provincial Legislature",
+        theme: "leadership",
+        description:
+          "Worked at his provincial legislature alongside a Member of the Legislative Assembly, experiencing politics up close.",
+      },
+      {
+        role: "Cultural Representative",
+        org: "Local Community Event",
+        theme: "service",
+        description:
+          "Informed and represented his culture through a local community event across two years.",
+      },
+      {
+        role: "Musician",
+        org: "Jazz Band & Wind Ensemble",
+        theme: "arts",
+        description: "Played in the school jazz band and musical wind ensemble.",
+      },
+      {
+        role: "Member",
+        org: "Student Council",
+        theme: "leadership",
+        description: "Served on student council for several years.",
+      },
+    ],
+    awards: [],
+    acceptedSchoolIds: ["uoft", "ubc"],
+    sourceVideoUrl: "https://www.youtube.com/watch?v=31dreUsO2TI",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "celina-business-twin",
+    name: "Celina",
+    major: "Business / Commerce",
+    location: "Ontario",
+    curriculum: "IB",
+    stats: [{ label: "Average", value: "~94.6% (top six)" }],
+    themes: ["entrepreneurship", "service", "arts"],
+    extracurriculars: [
+      {
+        role: "Founder & Executive Director",
+        org: "4U Tutoring",
+        theme: "service",
+        description:
+          "Founded a nonprofit tutoring organization providing free 1-on-1 tutoring, making many student–tutor matches.",
+      },
+      {
+        role: "Author & Course Instructor",
+        org: "Independent",
+        theme: "arts",
+        description: "Self-published a book and taught a five-week webinar course based on it.",
+      },
+      {
+        role: "Vice President",
+        org: "School Social Justice Club",
+        theme: "leadership",
+        description:
+          "Rose from social media coordinator to elected vice president, running fundraisers and school (and virtual) events.",
+      },
+    ],
+    awards: [],
+    acceptedSchoolIds: ["uoft", "york", "mcmaster", "western", "queens"],
+    sourceVideoUrl: "https://www.youtube.com/watch?v=6s4X_zzcNow",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "sarah-business-twin",
+    name: "Sarah",
+    major: "Business / Commerce",
+    location: "Ontario",
+    curriculum: "IB",
+    stats: [{ label: "Average", value: "~95% (top six)" }],
+    themes: ["entrepreneurship", "service", "arts", "leadership"],
+    extracurriculars: [
+      {
+        role: "Author",
+        org: "Independent",
+        theme: "arts",
+        description: "Self-published a book (a project she and her twin both completed).",
+      },
+      {
+        role: "Founder",
+        org: "Eyes on Youth",
+        theme: "service",
+        description:
+          "Founded an international youth-led organization amplifying youth voices through digital magazines, events, and interviews.",
+      },
+      {
+        role: "Acting Co-Chair",
+        org: "School Library Steering Committee",
+        theme: "leadership",
+        description:
+          "Worked up from general member to acting co-chair, leading events and initiatives.",
+      },
+    ],
+    awards: [],
+    acceptedSchoolIds: ["uoft", "york", "mcmaster", "western", "queens"],
+    sourceVideoUrl: "https://www.youtube.com/watch?v=6s4X_zzcNow",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "maddy-a-ubc",
+    name: "Maddy A.",
+    major: "Combined Science + Master of Management",
+    location: "British Columbia (Delta area)",
+    curriculum: "AP",
+    stats: [{ label: "Average", value: "~95% (Gr 11) / ~94% (Gr 12)" }],
+    themes: ["stem", "leadership", "athletics", "service"],
+    extracurriculars: [
+      {
+        role: "Grad Council President & Student Council",
+        org: "School",
+        theme: "leadership",
+        description:
+          "Served on student council through high school and ran for and became grad council president in senior year.",
+      },
+      {
+        role: "Co-President",
+        org: "Model United Nations",
+        theme: "leadership",
+        description: "Member then co-president of the school's Model UN club.",
+      },
+      {
+        role: "Member",
+        org: "Youth Advisory Councils",
+        theme: "service",
+        description:
+          "Sat on two youth councils — one serving the school and one serving the community (Delta Youth Advisory Council).",
+      },
+      {
+        role: "Volunteer",
+        org: "Wildlife Rehabilitation Centre",
+        theme: "service",
+        description: "Volunteered at an orphaned-wildlife rehabilitation centre.",
+      },
+      {
+        role: "Athlete — Basketball & Soccer",
+        org: "School",
+        theme: "athletics",
+        description: "Played school basketball and soccer across her high school years.",
+      },
+      {
+        role: "Part-Time Employee",
+        org: "Independent",
+        theme: "leadership",
+        description:
+          "Held a part-time job (about three days/week in Grade 10, reduced in Grade 12), showing sustained employment.",
+      },
+    ],
+    awards: [],
+    acceptedSchoolIds: ["ubc"],
+    attendingSchoolId: "ubc",
+    sourceVideoUrl: "https://www.youtube.com/watch?v=isiKhIdTO14",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "wynette-business",
+    name: "Wynette",
+    major: "Business / Commerce",
+    location: "Ontario",
+    curriculum: "AP",
+    stats: [{ label: "Average", value: "~95% (Gr 11) / ~92% (Gr 12)" }],
+    themes: ["entrepreneurship", "athletics", "service", "leadership"],
+    extracurriculars: [
+      {
+        role: "President",
+        org: "DECA",
+        theme: "entrepreneurship",
+        description: "Served as DECA president at her school.",
+      },
+      {
+        role: "Lifeguard & Swim Instructor",
+        org: "Local Municipality",
+        theme: "athletics",
+        description:
+          "Worked as a lifeguard and swim instructor at her local municipality (~7 hours/week during the school year).",
+      },
+      {
+        role: "Member",
+        org: "Public Library Teen Advisory Group",
+        theme: "service",
+        description:
+          "Five-year member planning and running teen programs (trivia nights, cooking classes, games) to make the library more teen-inclusive.",
+      },
+      {
+        role: "Volunteer Tutor",
+        org: "School",
+        theme: "service",
+        description: "Tutored Grade 9 math during lunch and after school for about two years.",
+      },
+      {
+        role: "Timbit Soccer Coach",
+        org: "Volunteer",
+        theme: "athletics",
+        description: "Coached a youth (six-year-old) soccer team.",
+      },
+      {
+        role: "Museum Photographer",
+        org: "Local Museum",
+        theme: "arts",
+        description: "Served as a photographer at a local museum for about a year.",
+      },
+    ],
+    awards: [],
+    acceptedSchoolIds: ["western", "uoft", "mcmaster", "york", "waterloo"],
+    sourceVideoUrl: "https://www.youtube.com/watch?v=GuaVRzTIU4w",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "nelson-lee",
+    name: "Nelson Lee",
+    major: "Engineering / Commerce",
+    location: "Ontario",
+    curriculum: "AP",
+    stats: [{ label: "Average", value: "90s" }],
+    themes: ["stem", "entrepreneurship", "leadership"],
+    extracurriculars: [
+      {
+        role: "Organizer",
+        org: "School Walkout",
+        theme: "leadership",
+        description: "Organized a school walkout involving over 1,500 students.",
+      },
+      {
+        role: "Competitor",
+        org: "DECA",
+        theme: "entrepreneurship",
+        description: "Placed third internationally at DECA with a partner.",
+      },
+      {
+        role: "Candidate",
+        org: "City Youth Council President Campaign",
+        theme: "leadership",
+        description: "Ran a campaign to become city (youth) council president.",
+      },
+    ],
+    awards: ["3rd Place International — DECA"],
+    acceptedSchoolIds: ["waterloo", "uoft", "queens", "western"],
+    sourceVideoUrl: "https://www.youtube.com/watch?v=1P732no1U_k",
+    verified: false,
+    consent: true,
+  },
+  {
+    id: "camille-bley",
+    name: "Camille Bley",
+    major: "International Relations",
+    location: "Pennsylvania, USA",
+    curriculum: "Other",
+    stats: [
+      { label: "GPA", value: "4.16 / 4.3 scale" },
+      { label: "SAT", value: "1490 superscore" },
+    ],
+    themes: ["leadership", "athletics", "service"],
+    extracurriculars: [
+      {
+        role: "Class Officer",
+        org: "School",
+        theme: "leadership",
+        description:
+          "Planned class activities, fundraising, and meetings across freshman, sophomore, and senior years (~6 hrs/week).",
+      },
+      {
+        role: "Exchange Student",
+        org: "Japan Summer Exchange",
+        theme: "service",
+        description:
+          "Completed a summer language-and-culture immersion exchange in Japan on the Japan-American Friendship Scholarship, then presented her experience to sponsors and her school.",
+      },
+      {
+        role: "Captain",
+        org: "Varsity Soccer",
+        theme: "athletics",
+        description: "Played varsity soccer all four years and captained junior and senior year.",
+      },
+      {
+        role: "Head",
+        org: "Model United Nations",
+        theme: "leadership",
+        description: "Member in 11th grade and head in senior year.",
+      },
+      {
+        role: "Proctor (Residential Assistant)",
+        org: "School",
+        theme: "leadership",
+        description:
+          "Selected as one of four juniors living in the freshman dorm; led dorm meetings, mediated conflicts, and monitored study hall.",
+      },
+      {
+        role: "Head Ambassador",
+        org: "School",
+        theme: "leadership",
+        description:
+          "Ambassador then head ambassador; co-led a team of 80+ ambassadors, giving tours, interviewing students, and serving on panels.",
+      },
+      {
+        role: "Member",
+        org: "Black Student Union & Black Women's Affinity Group",
+        theme: "service",
+        description: "Active member all four years of high school.",
+      },
+      {
+        role: "Volunteer",
+        org: "English Tutoring for Chinese Immigrants",
+        theme: "service",
+        description:
+          "Volunteered weekly teaching English to Chinese immigrants through a school club, as part of a global leadership certificate program.",
+      },
+    ],
+    awards: [
+      "National Merit Commended Student",
+      "College Board National Recognition Program",
+      "National Chinese Honor Society",
+      "Elliot Math Award (most improved)",
+      "Pennsylvania Area Lacrosse Team Award",
+    ],
+    acceptedSchoolIds: ["princeton", "penn", "usc", "georgetown", "nyu"],
+    attendingSchoolId: "princeton",
+    sourceVideoUrl: "https://www.youtube.com/watch?v=jBa2MIq-eMo",
+    verified: false,
+    consent: true,
+  },
 ];
 
 /** The consent gate. Non-consenting entries never leave this module. */
