@@ -2729,7 +2729,117 @@ export const slugify = (s: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
-/** Checkbox options for the Major filter — derived from the data, grows with it. */
-export const majorOptions = [...new Set(profiles.map((p) => p.major))]
-  .sort()
-  .map((m) => ({ value: slugify(m), label: m }));
+/**
+ * Broad major-field groups for the Major filter. The raw `major` strings (26
+ * near-duplicates like "Business / Commerce" vs "Business Administration") stay
+ * on the profile cards; the filter shows just these groups.
+ */
+export type MajorGroupId =
+  | "business"
+  | "cs-tech"
+  | "engineering"
+  | "math-physical"
+  | "life-sciences"
+  | "social-sciences"
+  | "humanities-law"
+  | "arts-design"
+  | "other";
+
+export const majorGroupLabels: Record<MajorGroupId, string> = {
+  business: "Business & Economics",
+  "cs-tech": "Computer Science & Tech",
+  engineering: "Engineering",
+  "math-physical": "Math & Physical Sciences",
+  "life-sciences": "Life Sciences & Pre-Med",
+  "social-sciences": "Social Sciences",
+  "humanities-law": "Humanities & Law",
+  "arts-design": "Arts, Media & Design",
+  other: "Undeclared / Other",
+};
+
+// Canonical order (used to break population ties; `other` is always pinned last).
+const MAJOR_GROUP_ORDER: MajorGroupId[] = [
+  "business",
+  "cs-tech",
+  "engineering",
+  "math-physical",
+  "life-sciences",
+  "social-sciences",
+  "humanities-law",
+  "arts-design",
+  "other",
+];
+
+/**
+ * Explicit group for each real `major` in the data — edit a line here to move a
+ * major between filter groups. Majors not listed fall through to the keyword
+ * heuristic in `majorGroupFor`, so new profiles auto-sort without touching this.
+ */
+const MAJOR_GROUP_MAP: Record<string, MajorGroupId> = {
+  "Business / Commerce": "business",
+  "Business Administration": "business",
+  Economics: "business",
+  "Applied Mathematics-Economics": "business",
+  "Computer Science": "cs-tech",
+  "Artificial Intelligence": "cs-tech",
+  "Electrical Engineering and Computer Science": "cs-tech",
+  "Electrical & Computer Engineering, Computer Science": "cs-tech",
+  "Computer Science and Business Administration": "cs-tech",
+  Engineering: "engineering",
+  "Aerospace Engineering": "engineering",
+  "Biomedical Engineering": "engineering",
+  Bioengineering: "engineering",
+  "Engineering / Commerce": "engineering",
+  "Pre-Medicine": "life-sciences",
+  "Environmental Science and Policy": "life-sciences",
+  "Combined Science + Master of Management": "life-sciences",
+  Psychology: "social-sciences",
+  Government: "social-sciences",
+  "International Relations": "social-sciences",
+  Physics: "math-physical",
+  "Mathematics and Finance": "math-physical",
+  Architecture: "arts-design",
+  "Strategic Design and Management": "arts-design",
+  "Law, Letters, and Society": "humanities-law",
+  Undeclared: "other",
+};
+
+/** Resolve a specific `major` string to its broad filter group. */
+export const majorGroupFor = (major: string): MajorGroupId => {
+  const explicit = MAJOR_GROUP_MAP[major];
+  if (explicit) return explicit;
+  const m = major.toLowerCase();
+  if (!m.trim() || m.includes("undeclared") || m.includes("undecided")) return "other";
+  if (/business|commerce|econ|finance|accounting|management/.test(m)) return "business";
+  if (/comput|software|artificial intelligence|\bai\b|data scien|informat/.test(m))
+    return "cs-tech";
+  if (/engineer/.test(m)) return "engineering";
+  if (/math|physic|statistic|astronom|chemist/.test(m)) return "math-physical";
+  if (/bio|medic|health|neuro|environ|kinesio|nursing|life scien/.test(m)) return "life-sciences";
+  if (/psych|sociolog|anthropolog|politic|government|international relation|geograph/.test(m))
+    return "social-sciences";
+  if (/law|letters|histor|philosoph|english|literatur|humanit|classic|linguist/.test(m))
+    return "humanities-law";
+  if (/art|media|design|architect|music|film|theat|journalism|communicat/.test(m))
+    return "arts-design";
+  return "other";
+};
+
+/**
+ * Filter options for the Major tab — the groups present in the data, ordered
+ * most-populated first with "Undeclared / Other" pinned last. Grows with the data.
+ */
+export const majorGroupOptions = (() => {
+  const counts = new Map<MajorGroupId, number>();
+  for (const p of profiles) {
+    const g = majorGroupFor(p.major);
+    counts.set(g, (counts.get(g) ?? 0) + 1);
+  }
+  return MAJOR_GROUP_ORDER.filter((g) => counts.has(g))
+    .sort((a, b) => {
+      if (a === "other") return 1;
+      if (b === "other") return -1;
+      return (counts.get(b) ?? 0) - (counts.get(a) ?? 0);
+    })
+    .map((g) => ({ value: g, label: majorGroupLabels[g] }));
+})();

@@ -34,7 +34,14 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
-import { profiles, majorOptions, themeLabels, slugify, type ThemeId } from "@/lib/profiles";
+import {
+  profiles,
+  majorGroupOptions,
+  majorGroupFor,
+  themeLabels,
+  type MajorGroupId,
+  type ThemeId,
+} from "@/lib/profiles";
 import { schoolSections } from "@/lib/schools";
 import { PartnerDirectory } from "@/components/PartnerDirectory";
 import { ProfilesTopBar, SchoolCrest, ProfileCard } from "@/components/ProfilesShell";
@@ -175,30 +182,17 @@ function ProfilesPending() {
   );
 }
 
-/** Icons per major slug, consistent with the quiz's fieldIcons; GraduationCap for anything unmapped. */
-const majorIcons: Record<string, LucideIcon> = {
-  physics: Atom,
-  "computer-science": Code,
+/** Icons per broad major group; GraduationCap for anything unmapped. */
+const majorGroupIcons: Record<MajorGroupId, LucideIcon> = {
+  business: Briefcase,
+  "cs-tech": Code,
   engineering: Wrench,
-  "pre-medicine": Stethoscope,
-  psychology: Brain,
-  government: Landmark,
-  "mathematics-and-finance": Sigma,
-  "electrical-computer-engineering-computer-science": Cpu,
-  "electrical-engineering-and-computer-science": Cpu,
-  architecture: Building2,
-  "strategic-design-and-management": PenTool,
-  undeclared: Compass,
-  "artificial-intelligence": Cpu,
-  "environmental-science-and-policy": Leaf,
-  "biomedical-engineering": Dna,
-  bioengineering: Dna,
-  "law-letters-and-society": Scale,
-  "aerospace-engineering": Rocket,
-  economics: Sigma,
-  "applied-mathematics-economics": Sigma,
-  "computer-science-and-business-administration": Code,
-  "business-administration": Briefcase,
+  "math-physical": Sigma,
+  "life-sciences": Stethoscope,
+  "social-sciences": Users,
+  "humanities-law": Scale,
+  "arts-design": Palette,
+  other: Compass,
 };
 
 const themeIcons: Record<ThemeId, LucideIcon> = {
@@ -276,8 +270,8 @@ function FilterPanel({
       </TabsContent>
       <TabsContent value="major">
         <div className="pf-q-grid pf-filter-cards">
-          {majorOptions.map((m) => {
-            const Icon = majorIcons[m.value] ?? GraduationCap;
+          {majorGroupOptions.map((m) => {
+            const Icon = majorGroupIcons[m.value] ?? GraduationCap;
             const on = csv(search.major).includes(m.value);
             return (
               <label key={m.value} className={`pf-q-opt ${on ? "pf-q-opt--on" : ""}`}>
@@ -345,7 +339,7 @@ function ProfilesPage() {
         !schoolIds.some((id) => p.acceptedSchoolIds.includes(id) || p.attendingSchoolId === id)
       )
         return false;
-      if (majors.length && !majors.includes(slugify(p.major))) return false;
+      if (majors.length && !majors.includes(majorGroupFor(p.major))) return false;
       if (themes.length && !p.themes.some((t) => themes.includes(t))) return false;
       if (query) {
         const hay = [
