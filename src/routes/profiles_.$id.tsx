@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Award, BadgeCheck, ExternalLink } from "lucide-react";
 import { getProfile, themeLabels } from "@/lib/profiles";
 import { schoolById } from "@/lib/schools";
-import { opportunities } from "@/lib/opportunities";
+import { opportunitiesForActivity } from "@/lib/opportunityLinks";
 import {
   ProfilesTopBar,
   ProfileAvatar,
@@ -134,9 +134,10 @@ function ProfileDetail() {
               <section className="pf-section">
                 <h2 className="pf-section-title">Extracurriculars</h2>
                 {p.extracurriculars.map((e) => {
-                  const related = (e.relatedOpportunityIds ?? [])
-                    .map((rid) => opportunities.find((o) => o.id === rid))
-                    .filter((o) => o !== undefined);
+                  const related = opportunitiesForActivity(
+                    `${e.role} ${e.org} ${e.description}`,
+                    e.relatedOpportunityIds,
+                  );
                   return (
                     <div key={`${e.role}-${e.org}`} className="pf-ec">
                       <div className="pf-ec-head">
@@ -169,12 +170,31 @@ function ProfileDetail() {
             {p.awards.length > 0 && (
               <section className="pf-section">
                 <h2 className="pf-section-title">Awards</h2>
-                {p.awards.map((a) => (
-                  <div key={a} className="pf-award">
-                    <Award size={15} strokeWidth={2} />
-                    {a}
-                  </div>
-                ))}
+                {p.awards.map((a) => {
+                  const awardOpps = opportunitiesForActivity(a);
+                  return (
+                    <div key={a} className="pf-award">
+                      <div className="pf-award-line">
+                        <Award size={15} strokeWidth={2} />
+                        {a}
+                      </div>
+                      {awardOpps.length > 0 && (
+                        <div className="pf-ec-links">
+                          {awardOpps.map((o) => (
+                            <Link
+                              key={o.id}
+                              className="pf-chip pf-chip--blue"
+                              to="/opportunities/$id"
+                              params={{ id: String(o.id) }}
+                            >
+                              {o.name} →
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </section>
             )}
           </div>

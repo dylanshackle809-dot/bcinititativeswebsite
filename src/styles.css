@@ -2862,15 +2862,26 @@ a.pf-chip--blue:hover {
 }
 .pf-award {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 0.3rem 0;
+}
+.pf-award-line {
+  display: flex;
   align-items: center;
   gap: 0.55rem;
   font-size: 0.88rem;
   color: var(--text-primary);
-  padding: 0.3rem 0;
 }
 .pf-award svg {
   color: var(--pf-green);
   flex-shrink: 0;
+}
+.pf-award .pf-ec-links {
+  /* the column gap already spaces the chip row from the award line */
+  margin-top: 0;
+  margin-left: 1.55rem;
 }
 .pf-correction {
   display: block;
