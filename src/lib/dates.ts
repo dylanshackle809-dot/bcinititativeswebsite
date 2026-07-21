@@ -19,3 +19,64 @@ export function formatDeadline(s: string): string {
   if (/\d{4}/.test(rest)) return `Est. ${rest}`;
   return `Est. ${rest}, ${year}`;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Deadline urgency — shared status derivation for the directory      */
+/* ------------------------------------------------------------------ */
+
+export type DeadlineUrgency = "open" | "soon" | "rolling" | "closed";
+
+/** Days-out threshold below which a dated deadline counts as "Closing soon". */
+export const CLOSING_SOON_DAYS = 30;
+
+const URGENCY_LABELS: Record<DeadlineUrgency, string> = {
+  open: "Open",
+  soon: "Closing soon",
+  rolling: "Rolling",
+  closed: "Closed",
+};
+
+const ROLLING_SENTINEL = "2099-12-31";
+const DAY_MS = 1000 * 60 * 60 * 24;
+
+/**
+ * Honest urgency for one opportunity, derived from its structured deadline
+ * fields (never by parsing the freeform display string). Guarantees: `days` is
+ * only set for future dates (never negative, never NaN), and an ESTIMATED
+ * deadline is never marked hard-Closed — a passed estimate reads "Check site".
+ */
+export function deadlineUrgency(
+  o: { deadline: string; deadlineStatus: "open" | "est" | "closed"; deadlineSort: string },
+  now = new Date(),
+): { urgency: DeadlineUrgency; days: number | null; label: string; line: string } {
+  const make = (urgency: DeadlineUrgency, line: string, days: number | null = null) => ({
+    urgency,
+    days,
+    label: URGENCY_LABELS[urgency],
+    line,
+  });
+
+  if (o.deadlineStatus === "closed") return make("closed", "Closed");
+
+  const date = parseLocalDate(o.deadlineSort);
+  if (o.deadlineSort === ROLLING_SENTINEL || Number.isNaN(date.getTime())) {
+    return make("rolling", "Rolling");
+  }
+
+  const days = Math.ceil((date.getTime() - now.getTime()) / DAY_MS);
+  if (!Number.isFinite(days)) return make("rolling", "Rolling");
+
+  if (days < 0) {
+    // A passed date only hard-closes a CONFIRMED deadline; a passed estimate
+    // just means the next cycle isn't announced yet.
+    return o.deadlineStatus === "open" ? make("closed", "Closed") : make("rolling", "Check site");
+  }
+
+  if (days <= CLOSING_SOON_DAYS) {
+    const when =
+      days === 0 ? "Closes today" : days === 1 ? "Closes tomorrow" : `Closes in ${days} days`;
+    return make("soon", o.deadlineStatus === "est" ? `${when} (est.)` : when, days);
+  }
+
+  return make("open", formatDeadline(o.deadline), days);
+}

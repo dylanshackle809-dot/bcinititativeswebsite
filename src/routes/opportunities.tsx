@@ -7,6 +7,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { Search, Heart } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
+import { deadlineUrgency, type DeadlineUrgency } from "@/lib/dates";
 import { Reveal } from "@/components/Reveal";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { OppCard } from "@/components/OppCard";
@@ -22,6 +23,7 @@ import {
 
 const OPP_SORT_LABELS: Record<string, string> = {
   deadline: "Deadline (soonest)",
+  closing: "Closing soon",
   newest: "Newest added",
   amount: "Award amount",
   difficulty: "Difficulty (easiest)",
@@ -90,7 +92,15 @@ function parseAmount(s: string): number {
 
 const difficultyRank: Record<string, number> = { Easy: 0, Moderate: 1, Competitive: 2 };
 
-function sortOpportunities(list: Opportunity[], sort: string): Opportunity[] {
+// Closing-soon sort: real soonest dates first, then dated Open, then Rolling
+// (incl. passed estimates — no stale dates in the urgent group), Closed last.
+const urgencyRank: Record<DeadlineUrgency, number> = { soon: 0, open: 1, rolling: 2, closed: 3 };
+
+function sortOpportunities(
+  list: Opportunity[],
+  sort: string,
+  urgencyOf?: Map<number, DeadlineUrgency>,
+): Opportunity[] {
   const r = [...list];
   switch (sort) {
     case "newest": // higher ids are the newer batch (the isNew entries)
@@ -101,6 +111,15 @@ function sortOpportunities(list: Opportunity[], sort: string): Opportunity[] {
       return r.sort(
         (a, b) => (difficultyRank[a.difficulty] ?? 99) - (difficultyRank[b.difficulty] ?? 99),
       );
+    case "closing": {
+      const rank = (o: Opportunity) =>
+        urgencyRank[urgencyOf?.get(o.id) ?? deadlineUrgency(o).urgency];
+      return r.sort(
+        (a, b) =>
+          rank(a) - rank(b) ||
+          new Date(a.deadlineSort).getTime() - new Date(b.deadlineSort).getTime(),
+      );
+    }
     case "deadline":
     default:
       return r.sort(
@@ -133,16 +152,24 @@ function OpportunitiesPage() {
 
   const [showAll, setShowAll] = useState(false);
   const [savedOnly, setSavedOnly] = useState(false);
+  const [openOnly, setOpenOnly] = useState(false);
   const { savedSet, count: savedCount } = useSavedOpportunities();
+
+  // "Now" frozen per page load — urgency can't flicker while filtering/typing.
+  const urgencyById = useMemo(
+    () => new Map(opportunities.map((o) => [o.id, deadlineUrgency(o).urgency])),
+    [],
+  );
 
   useEffect(() => {
     setShowAll(false);
-  }, [search, category, difficulty, grade, international, savedOnly]);
+  }, [search, category, difficulty, grade, international, savedOnly, openOnly]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     const r = opportunities
       .filter((o) => (savedOnly ? savedSet.has(o.id) : true))
+      .filter((o) => (openOnly ? urgencyById.get(o.id) !== "closed" : true))
       .filter((o) => (category === "all" ? true : o.category === category))
       .filter((o) => (difficulty === "all" ? true : o.difficulty === difficulty))
       .filter((o) => (grade === "all" ? true : o.gradeLevels.includes(grade)))
@@ -160,8 +187,19 @@ function OpportunitiesPage() {
               .toLowerCase()
               .includes(q),
       );
-    return sortOpportunities(r, sort);
-  }, [search, category, difficulty, grade, international, savedOnly, savedSet, sort]);
+    return sortOpportunities(r, sort, urgencyById);
+  }, [
+    search,
+    category,
+    difficulty,
+    grade,
+    international,
+    savedOnly,
+    savedSet,
+    openOnly,
+    urgencyById,
+    sort,
+  ]);
 
   return (
     <>
@@ -337,16 +375,31 @@ function OpportunitiesPage() {
               </button>
             </div>
 
+            <div className="chip-group">
+              <span className="chip-label">Status</span>
+              <button
+                type="button"
+                className={`chip ${openOnly ? "active" : ""}`}
+                onClick={() => setOpenOnly((s) => !s)}
+                aria-pressed={openOnly}
+                aria-label={openOnly ? "Show all opportunities" : "Hide closed opportunities"}
+              >
+                Open now
+              </button>
+            </div>
+
             {(category !== "all" ||
               difficulty !== "all" ||
               grade !== "all" ||
               international !== "all" ||
               search !== "" ||
-              savedOnly) && (
+              savedOnly ||
+              openOnly) && (
               <button
                 className="clear-filters-btn"
                 onClick={() => {
                   setSavedOnly(false);
+                  setOpenOnly(false);
                   navigate({
                     search: {
                       category: "all",
@@ -392,6 +445,9 @@ function OpportunitiesPage() {
                         <SelectContent className="ss-sort-menu" align="end">
                           <SelectItem className="ss-sort-item" value="deadline">
                             Deadline (soonest)
+                          </SelectItem>
+                          <SelectItem className="ss-sort-item" value="closing">
+                            Closing soon
                           </SelectItem>
                           <SelectItem className="ss-sort-item" value="newest">
                             Newest added

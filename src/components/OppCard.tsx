@@ -2,12 +2,14 @@ import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
 import { type Opportunity } from "@/lib/opportunities";
 import { categoryConfig, categoryNameById } from "@/lib/categoryDisplay";
+import { deadlineUrgency } from "@/lib/dates";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { toast } from "sonner";
 import { ShareButton } from "@/components/ShareButton";
 
 export function OppCard({ o }: { o: Opportunity }) {
   const cfg = categoryConfig[o.category];
+  const dl = deadlineUrgency(o);
   const { isSaved, toggle } = useSavedOpportunities();
   const saved = isSaved(o.id);
 
@@ -31,11 +33,7 @@ export function OppCard({ o }: { o: Opportunity }) {
             {categoryNameById[o.category] ?? o.category.replace("-", " ")}
           </span>
           {o.isNew && <span className="opp-new-pill">New</span>}
-          <span
-            className={`deadline-badge deadline-${o.deadlineStatus === "open" ? "open" : o.deadlineStatus === "est" ? "est" : "closed"}`}
-          >
-            {o.deadlineStatus === "open" ? "Open" : o.deadlineStatus === "est" ? "Est." : "Closed"}
-          </span>
+          <span className={`deadline-badge deadline-${dl.urgency}`}>{dl.label}</span>
         </div>
         <div className="opp-top-actions">
           <ShareButton path={`/opportunities/${o.id}`} title={o.name} text={o.description} />
@@ -65,7 +63,7 @@ export function OppCard({ o }: { o: Opportunity }) {
         <div className="opp-meta">
           <div>
             <div className="meta-label">Deadline</div>
-            <div className="meta-value">{o.deadline}</div>
+            <div className="meta-value">{dl.line}</div>
           </div>
           <div>
             <div className="meta-label">Award</div>
