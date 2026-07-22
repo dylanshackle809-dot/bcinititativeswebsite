@@ -1157,6 +1157,57 @@ input {
   background: rgba(185, 28, 28, 0.06);
 }
 
+/* Mobile-only "Filters" collapse toggle — hidden at desktop so the filter
+   block there is untouched. */
+.opp-filters-toggle {
+  display: none;
+}
+@media (max-width: 640px) {
+  .opp-filters-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .opp-filters {
+    display: none;
+  }
+  .opp-filters.open {
+    display: block;
+  }
+  /* Labels stack above their controls — the fixed 92px column doesn't fit. */
+  .chip-label {
+    width: 100%;
+    margin: 0 0 0.15rem;
+    align-self: flex-start;
+  }
+  .chip-group {
+    margin-bottom: 1.15rem;
+  }
+  /* Finger-sized pills (~40px+) */
+  .chip {
+    padding: 0.6rem 1.05rem;
+  }
+  /* "Where are you?" dropdown goes full-width */
+  .chip-group .ss-sort-trigger {
+    width: 100%;
+    min-height: 44px;
+    justify-content: space-between;
+  }
+  .opp-sort .ss-sort-trigger {
+    min-height: 40px;
+  }
+}
+
 .opp-grid-header {
   display: flex;
   align-items: center;

@@ -5,8 +5,9 @@ import {
   type SearchSchemaInput,
 } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { Search, Heart } from "lucide-react";
+import { Search, Heart, SlidersHorizontal } from "lucide-react";
 import { opportunities, categories, type Opportunity } from "@/lib/opportunities";
+import { PROVINCES, isApplicable, isWhereValue, whereLabel } from "@/lib/regions";
 import { deadlineUrgency, type DeadlineUrgency } from "@/lib/dates";
 import { Reveal } from "@/components/Reveal";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
@@ -33,7 +34,7 @@ const defaultSearch = {
   category: "all",
   difficulty: "all",
   grade: "all",
-  international: "all",
+  where: "all",
   q: "",
   sort: "deadline",
 };
@@ -45,7 +46,7 @@ export const Route = createFileRoute("/opportunities")({
     category: (search.category as string) || "all",
     difficulty: (search.difficulty as string) || "all",
     grade: (search.grade as string) || "all",
-    international: (search.international as string) || "all",
+    where: isWhereValue((search.where as string) || "") ? (search.where as string) : "all",
     q: (search.q as string) || "",
     sort: (search.sort as string) || "deadline",
   }),
@@ -131,7 +132,7 @@ function sortOpportunities(
 function OpportunitiesPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = Route.useNavigate();
-  const { category, difficulty, grade, international, q: search, sort } = Route.useSearch();
+  const { category, difficulty, grade, where, q: search, sort } = Route.useSearch();
 
   const setCategory = (v: string) =>
     navigate({ search: (s) => ({ ...s, category: v }), replace: true, resetScroll: false });
@@ -139,9 +140,9 @@ function OpportunitiesPage() {
     navigate({ search: (s) => ({ ...s, difficulty: v }), replace: true, resetScroll: false });
   const setGrade = (v: string) =>
     navigate({ search: (s) => ({ ...s, grade: v }), replace: true, resetScroll: false });
-  const setInternational = (v: string) =>
+  const setWhere = (v: string) =>
     navigate({
-      search: (s) => ({ ...s, international: v }),
+      search: (s) => ({ ...s, where: v }),
       replace: true,
       resetScroll: false,
     });
@@ -153,7 +154,17 @@ function OpportunitiesPage() {
   const [showAll, setShowAll] = useState(false);
   const [savedOnly, setSavedOnly] = useState(false);
   const [openOnly, setOpenOnly] = useState(false);
+  // Mobile-only: the filter rows collapse behind a "Filters" button (<=640px CSS).
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const { savedSet, count: savedCount } = useSavedOpportunities();
+
+  const activeFilterCount =
+    (category !== "all" ? 1 : 0) +
+    (difficulty !== "all" ? 1 : 0) +
+    (grade !== "all" ? 1 : 0) +
+    (where !== "all" ? 1 : 0) +
+    (savedOnly ? 1 : 0) +
+    (openOnly ? 1 : 0);
 
   // "Now" frozen per page load — urgency can't flicker while filtering/typing.
   const urgencyById = useMemo(
@@ -163,7 +174,7 @@ function OpportunitiesPage() {
 
   useEffect(() => {
     setShowAll(false);
-  }, [search, category, difficulty, grade, international, savedOnly, openOnly]);
+  }, [search, category, difficulty, grade, where, savedOnly, openOnly]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -173,13 +184,7 @@ function OpportunitiesPage() {
       .filter((o) => (category === "all" ? true : o.category === category))
       .filter((o) => (difficulty === "all" ? true : o.difficulty === difficulty))
       .filter((o) => (grade === "all" ? true : o.gradeLevels.includes(grade)))
-      .filter((o) =>
-        international === "all"
-          ? true
-          : international === "international"
-            ? o.international
-            : !o.international,
-      )
+      .filter((o) => isApplicable(o.region, where))
       .filter((o) =>
         !q
           ? true
@@ -193,7 +198,7 @@ function OpportunitiesPage() {
     category,
     difficulty,
     grade,
-    international,
+    where,
     savedOnly,
     savedSet,
     openOnly,
@@ -294,42 +299,55 @@ function OpportunitiesPage() {
               </div>
             </div>
 
-            <div className="chip-group">
-              <span className="chip-label">Category</span>
-              <button
-                className={`chip ${category === "all" ? "active" : ""}`}
-                onClick={() => setCategory("all")}
-              >
-                All
-              </button>
-              {categories.map((c) => (
-                <button
-                  key={c.id}
-                  className={`chip ${category === c.id ? "active" : ""}`}
-                  onClick={() => setCategory(c.id)}
-                >
-                  {c.name}
-                </button>
-              ))}
-            </div>
+            <button
+              type="button"
+              className="opp-filters-toggle"
+              onClick={() => setFiltersOpen((o) => !o)}
+              aria-expanded={filtersOpen}
+            >
+              <SlidersHorizontal size={15} strokeWidth={2} />
+              Filters
+              {activeFilterCount > 0 && <span className="chip-count">{activeFilterCount}</span>}
+            </button>
 
-            <div className="chip-group">
-              <span className="chip-label">Difficulty</span>
-              {(["all", "Easy", "Moderate", "Competitive"] as DiffFilter[]).map((d) => (
+            <div className={`opp-filters${filtersOpen ? " open" : ""}`}>
+              <div className="chip-group">
+                <span className="chip-label">Category</span>
                 <button
-                  key={d}
-                  className={`chip ${difficulty === d ? "active" : ""}`}
-                  onClick={() => setDifficulty(d)}
+                  className={`chip ${category === "all" ? "active" : ""}`}
+                  onClick={() => setCategory("all")}
                 >
-                  {d === "all" ? "All" : d}
+                  All
                 </button>
-              ))}
-            </div>
+                {categories.map((c) => (
+                  <button
+                    key={c.id}
+                    className={`chip ${category === c.id ? "active" : ""}`}
+                    onClick={() => setCategory(c.id)}
+                  >
+                    {c.name}
+                  </button>
+                ))}
+              </div>
 
-            <div className="chip-group">
-              <span className="chip-label">Grade</span>
-              {(["all", "Grades 9–10", "Grades 11–12", "CEGEP", "University"] as GradeFilter[]).map(
-                (g) => (
+              <div className="chip-group">
+                <span className="chip-label">Difficulty</span>
+                {(["all", "Easy", "Moderate", "Competitive"] as DiffFilter[]).map((d) => (
+                  <button
+                    key={d}
+                    className={`chip ${difficulty === d ? "active" : ""}`}
+                    onClick={() => setDifficulty(d)}
+                  >
+                    {d === "all" ? "All" : d}
+                  </button>
+                ))}
+              </div>
+
+              <div className="chip-group">
+                <span className="chip-label">Grade</span>
+                {(
+                  ["all", "Grades 9–10", "Grades 11–12", "CEGEP", "University"] as GradeFilter[]
+                ).map((g) => (
                   <button
                     key={g}
                     className={`chip ${grade === g ? "active" : ""}`}
@@ -337,86 +355,91 @@ function OpportunitiesPage() {
                   >
                     {g === "all" ? "All" : g}
                   </button>
-                ),
+                ))}
+              </div>
+
+              <div className="chip-group">
+                <span className="chip-label">Where are you?</span>
+                <Select value={where} onValueChange={setWhere}>
+                  <SelectTrigger className="ss-sort-trigger" aria-label="Filter by where you live">
+                    <SelectValue>{whereLabel(where)}</SelectValue>
+                  </SelectTrigger>
+                  <SelectContent className="ss-sort-menu">
+                    <SelectItem className="ss-sort-item" value="all">
+                      Anywhere / show all
+                    </SelectItem>
+                    {PROVINCES.map((p) => (
+                      <SelectItem key={p.value} className="ss-sort-item" value={p.value}>
+                        {p.label}
+                      </SelectItem>
+                    ))}
+                    <SelectItem className="ss-sort-item" value="outside">
+                      Outside Canada / International
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="chip-group">
+                <span className="chip-label">Saved</span>
+                <button
+                  type="button"
+                  className={`chip chip-saved ${savedOnly ? "active" : ""}`}
+                  onClick={() => setSavedOnly((s) => !s)}
+                  aria-pressed={savedOnly}
+                  aria-label={
+                    savedOnly ? "Show all opportunities" : "Show only saved opportunities"
+                  }
+                >
+                  <Heart size={13} strokeWidth={2} fill={savedOnly ? "currentColor" : "none"} />
+                  Saved
+                  <span className="chip-count">{savedCount}</span>
+                </button>
+              </div>
+
+              <div className="chip-group">
+                <span className="chip-label">Status</span>
+                <button
+                  type="button"
+                  className={`chip ${openOnly ? "active" : ""}`}
+                  onClick={() => setOpenOnly((s) => !s)}
+                  aria-pressed={openOnly}
+                  aria-label={openOnly ? "Show all opportunities" : "Hide closed opportunities"}
+                >
+                  Open now
+                </button>
+              </div>
+
+              {(category !== "all" ||
+                difficulty !== "all" ||
+                grade !== "all" ||
+                where !== "all" ||
+                search !== "" ||
+                savedOnly ||
+                openOnly) && (
+                <button
+                  className="clear-filters-btn"
+                  onClick={() => {
+                    setSavedOnly(false);
+                    setOpenOnly(false);
+                    navigate({
+                      search: {
+                        category: "all",
+                        difficulty: "all",
+                        grade: "all",
+                        where: "all",
+                        q: "",
+                        sort,
+                      },
+                      replace: true,
+                      resetScroll: false,
+                    });
+                  }}
+                >
+                  ✕ Clear all filters
+                </button>
               )}
             </div>
-
-            <div className="chip-group">
-              <span className="chip-label">Location</span>
-              {(
-                [
-                  ["all", "All"],
-                  ["canada", "Canada only"],
-                  ["international", "International"],
-                ] as [string, string][]
-              ).map(([v, label]) => (
-                <button
-                  key={v}
-                  className={`chip ${international === v ? "active" : ""}`}
-                  onClick={() => setInternational(v)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-
-            <div className="chip-group">
-              <span className="chip-label">Saved</span>
-              <button
-                type="button"
-                className={`chip chip-saved ${savedOnly ? "active" : ""}`}
-                onClick={() => setSavedOnly((s) => !s)}
-                aria-pressed={savedOnly}
-                aria-label={savedOnly ? "Show all opportunities" : "Show only saved opportunities"}
-              >
-                <Heart size={13} strokeWidth={2} fill={savedOnly ? "currentColor" : "none"} />
-                Saved
-                <span className="chip-count">{savedCount}</span>
-              </button>
-            </div>
-
-            <div className="chip-group">
-              <span className="chip-label">Status</span>
-              <button
-                type="button"
-                className={`chip ${openOnly ? "active" : ""}`}
-                onClick={() => setOpenOnly((s) => !s)}
-                aria-pressed={openOnly}
-                aria-label={openOnly ? "Show all opportunities" : "Hide closed opportunities"}
-              >
-                Open now
-              </button>
-            </div>
-
-            {(category !== "all" ||
-              difficulty !== "all" ||
-              grade !== "all" ||
-              international !== "all" ||
-              search !== "" ||
-              savedOnly ||
-              openOnly) && (
-              <button
-                className="clear-filters-btn"
-                onClick={() => {
-                  setSavedOnly(false);
-                  setOpenOnly(false);
-                  navigate({
-                    search: {
-                      category: "all",
-                      difficulty: "all",
-                      grade: "all",
-                      international: "all",
-                      q: "",
-                      sort,
-                    },
-                    replace: true,
-                    resetScroll: false,
-                  });
-                }}
-              >
-                ✕ Clear all filters
-              </button>
-            )}
 
             {filtered.length === 0 ? (
               savedOnly && savedCount === 0 ? (
