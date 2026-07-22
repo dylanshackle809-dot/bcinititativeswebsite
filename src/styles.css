@@ -391,6 +391,9 @@ input {
   left: 0;
   bottom: 0;
   width: 100%;
+  /* Tailwind preflight clamps img to max-width:100%, which silently defeated
+     the sky/mist overscan below and left an uncovered strip at the hero edge. */
+  max-width: none;
   aspect-ratio: 16 / 9;
   height: auto;
   object-fit: contain;
@@ -407,11 +410,13 @@ input {
 }
 /* Ambient drift — animates the standalone `translate` property so it composes
    with the JS parallax, which owns `transform`. Sway (not one-way pan) because
-   the art isn't horizontally tileable; 4% overscan hides the moving edges. */
+   the art isn't horizontally tileable; 8% overscan (4% per side) keeps the
+   moving edges covered even on narrow screens where the ±14px drift is larger
+   than the old 2%-per-side margin. */
 .parallax-layer--sky,
 .parallax-layer--mist {
-  width: 104%;
-  left: -2%;
+  width: 108%;
+  left: -4%;
 }
 .parallax-layer--sky {
   animation: heroDriftSky 27s ease-in-out infinite;
@@ -444,8 +449,8 @@ input {
 /* second mist pass — flipped via the independent `scale` property (composes
    with the JS parallax transform) and counter-drifting, for thicker fog */
 .parallax-layer--mist2 {
-  width: 104%;
-  left: -2%;
+  width: 108%;
+  left: -4%;
   scale: -1 1;
   animation: heroDriftMist2 36s ease-in-out infinite;
 }
